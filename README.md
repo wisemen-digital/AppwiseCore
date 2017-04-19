@@ -42,25 +42,51 @@ $ pod install
 ```
 
 
-### Carthage
+## Usage
 
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+Create an implementation of the `Config` protocol, and a subclass of the generic `AppDelegate` class (referencing your config type). If you use networking functionality, it's recommended to use the `Router` and `Client` types.
 
-You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+If you need database functionality, additionally add the "AppwiseCore/CoreData" dependency. It will automatically be initialised as long as you've implemented the AppDelegate & Config types.
 
-```bash
-$ brew update
-$ brew install carthage
+### Fabric integration
+
+When using, you'll want to add Crashlytics logging to your project. To do so, add the following logger to your project:
+
+```swift
+import Crashlytics
+import CrashlyticsRecorder
+
+extension Crashlytics: CrashlyticsProtocol {
+	public func log(_ format: String, args: CVaListPointer) {
+		#if DEBUG
+			CLSNSLogv(format, args)
+		#else
+			CLSLogv(format, args)
+		#endif
+	}
+}
+
+extension Answers: AnswersProtocol {
+}
 ```
 
-To integrate AppwiseCore into your Xcode project using Carthage, specify it in your `Cartfile`:
+And then create the needed recorders in your app delegate:
 
-```ogdl
-github "djbe/AppwiseCore" ~> 0.1
+```swift
+@UIApplicationMain
+final class AppDelegate: AppwiseCore.AppDelegate<Config> {
+	override func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+		guard super.application(application, willFinishLaunchingWithOptions: launchOptions) else { return false }
+
+		// initialize fabric
+		Fabric.with([Crashlytics()])
+		_ = CrashlyticsRecorder.createSharedInstance(crashlytics: Crashlytics.sharedInstance())
+		_ = AnswersRecorder.createSharedInstance(answers: Answers.self)
+		
+		return true
+	}
+}
 ```
-
-Run `carthage update` to build the framework and drag the built `AppwiseCore.framework` into your Xcode project.
-
 
 ## Author
 

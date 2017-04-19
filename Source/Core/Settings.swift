@@ -15,8 +15,8 @@ public struct Settings {
 		case version
 	}
 
-	static var shared = Settings()
-	fileprivate let defaults = UserDefaults.standard
+	public internal(set) static var shared = Settings()
+	public let defaults = UserDefaults.standard
 	private init() {}
 
 	internal mutating func load<C: Config>(with config: C) {
