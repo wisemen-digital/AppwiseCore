@@ -40,7 +40,15 @@ public final class DB: NSObject {
 		let store: CoreDataStore = .named("db")
 		let model: CoreDataObjectModel = .merged([Bundle.main])
 		
-		db = try? CoreDataDefaultStorage(store: store, model: model)
+		do {
+			db = try CoreDataDefaultStorage(store: store, model: model)
+		} catch {
+			try? FileManager.default.removeItem(at: store.path() as URL)
+			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-shm")
+			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-wal")
+			
+			db = try? CoreDataDefaultStorage(store: store, model: model)
+		}
 	}
 	
 	@objc internal func reset() {
