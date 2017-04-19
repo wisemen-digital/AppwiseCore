@@ -9,20 +9,19 @@
 import Foundation
 
 internal extension DispatchQueue {
-	fileprivate static let mainQueueKey = DispatchSpecificKey<UnsafeMutablePointer<Void>>()
-	fileprivate static let mainQueueValue = UnsafeMutablePointer<Void>.allocate(capacity: 1)
+	fileprivate static let mainQueueKey = DispatchSpecificKey<()>()
 
 	static func configureMainQueue() {
-		main.setSpecific(key: mainQueueKey, value: mainQueueValue)
+		main.setSpecific(key: mainQueueKey, value: ())
 	}
 }
 
 public extension DispatchQueue {
 	static var isMain: Bool {
-		return getSpecific(key: mainQueueKey) == mainQueueValue
+		return getSpecific(key: mainQueueKey) != nil
 	}
 
 	var isMain: Bool {
-		return getSpecific(key: DispatchQueue.mainQueueKey) == DispatchQueue.mainQueueValue
+		return getSpecific(key: DispatchQueue.mainQueueKey) != nil
 	}
 }

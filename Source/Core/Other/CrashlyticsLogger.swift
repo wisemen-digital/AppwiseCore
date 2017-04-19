@@ -12,7 +12,7 @@ import CrashlyticsRecorder
 internal final class CrashlyticsLogger: DDAbstractLogger {
 	static let shared = CrashlyticsLogger()
 
-	override func log(message logMessage: DDLogMessage!) {
+	override func log(message logMessage: DDLogMessage) {
 		guard let recorder = CrashlyticsRecorder.sharedInstance else { return }
 		let msg = logFormatter?.format(message: logMessage) ?? logMessage.message
 

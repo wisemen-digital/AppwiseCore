@@ -45,7 +45,7 @@ public extension Config {
 		Settings.shared.load(with: self)
 
 		// initialize core data
-		db?.perform(NSSelectorFromString("initialize"))
+		_ = db?.perform(NSSelectorFromString("initialize"))
 
 		// user initialize
 		initialize()
@@ -56,7 +56,7 @@ public extension Config {
 		Settings.shared.reset()
 
 		// delete core data store
-		db?.perform(NSSelectorFromString("reset"))
+		_ = db?.perform(NSSelectorFromString("reset"))
 
 		// user teardown
 		teardown()
