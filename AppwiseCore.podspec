@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
 	s.version = '0.1.0'
-	s.summary = 'A short description of AppwiseCore.'
+	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
-	TODO: Add long description of the pod here.
+	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
 	DESC
 	s.homepage = 'https://github.com/djbe/AppwiseCore'
 	s.authors = {
