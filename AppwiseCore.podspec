@@ -26,9 +26,9 @@ Pod::Spec.new do |s|
 	# core spec
 	s.subspec 'Core' do |ss|
 		ss.source_files = 'Source/Core/**/*.swift'
-		ss.resource_bundles = {
-			'Appwise' => ['Resources/*.lproj']
-		}
+		#ss.resource_bundles = {
+		#	'Appwise' => ['Resources/*.lproj']
+		#}
 		ss.pod_target_xcconfig = {
 			'SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]' => 'DEBUG'
 		}
