@@ -15,7 +15,7 @@ public struct Settings {
 		case version
 	}
 
-	public internal(set) static var shared = Settings()
+	public static var shared = Settings()
 	public let defaults = UserDefaults.standard
 	private init() {}
 
