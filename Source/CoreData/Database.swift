@@ -32,6 +32,24 @@ public final class DB: NSObject {
 		}
 	}
 	
+	public typealias SaveBlockWitCallback = (@escaping (Error?) -> Void) -> Void
+	public static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> ()) {
+		guard let db = shared.db else { fatalError("Core Data not initialized") }
+		
+		var _completion: ((Error?) -> Void)? = nil
+		db.backgroundOperation({ (context, save) in
+			operation(context as! NSManagedObjectContext, { (callback) in
+				_completion = callback
+				save()
+			})
+		}) { (error) in
+			guard let completion = _completion else { return }
+			DispatchQueue.main.async {
+				completion(error)
+			}
+		}
+	}
+	
 	private override init() {
 		super.init()
 	}

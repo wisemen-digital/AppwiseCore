@@ -22,20 +22,13 @@ public extension DataRequest {
 		queue: DispatchQueue? = nil,
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
-		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlock) -> Void)
+		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void)
 		-> Self
 	{
-		do {
-			try DB.operation() { [unowned self] (context, save) -> Void in
-				self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
-					completionHandler(response, save)
-				}
+		DB.backgroundOperation { (context, save) in
+			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
+				completionHandler(response, save)
 			}
-		} catch let e {
-			let result = Result<T>.failure(e)
-			let response = DataResponse(request: request, response: self.response, data: delegate.data, result: result)
-			
-			completionHandler(response, {})
 		}
 		
 		return self
