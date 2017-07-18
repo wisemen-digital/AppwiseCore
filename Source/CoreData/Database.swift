@@ -50,6 +50,26 @@ public final class DB: NSObject {
 		}
 	}
 	
+	public static func saveToPersistentStore(_ moc: NSManagedObjectContext) throws {
+		guard let db = shared.db else { fatalError("Core Data not initialized") }
+		
+		try moc.save()
+		
+		guard let parent = moc.parent else { return }
+		var _error: Error?
+		parent.performAndWait {
+			do {
+				try parent.save()
+			} catch {
+				_error = error
+			}
+		}
+		
+		if let error = _error {
+			throw error
+		}
+	}
+	
 	private override init() {
 		super.init()
 	}
