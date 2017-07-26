@@ -10,7 +10,7 @@ import Foundation
 
 public struct Settings {
 	fileprivate enum DefaultsKey: String {
-		case reset
+		case reset = "reset_app"
 		case resourceTimestamps
 		case version
 	}
