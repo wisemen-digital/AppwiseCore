@@ -13,6 +13,7 @@ public protocol Router: URLRequestConvertible {
 	
 	var method: HTTPMethod { get }
 	var path: String { get }
+	var headers: [String: String] { get }
 	var params: Parameters? { get }
 	var encoding: ParameterEncoding { get }
 	
@@ -26,12 +27,19 @@ public extension Router {
 		var request = URLRequest(url: url.appendingPathComponent(path))
 		request = try encoding.encode(request, with: params)
 		request.httpMethod = method.rawValue
+		for (header, value) in headers {
+			request.addValue(value, forHTTPHeaderField: header)
+		}
 		
 		return request
 	}
 	
 	var method: HTTPMethod {
 		return .get
+	}
+	
+	var headers: [String: String] {
+		return [:]
 	}
 	
 	var params: (Parameters?) {
