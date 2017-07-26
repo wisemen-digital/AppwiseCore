@@ -51,6 +51,18 @@ public extension NSManagedObjectContext {
 		}
 		return result
 	}
+	
+	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) throws -> [T] {
+		let request = NSFetchRequest<T>(entityName: T.entityName)
+		
+		request.predicate = filter
+		request.returnsObjectsAsFaults = true
+		request.includesPropertyValues = false
+		
+		return (try self.fetch(request)).filter({
+			!self.updatedObjects.contains($0) && !insertedObjects.contains($0)
+		})
+	}
 }
 
 extension NSEntityDescription {
