@@ -107,7 +107,9 @@ public final class DB: NSObject {
 							_error = error
 						}
 					}
-					callback(_error)
+					DispatchQueue.main.async {
+						callback(_error)
+					}
 				}
 			})
 		}
