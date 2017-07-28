@@ -19,13 +19,14 @@ public extension DataRequest {
 	///
 	/// - returns: the request
 	@discardableResult public func responseInsert<T: Insertable>(
+		db: DB = DB.shared,
 		queue: DispatchQueue? = nil,
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void)
 		-> Self
 	{
-		DB.backgroundOperation { (context, save) in
+		db.backgroundOperation { (context, save) in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
 				completionHandler(response, save)
 			}
