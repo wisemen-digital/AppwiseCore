@@ -21,15 +21,13 @@ extension DB {
 		return moc
 	}
 	
-	public static func saveToPersistentStore(_ moc: NSManagedObjectContext) throws {
-		let root = shared.root
-		guard moc.parent == root else {
+	public func saveToPersistentStore(_ moc: NSManagedObjectContext) throws {
+		guard let parent = moc.parent, parent == root else {
 			throw DBError.invalidContext
 		}
 		
 		try moc.save()
 		
-		guard let parent = moc.parent else { return }
 		var _error: Error?
 		parent.performAndWait {
 			do {
