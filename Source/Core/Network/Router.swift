@@ -22,9 +22,12 @@ public protocol Router: URLRequestConvertible {
 
 public extension Router {
 	func asURLRequest() throws -> URLRequest {
-		let url = try Self.baseURLString.asURL()
+		let baseURL = try Self.baseURLString.asURL()
+		guard let url = URL(string: path, relativeTo: baseURL) else {
+			throw AFError.invalidURL(url: path)
+		}
 		
-		var request = URLRequest(url: url.appendingPathComponent(path))
+		var request = URLRequest(url: url)
 		request = try encoding.encode(request, with: params)
 		request.httpMethod = method.rawValue
 		for (header, value) in headers {
