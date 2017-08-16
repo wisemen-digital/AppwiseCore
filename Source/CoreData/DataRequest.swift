@@ -8,6 +8,7 @@
 
 import Alamofire
 import AlamofireCoreData
+import CoreData
 
 public extension DataRequest {
 	/// Adds a handler to be called once the request has finished.
@@ -23,12 +24,12 @@ public extension DataRequest {
 		queue: DispatchQueue? = nil,
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
-		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void)
+		completionHandler: @escaping (DataResponse<T>, NSManagedObjectContext, @escaping DB.SaveBlockWitCallback) -> Void)
 		-> Self
 	{
 		db.backgroundOperation { (context, save) in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
-				completionHandler(response, save)
+				completionHandler(response, context, save)
 			}
 		}
 		
