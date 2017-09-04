@@ -15,7 +15,7 @@ enum DBError: Error {
 }
 
 public final class DB: NSObject {
-	private let bundle: Bundle
+	fileprivate let bundle: Bundle
 	internal var db: CoreDataDefaultStorage? = nil
 	
 	internal var root: NSManagedObjectContext {
@@ -43,9 +43,14 @@ public final class DB: NSObject {
 // MARK: Accessed from Config
 
 extension DB {
-	@objc internal func initialize() {
-		let store: CoreDataStore = .named("db")
-		let model: CoreDataObjectModel = .merged([Bundle.main])
+	@objc
+	internal func initialize() {
+		initialize(storeName: "db")
+	}
+
+	public func initialize(storeName: String) {
+		let store: CoreDataStore = .named(storeName)
+		let model: CoreDataObjectModel = .merged([bundle])
 		
 		do {
 			db = try CoreDataDefaultStorage(store: store, model: model)
@@ -58,7 +63,8 @@ extension DB {
 		}
 	}
 	
-	@objc internal func reset() {
+	@objc
+	public func reset() {
 		do {
 			try db?.removeStore()
 		} catch let error {
