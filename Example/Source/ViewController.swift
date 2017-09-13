@@ -6,7 +6,6 @@
 //  Copyright © 2016 Appwise. All rights reserved.
 //
 
-import Async
 import UIKit
 
 class ViewController: UIViewController {
@@ -14,7 +13,7 @@ class ViewController: UIViewController {
 		super.viewDidAppear(animated)
 
 		// This will trigger error messages in debug builds
-		Async.background { [weak self] in
+		DispatchQueue.global(qos: .background).async { [weak self] in
 			
 			self?.view.setNeedsLayout()
 			self?.view.setNeedsDisplay()

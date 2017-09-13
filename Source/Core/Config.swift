@@ -33,7 +33,7 @@ public extension Config {
 // MARK: - Application lifetime
 
 public extension Config {
-	final func setupApplication() {
+	func setupApplication() {
 		// if needed, reset app and exit early. At the end of reset, setup is
 		// called again
 		guard !Settings.shared.shouldReset else {
@@ -51,7 +51,7 @@ public extension Config {
 		initialize()
 	}
 
-	final func resetApplication() {
+	func resetApplication() {
 		// reset defaults
 		Settings.shared.reset()
 

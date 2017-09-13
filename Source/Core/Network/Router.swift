@@ -71,7 +71,7 @@ public extension Router {
 		completion(self, should)
 	}
 
-	final func touch() {
+	func touch() {
 		let now = Date().timeIntervalSince1970
 		Settings.shared.setTimestamp(now, router: self)
 	}

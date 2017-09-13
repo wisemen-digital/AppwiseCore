@@ -23,6 +23,7 @@ public final class DB: NSObject {
 		return moc
 	}
 	
+	@objc
 	public static let shared = DB(bundle: Bundle.main)
 	
 	public static var main: NSManagedObjectContext {

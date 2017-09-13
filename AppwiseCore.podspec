@@ -35,7 +35,6 @@ Pod::Spec.new do |s|
 		
 		# dependencies
 		ss.dependency 'Alamofire'
-		ss.dependency 'AsyncSwift'
 		ss.dependency 'CocoaLumberjack/Swift'
 		ss.dependency 'CrashlyticsRecorder'
 		ss.dependency 'Then'

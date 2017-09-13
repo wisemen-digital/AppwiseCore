@@ -3,22 +3,20 @@ PODS:
   - AlamofireCoreData (1.0.0):
     - Alamofire (~> 4.0)
     - Groot (~> 2.0)
-  - AppwiseCore (0.1.0):
-    - AppwiseCore/Core (= 0.1.0)
-    - AppwiseCore/UI (= 0.1.0)
-  - AppwiseCore/Core (0.1.0):
+  - AppwiseCore (0.3.1):
+    - AppwiseCore/Core (= 0.3.1)
+    - AppwiseCore/UI (= 0.3.1)
+  - AppwiseCore/Core (0.3.1):
     - Alamofire
-    - AsyncSwift
     - CocoaLumberjack/Swift
     - CrashlyticsRecorder
     - Then
-  - AppwiseCore/CoreData (0.1.0):
+  - AppwiseCore/CoreData (0.3.1):
     - AlamofireCoreData
     - AppwiseCore/Core
     - SugarRecord/CoreData
-  - AppwiseCore/UI (0.1.0):
+  - AppwiseCore/UI (0.3.1):
     - AppwiseCore/Core
-  - AsyncSwift (2.0.1)
   - CocoaLumberjack/Default (3.1.0)
   - CocoaLumberjack/Swift (3.1.0):
     - CocoaLumberjack/Default
@@ -38,13 +36,12 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   AppwiseCore:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AlamofireCoreData: 20618959493cf6bc804c39b538da21806365209b
-  AppwiseCore: 6f49aa5afe077a85d2e6487f2db01f6396d8de0f
-  AsyncSwift: 632138e42ead868b53c745fcde9bf733ce1527ad
+  AppwiseCore: 144b78aef4cf6b93d8d8997c950245ad78efdb2a
   CocoaLumberjack: 8311463ddf9ee86a06ef92a071dd656c89244500
   CrashlyticsRecorder: 80c5134d9fce1e60684e1f9cd8f6120572a55515
   Groot: 7543f84980bfb1613750818029d9b927d4378211
@@ -54,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b9a934b02dbbdc32bc198039a49e6e1625435169
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1

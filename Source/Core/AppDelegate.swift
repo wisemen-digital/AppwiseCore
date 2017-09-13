@@ -6,7 +6,6 @@
 //  Copyright © 2016 Appwise. All rights reserved.
 //
 
-import Async
 import CocoaLumberjack
 import CrashlyticsRecorder
 import UIKit
@@ -30,7 +29,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		// some initialization
 		DispatchQueue.configureMainQueue()
 		setupLogging()
-		Async.background { [unowned self] in
+		DispatchQueue.global(qos: .background).async { [unowned self] in
 			self.addSkipBackupAttributeToAppSupportDirectory()
 		}
 
