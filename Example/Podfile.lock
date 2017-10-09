@@ -1,33 +1,33 @@
 PODS:
-  - Alamofire (4.4.0)
+  - Alamofire (4.5.1)
   - AlamofireCoreData (1.0.0):
     - Alamofire (~> 4.0)
     - Groot (~> 2.0)
-  - AppwiseCore (0.3.1):
-    - AppwiseCore/Core (= 0.3.1)
-    - AppwiseCore/UI (= 0.3.1)
-  - AppwiseCore/Core (0.3.1):
+  - AppwiseCore (0.4.0):
+    - AppwiseCore/Core (= 0.4.0)
+    - AppwiseCore/UI (= 0.4.0)
+  - AppwiseCore/Core (0.4.0):
     - Alamofire
     - CocoaLumberjack/Swift
     - CrashlyticsRecorder
     - Then
-  - AppwiseCore/CoreData (0.3.1):
+  - AppwiseCore/CoreData (0.4.0):
     - AlamofireCoreData
     - AppwiseCore/Core
     - SugarRecord/CoreData
-  - AppwiseCore/UI (0.3.1):
+  - AppwiseCore/UI (0.4.0):
     - AppwiseCore/Core
-  - CocoaLumberjack/Default (3.1.0)
-  - CocoaLumberjack/Swift (3.1.0):
+  - CocoaLumberjack/Default (3.3.0)
+  - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
-  - CrashlyticsRecorder (2.0.2)
+  - CrashlyticsRecorder (2.1.0)
   - Groot (2.0):
     - Groot/Swift (= 2.0)
   - Groot/Swift (2.0)
-  - Result (3.2.1)
-  - SugarRecord/CoreData (3.0.0):
+  - Result (3.2.4)
+  - SugarRecord/CoreData (3.1.2):
     - Result (~> 3.0)
-  - Then (2.1.0)
+  - Then (2.2.0)
 
 DEPENDENCIES:
   - AppwiseCore (from `../`)
@@ -39,16 +39,16 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireCoreData: 20618959493cf6bc804c39b538da21806365209b
-  AppwiseCore: 144b78aef4cf6b93d8d8997c950245ad78efdb2a
-  CocoaLumberjack: 8311463ddf9ee86a06ef92a071dd656c89244500
-  CrashlyticsRecorder: 80c5134d9fce1e60684e1f9cd8f6120572a55515
+  AppwiseCore: 5e586cef5d6af012f4b5f4f5b1445ab0e5909a2e
+  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
+  CrashlyticsRecorder: c0f79b5fe91239f60fa4491de79c3d33c9d1480e
   Groot: 7543f84980bfb1613750818029d9b927d4378211
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
-  SugarRecord: c17d4a17b257cac4c4355b2790685b1e49b32de3
-  Then: 8496793c8fcac95482b943909b440724c7d8d82c
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  SugarRecord: be6aa5c18b4a4dec0de4c1f49fc61c85eabb5328
+  Then: 823f9813e1d4d0a814a5ba15e9c9d33ec7aca631
 
 PODFILE CHECKSUM: b9a934b02dbbdc32bc198039a49e6e1625435169
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0.beta.1
