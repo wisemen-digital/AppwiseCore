@@ -11,7 +11,12 @@ import CoreData
 import SugarRecord
 
 extension DB {
+	@available(*, deprecated, renamed: "newSave()")
 	public var save: NSManagedObjectContext {
+		return newSave()
+	}
+
+	public func newSave() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		
 		moc.parent = root
