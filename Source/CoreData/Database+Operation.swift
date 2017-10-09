@@ -51,7 +51,10 @@ extension DB {
 		if let error = _error {
 			throw error
 		}
-		
+
+		// cast to main context
+		result = try main.inContext(result)
+
 		return result
 	}
 	
