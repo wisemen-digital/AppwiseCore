@@ -14,12 +14,10 @@ extension DB {
 	public typealias SaveBlock = () -> Void
 	public typealias SaveBlockWitCallback = (@escaping (Error?) -> Void) -> Void
 	
-	@discardableResult
 	public static func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
 		return try shared.operation(operation)
 	}
 	
-	@discardableResult
 	public func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
 		let context = newSave()
 		var _error: Error!
@@ -56,6 +54,42 @@ extension DB {
 		result = try main.inContext(result)
 
 		return result
+	}
+
+	public static func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
+		try shared.operation(operation)
+	}
+
+	public func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
+		let context = newSave()
+		var _error: Error!
+
+		context.performAndWait { [weak self] in
+			do {
+				try operation(context, { () -> Void in
+					do {
+						try context.save()
+					} catch {
+						_error = error
+					}
+					guard let root = self?.root else { return }
+					root.performAndWait({
+						if root.hasChanges {
+							do {
+								try root.save()
+							} catch {
+								_error = error
+							}
+						}
+					})
+				})
+			} catch {
+				_error = error
+			}
+		}
+		if let error = _error {
+			throw error
+		}
 	}
 	
 	public static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> ()) {
