@@ -8,23 +8,51 @@
 
 import UIKit
 
-struct DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
+class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 	let path: String
 	weak var matchable: DeepLinkMatchable?
+	var wasTabBarVisible = false
 
-	func afterLoading(viewController: UIViewController) {
-		print("after loading")
+	init(_ matchable: DeepLinkMatchable, for path: String) {
+		self.path = path
+		self.matchable = matchable
 	}
 
-	func beforeAppearing(viewController: UIViewController, animated: Bool) {
-		print("before appearing")
+	func afterAppearing(viewController: UIViewController, animated: Bool) {
 		guard let matchable = matchable else { return }
 		DeepLinker.shared.addToStack(matchable, for: path)
 	}
 
 	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
-		guard viewController.isBeingDismissed || viewController.isMovingFromParentViewController,
-			let matchable = matchable else { return }
-		DeepLinker.shared.removeFromStack(matchable)
+		if let tbc = viewController.tabBarController,
+			let selected = tbc.selectedViewController,
+			viewController == selected || viewController.navigationController == selected {
+			wasTabBarVisible = true
+		} else {
+			wasTabBarVisible = false
+		}
+	}
+
+	func afterDisappearing(viewController: UIViewController, animated: Bool) {
+		guard let matchable = matchable else { return }
+
+		if wasTabBarVisible,
+			let tbc = viewController.tabBarController,
+			let selected = tbc.selectedViewController,
+			viewController != selected && viewController.navigationController != selected {
+			DeepLinker.shared.removeFromStack(matchable)
+		} else if !wasTabBarVisible,
+			viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParentViewController {
+			DeepLinker.shared.removeFromStack(matchable)
+		}
+	}
+
+	private func rootParent(for viewController: UIViewController) -> UIViewController {
+		var root = viewController
+		while let parent = root.parent {
+			root = parent
+		}
+
+		return root
 	}
 }
