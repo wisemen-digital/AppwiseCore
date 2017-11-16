@@ -18,7 +18,7 @@ public final class DeepLinker {
 	public static let shared = DeepLinker()
 
 	private var stack: Stack = []
-	private var scheduledRoute: [String]?
+	private var scheduledRoute: (path: [String], animated: Bool)?
 
 	private init() {
 	}
@@ -38,7 +38,7 @@ public final class DeepLinker {
 		stack = cleanupWeakReferences()
 		stack.append(DeepLinkStackItem(path: path, matchable: matchable))
 
-		if let route = scheduledRoute, navigate(to: route) {
+		if let route = scheduledRoute, navigate(to: route.path, animated: route.animated) {
 			scheduledRoute = nil
 		}
 	}
@@ -48,14 +48,14 @@ public final class DeepLinker {
 	}
 
 	@discardableResult
-	public func open(path: String) -> Bool {
+	public func open(path: String, animated: Bool) -> Bool {
 		let route = path.split(separator: "/").map { String($0) }
 		guard !route.isEmpty else { return false }
 
-		if navigate(to: route) {
+		if navigate(to: route, animated: animated) {
 			return true
 		} else {
-			scheduledRoute = route
+			scheduledRoute = (path: route, animated: animated)
 			return false
 		}
 	}
@@ -70,7 +70,7 @@ public final class DeepLinker {
 // MARK: - Navigation
 
 extension DeepLinker {
-	private func navigate(to route: [String]) -> Bool {
+	private func navigate(to route: [String], animated: Bool) -> Bool {
 		let stack = cleanupWeakReferences()
 
 		// if we don't have a stack, store the request for later
@@ -79,13 +79,13 @@ extension DeepLinker {
 		}
 
 		// if common < stack -> dismiss stack items
-		guard let destroyedStack = destroyStack(existing: stack, to: firstDifferent) else {
+		guard let destroyedStack = destroyStack(existing: stack, to: firstDifferent, animated: animated) else {
 			return false
 		}
 
 		// if common > stack -> build stack up
 		let lastCommon = stack.index(before: firstDifferent)
-		guard let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon) else {
+		guard let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon, animated: animated) else {
 			return false
 		}
 
@@ -102,7 +102,7 @@ extension DeepLinker {
 		}
 	}
 
-	private func destroyStack(existing: Stack, to index: Int) -> Stack? {
+	private func destroyStack(existing: Stack, to index: Int, animated: Bool) -> Stack? {
 		var stack = existing
 		let beforeIndex = stack.index(before: index)
 
@@ -115,7 +115,7 @@ extension DeepLinker {
 				guard let parent = stack[i].matchable else { continue }
 				let after = stack.index(after: i)
 
-				if parent.dismiss(items: Array(stack.suffix(from: after))) {
+				if parent.dismiss(items: Array(stack.suffix(from: after)), animated: animated) {
 					stack = Array(stack.dropLast(stack.endIndex - after))
 					dismissedSomething = true
 					break
@@ -130,21 +130,14 @@ extension DeepLinker {
 		return stack
 	}
 
-	private func buildUpStack(existing: Stack, for route: [String], lastCommon: Int) -> Stack? {
+	private func buildUpStack(existing: Stack, for route: [String], lastCommon: Int, animated: Bool) -> Stack? {
 		var stack = existing
-//
-//		for i in 0..<lastCommon {
-//			guard let item = stack[i].matchable else { return nil }
-//			let next = route.index(after: i)
-//
-//			_ = item.present(link: Array(route.suffix(from: next)), exists: true)
-//		}
 
 		for i in lastCommon..<route.index(before: route.endIndex) {
 			guard let item = stack[i].matchable else { return nil }
 			let next = route.index(after: i)
 
-			if let matchable = item.present(link: Array(route.suffix(from: next)), exists: false) {
+			if let matchable = item.present(link: Array(route.suffix(from: next)), animated: animated) {
 				stack.append(DeepLinkStackItem(path: String(route[next]), matchable: matchable))
 			} else {
 				return nil

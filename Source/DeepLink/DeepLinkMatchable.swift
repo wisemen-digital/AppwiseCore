@@ -9,18 +9,18 @@
 import Foundation
 
 public protocol DeepLinkMatchable: class, NSObjectProtocol {
-	func dismiss(items: [DeepLinkStackItem]) -> Bool
-	func present(link: [String], exists: Bool) -> DeepLinkMatchable?
+	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool
+	func present(link: [String], animated: Bool) -> DeepLinkMatchable?
 }
 
 public extension DeepLinkMatchable {
-	func dismiss(items: [DeepLinkStackItem]) -> Bool {
+	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
 		return false
 	}
 }
 
 public extension DeepLinkMatchable where Self: UIViewController {
-	func dismiss(items: [DeepLinkStackItem]) -> Bool {
+	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
 		return false // TODO
 	}
 }
