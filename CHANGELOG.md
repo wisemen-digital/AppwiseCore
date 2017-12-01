@@ -4,8 +4,38 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/djbe/AppwiseCore)
 
-### Added
+## [0.5.0](https://github.com/djbe/AppwiseCore/releases/tag/0.5.0)
 
-### Changed
+### New Features
 
-### Removed
+* DB: added (sync) operation variations that does not return anything.
+* Added view controller lifecycle behaviours for:
+  * Navigation bar visibility.
+  * Application foreground/background listeners.
+  * Keyboard dismissal on disappear.
+  * Resizable UITableView headers/footers.
+* Framework for deep linking and destroying/building up a stack of view controllers.
+* Helper for requiring a value from optionals.
+
+### Internal
+
+* Replace our own IBInspectable properties with IBAnimatble dependency.
+
+## [0.4.0](https://github.com/djbe/AppwiseCore/releases/tag/0.4.0)
+
+### New Features
+
+* DB: Add initializer for custom persistent stores.
+* Swift 4 support.
+
+### Bug Fixes
+
+* DB: Convert the result of operations to the main thread.
+
+### Internal
+
+* Remove dependency on AsyncSwift.
+
+### Breaking
+
+* DB: Renamed `save` property to `newSave()` function.
