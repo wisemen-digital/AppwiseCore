@@ -48,6 +48,10 @@ public extension UITableView {
 public struct DynamicHeaderFooterBehaviour: ViewControllerLifeCycleBehaviour {
 	weak var tableView: UITableView?
 
+	public init(tableView: UITableView) {
+		self.tableView = tableView
+	}
+
 	public func beforeAppearing(viewController: UIViewController, animated: Bool) {
 		tableView?.updateHeaderViewHeight()
 		tableView?.updateFooterViewHeight()

@@ -8,11 +8,11 @@
 
 import Foundation
 
-final class ApplicationEventBehavior: ViewControllerLifeCycleBehaviour {
+public final class ApplicationEventBehavior: ViewControllerLifeCycleBehaviour {
 	private let willEnterForeground: (() -> Void)?
 	private let willEnterBackground: (() -> Void)?
 
-	init(foreground: (() -> Void)? = nil, background: (() -> Void)? = nil) {
+	public init(foreground: (() -> Void)? = nil, background: (() -> Void)? = nil) {
 		willEnterForeground = foreground
 		willEnterBackground = background
 

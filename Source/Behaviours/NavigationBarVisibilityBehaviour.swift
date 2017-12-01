@@ -8,15 +8,19 @@
 
 import UIKit
 
-struct HideShowNavigationBarBehaviour: ViewControllerLifeCycleBehaviour {
-	enum Mode {
-	case hide
-	case show
+public struct HideShowNavigationBarBehaviour: ViewControllerLifeCycleBehaviour {
+	public enum Mode {
+		case hide
+		case show
 	}
 
 	let mode: Mode
 
-	func beforeAppearing(viewController: UIViewController, animated: Bool) {
+	public init(mode: Mode) {
+		self.mode = mode
+	}
+
+	public func beforeAppearing(viewController: UIViewController, animated: Bool) {
 		switch mode {
 		case .hide:
 			viewController.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -25,7 +29,7 @@ struct HideShowNavigationBarBehaviour: ViewControllerLifeCycleBehaviour {
 		}
 	}
 
-	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
+	public func beforeDisappearing(viewController: UIViewController, animated: Bool) {
 		switch mode {
 		case .hide:
 			viewController.navigationController?.setNavigationBarHidden(false, animated: animated)

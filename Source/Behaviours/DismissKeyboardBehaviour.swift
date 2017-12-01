@@ -8,8 +8,11 @@
 
 import UIKit
 
-struct DismissKeyboardBehaviour: ViewControllerLifeCycleBehaviour {
-	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
+public struct DismissKeyboardBehaviour: ViewControllerLifeCycleBehaviour {
+	public init() {
+	}
+
+	public func beforeDisappearing(viewController: UIViewController, animated: Bool) {
 		viewController.view.endEditing(true)
 	}
 }
