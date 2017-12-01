@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
 	DESC
-	s.homepage = 'https://github.com/djbe/AppwiseCore'
+	s.homepage = 'https://github.com/appwise-labs/AppwiseCore'
 	s.authors = {
 		'David Jennes' => 'david.jennes@gmail.com'
 	}
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 	
 	# files
 	s.source = {
-		:git => 'https://github.com/djbe/AppwiseCore.git',
+		:git => 'https://github.com/appwise-labs/AppwiseCore.git',
 		:tag => s.version
 	}
 	s.default_subspec = 'Core', 'Behaviours', 'UI'

@@ -1,13 +1,9 @@
 # AppwiseCore
 
-[![CI Status](http://img.shields.io/travis/djbe/AppwiseCore.svg?style=flat)](https://travis-ci.org/djbe/AppwiseCore)
 [![Version](https://img.shields.io/cocoapods/v/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
 [![License](https://img.shields.io/cocoapods/l/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
 [![Platform](https://img.shields.io/cocoapods/p/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-
-<a href="https://placehold.it/400?text=Screen+shot"><img width=200 height=200 src="https://placehold.it/400?text=Screen+shot" alt="Screenshot" /></a>
-
+[![Swift version](https://img.shields.io/badge/Swift-4-orange.svg)](https://cocoapods.org/pods/AppwiseCore)
 
 ## Example
 

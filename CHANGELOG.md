@@ -2,9 +2,9 @@
 All notable changes to this project will be documented in this file.
 `AppwiseCore` adheres to [Semantic Versioning](http://semver.org/).
 
-## [Master](https://github.com/djbe/AppwiseCore)
+## [Master](https://github.com//AppwiseCore)
 
-## [0.5.0](https://github.com/djbe/AppwiseCore/releases/tag/0.5.0)
+## [0.5.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.5.0)
 
 ### New Features
 
@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 
 * Replace our own IBInspectable properties with IBAnimatble dependency.
 
-## [0.4.0](https://github.com/djbe/AppwiseCore/releases/tag/0.4.0)
+## [0.4.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.4.0)
 
 ### New Features
 
