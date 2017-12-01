@@ -66,5 +66,6 @@ Pod::Spec.new do |s|
 		
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
+		ss.dependency 'IBAnimatable'
 	end
 end
