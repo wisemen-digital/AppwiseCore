@@ -7,7 +7,8 @@ PODS:
     - AppwiseCore/Behaviours (= 0.5.0)
     - AppwiseCore/Core (= 0.5.0)
     - AppwiseCore/UI (= 0.5.0)
-  - AppwiseCore/Behaviours (0.5.0)
+  - AppwiseCore/Behaviours (0.5.0):
+    - Then
   - AppwiseCore/Core (0.5.0):
     - Alamofire
     - CocoaLumberjack/Swift
@@ -17,6 +18,8 @@ PODS:
     - AlamofireCoreData
     - AppwiseCore/Core
     - SugarRecord/CoreData
+  - AppwiseCore/DeepLink (0.5.0):
+    - AppwiseCore/Behaviours
   - AppwiseCore/UI (0.5.0):
     - AppwiseCore/Behaviours
     - AppwiseCore/Core
@@ -37,6 +40,7 @@ PODS:
 DEPENDENCIES:
   - AppwiseCore (from `../`)
   - AppwiseCore/CoreData (from `../`)
+  - AppwiseCore/DeepLink (from `../`)
   - AppwiseCore/UI (from `../`)
 
 EXTERNAL SOURCES:
@@ -46,7 +50,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireCoreData: 20618959493cf6bc804c39b538da21806365209b
-  AppwiseCore: 336bd030d8bf4390b0c791a04c249769ddb68408
+  AppwiseCore: a5155f6b740220cad94b4126df7dc7a75c1a7ca3
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   CrashlyticsRecorder: c0f79b5fe91239f60fa4491de79c3d33c9d1480e
   Groot: 7543f84980bfb1613750818029d9b927d4378211
@@ -55,6 +59,6 @@ SPEC CHECKSUMS:
   SugarRecord: be6aa5c18b4a4dec0de4c1f49fc61c85eabb5328
   Then: 823f9813e1d4d0a814a5ba15e9c9d33ec7aca631
 
-PODFILE CHECKSUM: b9a934b02dbbdc32bc198039a49e6e1625435169
+PODFILE CHECKSUM: 2edf2447ae61e57efdf6117a42cb59750757fcb3
 
 COCOAPODS: 1.4.0.beta.2

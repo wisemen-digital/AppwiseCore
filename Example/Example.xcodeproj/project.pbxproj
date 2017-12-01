@@ -128,6 +128,7 @@
 				TargetAttributes = {
 					D95E1C401D88E71A00F94976 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = JF4JXY8D87;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -381,11 +382,11 @@
 			baseConfigurationReference = 2F4EDAF2ED0A20F1ABEABB23 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JF4JXY8D87;
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.appwise.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -395,11 +396,11 @@
 			baseConfigurationReference = 5B7F84F69C750E542715956A /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JF4JXY8D87;
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.appwise.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

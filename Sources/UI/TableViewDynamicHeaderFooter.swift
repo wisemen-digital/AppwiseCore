@@ -6,7 +6,7 @@
 //  Copyright © 2017 Appwise. All rights reserved.
 //
 
-import AppwiseCore
+import UIKit
 
 // Note: The content view's bottom edge should not be constrained to it's parent
 //       view so that it can grow freely in height.

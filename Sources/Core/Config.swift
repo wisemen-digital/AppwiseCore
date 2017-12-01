@@ -66,7 +66,7 @@ public extension Config {
 	}
 	
 	private var db: NSObject? {
-		guard let type = NSClassFromString("AppwiseCore.DB") as? NSObjectProtocol else { return nil }
+		guard let type = NSClassFromString("AppwiseCore.DB") as? NSObject.Type else { return nil }
 		return type.perform(NSSelectorFromString("shared")).takeUnretainedValue() as? NSObject
 	}
 }

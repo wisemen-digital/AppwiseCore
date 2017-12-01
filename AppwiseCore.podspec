@@ -40,6 +40,9 @@ Pod::Spec.new do |s|
 	# VC behaviours
 	s.subspec 'Behaviours' do |ss|
 		ss.source_files = 'Sources/Behaviours/**/*.swift'
+
+		# dependencies
+		ss.dependency 'Then'
 	end
 	
 	# coredata
