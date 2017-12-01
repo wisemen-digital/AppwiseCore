@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
 	
 	# core spec
 	s.subspec 'Core' do |ss|
-		ss.source_files = 'Source/Core/**/*.swift'
+		ss.source_files = 'Sources/Core/**/*.swift'
 		ss.pod_target_xcconfig = {
 			'SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]' => 'DEBUG'
 		}
@@ -39,12 +39,12 @@ Pod::Spec.new do |s|
 
 	# VC behaviours
 	s.subspec 'Behaviours' do |ss|
-		ss.source_files = 'Source/Behaviours/**/*.swift'
+		ss.source_files = 'Sources/Behaviours/**/*.swift'
 	end
 	
 	# coredata
 	s.subspec 'CoreData' do |ss|
-		ss.source_files = 'Source/CoreData/**/*.swift'
+		ss.source_files = 'Sources/CoreData/**/*.swift'
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
 
 	# deeplinking
 	s.subspec 'DeepLink' do |ss|
-		ss.source_files = 'Source/DeepLink/**/*.swift'
+		ss.source_files = 'Sources/DeepLink/**/*.swift'
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Behaviours'
@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
 	
 	# UI
 	s.subspec 'UI' do |ss|
-		ss.source_files = 'Source/UI/**/*.swift'
+		ss.source_files = 'Sources/UI/**/*.swift'
 		
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
