@@ -10,7 +10,4 @@ import AppwiseCore
 
 @UIApplicationMain
 final class AppDelegate: AppwiseCore.AppDelegate<Config> {
-	override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
-		return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-	}
 }

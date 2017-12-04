@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### New Features
+
+* Added application services to the app delegate.
+
+### Breaking
+
+* AppDelegate: all UIAppDelegate implementations are now `public` instead of `open`. To add an override please use application services.
+
 ## [0.5.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.5.0)
 
 ### New Features
