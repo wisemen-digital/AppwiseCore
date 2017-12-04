@@ -32,6 +32,13 @@ public extension Config {
 
 // MARK: - Application lifetime
 
+private enum DBProxy {
+	static let `class`: AnyClass? = NSClassFromString("AppwiseCore.DB")
+	static let initialize = NSSelectorFromString("initialize")
+	static let reset = NSSelectorFromString("reset")
+	static let shared = NSSelectorFromString("shared")
+}
+
 public extension Config {
 	func setupApplication() {
 		// if needed, reset app and exit early. At the end of reset, setup is
@@ -45,7 +52,7 @@ public extension Config {
 		Settings.shared.load(with: self)
 
 		// initialize core data
-		_ = db?.perform(NSSelectorFromString("initialize"))
+		_ = db?.perform(DBProxy.initialize)
 
 		// user initialize
 		initialize()
@@ -56,7 +63,7 @@ public extension Config {
 		Settings.shared.reset()
 
 		// delete core data store
-		_ = db?.perform(NSSelectorFromString("reset"))
+		_ = db?.perform(DBProxy.reset)
 
 		// user teardown
 		teardown()
@@ -66,23 +73,32 @@ public extension Config {
 	}
 	
 	private var db: NSObject? {
-		guard let type = NSClassFromString("AppwiseCore.DB") as? NSObject.Type else { return nil }
-		return type.perform(NSSelectorFromString("shared")).takeUnretainedValue() as? NSObject
+		guard let type = DBProxy.`class` as? NSObject.Type else { return nil }
+		return type.perform(DBProxy.shared).takeUnretainedValue() as? NSObject
 	}
 }
 
 // MARK: - Other
 
+private enum InfoKeys {
+	static let displayName = "CFBundleDisplayName"
+	static let shortVersion = "CFBundleShortVersionString"
+	static let version = "CFBundleVersionKey"
+}
+
 public extension Config {
 	var appName: String {
-		return Bundle.main.infoDictionary?["CFBundleDisplayName"] as! String
+		guard let value = Bundle.main.infoDictionary?[InfoKeys.displayName] as? String else { return "" }
+		return value
 	}
 
 	var appVersion: Version {
-		return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+		guard let value = Bundle.main.infoDictionary?[InfoKeys.shortVersion] as? String else { return "" }
+		return value
 	}
 
 	var appBuild: String {
-		return Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+		guard let value = Bundle.main.infoDictionary?[InfoKeys.version] as? String else { return "" }
+		return value
 	}
 }
