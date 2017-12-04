@@ -1,4 +1,5 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 `AppwiseCore` adheres to [Semantic Versioning](http://semver.org/).
 
@@ -7,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Added application services to the app delegate.
+* Added ViewModel protocol with helpers.
 
 ### Breaking
 
