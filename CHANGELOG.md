@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Breaking
 
 * AppDelegate: all UIAppDelegate implementations are now `public` instead of `open`. To add an override please use application services.
+* Config: renamed `teardown()` to `teardownForReset()`.
 
 ## [0.5.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.5.0)
 

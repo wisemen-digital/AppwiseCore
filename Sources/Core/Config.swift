@@ -15,7 +15,7 @@ public protocol Config {
 	static var shared: Self { get }
 
 	func initialize()
-	func teardown()
+	func teardownForReset()
 	func handleUpdate(from old: Version, to new: Version)
 }
 
@@ -23,7 +23,7 @@ public extension Config {
 	func initialize() {
 	}
 
-	func teardown() {
+	func teardownForReset() {
 	}
 
 	func handleUpdate(from old: Version, to new: Version) {
@@ -66,7 +66,7 @@ public extension Config {
 		_ = db?.perform(DBProxy.reset)
 
 		// user teardown
-		teardown()
+		teardownForReset()
 
 		// re-setup application
 		setupApplication()
