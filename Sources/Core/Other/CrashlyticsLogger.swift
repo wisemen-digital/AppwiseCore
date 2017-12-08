@@ -14,8 +14,11 @@ internal final class CrashlyticsLogger: DDAbstractLogger {
 
 	override func log(message logMessage: DDLogMessage) {
 		guard let recorder = CrashlyticsRecorder.sharedInstance else { return }
-		let msg = logFormatter?.format(message: logMessage) ?? logMessage.message
 
-		recorder.log(msg)
+		// Disable formatting for now until CocoaLumberjack has better interop with Swift
+		// https://github.com/CocoaLumberjack/CocoaLumberjack/issues/643
+		let message = logMessage.message
+
+		recorder.log(message)
 	}
 }
