@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
 		:file => 'LICENSE'
 	}
 	s.ios.deployment_target = '9.0'
+	s.swift_version = '4.0'
 	
 	# files
 	s.source = {
