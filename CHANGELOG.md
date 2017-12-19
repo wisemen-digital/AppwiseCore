@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### New Features
+
+* Added a typed notifications, with optional typed payloads.
+
 ### Internal
 
 * Use the recommended way for nav/tabbarcontroller to ask their children for the preferred status bar style/hidden.
