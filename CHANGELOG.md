@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Internal
+
+* Use the recommended way for nav/tabbarcontroller to ask their children for the preferred status bar style/hidden.
+
 ## [0.6.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.6.1)
 
 ### Bug Fixes

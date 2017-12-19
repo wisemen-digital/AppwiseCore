@@ -21,7 +21,11 @@ open class NavigationController: UINavigationController {
 		return topViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
-	open override var preferredStatusBarStyle: UIStatusBarStyle {
-		return topViewController?.preferredStatusBarStyle ?? super.preferredStatusBarStyle
+	open override var childViewControllerForStatusBarStyle: UIViewController? {
+		return topViewController
+	}
+
+	open override var childViewControllerForStatusBarHidden: UIViewController? {
+		return topViewController
 	}
 }
