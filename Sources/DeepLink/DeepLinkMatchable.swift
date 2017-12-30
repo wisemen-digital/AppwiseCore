@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol DeepLinkMatchable: class, NSObjectProtocol {
 	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool

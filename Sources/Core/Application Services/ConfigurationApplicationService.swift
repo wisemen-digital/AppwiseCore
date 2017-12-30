@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class ConfigurationApplicationService<ConfigType: Config>: NSObject, ApplicationService {
 	func applicationDidFinishLaunching(_ application: UIApplication) {

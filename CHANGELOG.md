@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Internal
 
 * Use the recommended way for nav/tabbarcontroller to ask their children for the preferred status bar style/hidden.
+* Switched to static_framework for CocoaPods.
 
 ## [0.6.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.6.1)
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct DeepLinkStackItem {
 	public let path: String

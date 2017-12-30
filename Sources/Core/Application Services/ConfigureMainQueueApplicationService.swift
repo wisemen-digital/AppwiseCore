@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class ConfigureMainQueueApplicationService: NSObject, ApplicationService {
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
