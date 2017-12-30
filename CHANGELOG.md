@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.7.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.7.0)
+
 ### New Features
 
 * Added a typed notifications, with optional typed payloads.
