@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.7.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.7.1)
+
 ### New Features
 
 * Added build number updater script (`Scripts/update_build_number.sh`).
