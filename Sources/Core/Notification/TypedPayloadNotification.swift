@@ -22,7 +22,7 @@ private enum UserInfoKey {
 	static let payload = "payload"
 }
 
-extension TypedPayloadNotification {
+public extension TypedPayloadNotification {
 	func generateNotification() -> Notification {
 		let info = [UserInfoKey.payload: payload]
 		return Notification(name: Self.notificationName, object: nil, userInfo: info)

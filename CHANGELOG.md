@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Fix the `vm(...)` shorthand method not working correctly for non-optional instances.
+* Fix accessibility of some typednotification methods.
 
 ## [0.7.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.7.1)
 

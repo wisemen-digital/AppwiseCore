@@ -39,11 +39,11 @@ public extension TypedNotification {
 }
 
 extension TypedNotification {
-	func generateNotification() -> Notification {
+	public func generateNotification() -> Notification {
 		return Notification(name: Self.notificationName)
 	}
 
-	static var notificationName: Notification.Name {
+	internal static var notificationName: Notification.Name {
 		let name = String(describing: self)
 		return Notification.Name(rawValue: name)
 	}
