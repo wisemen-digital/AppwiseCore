@@ -38,6 +38,10 @@ public extension ViewModel where Model: NSObject {
 	}
 }
 
+public func vm<T: ViewModel>(_ model: T.Model) -> T {
+	return T(model)
+}
+
 public func vm<T: ViewModel>(_ model: T.Model?) -> T? {
 	return T(model)
 }

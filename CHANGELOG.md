@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Bug Fixes
+
+* Fix the `vm(...)` shorthand method not working correctly for non-optional instances.
+
 ## [0.7.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.7.1)
 
 ### New Features
