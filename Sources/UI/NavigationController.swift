@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// UINavigationController that passes calls for orientation and status bar to it's top
+/// view controller.
 open class NavigationController: UINavigationController {
 	open override var shouldAutorotate: Bool {
 		return topViewController?.shouldAutorotate ?? super.shouldAutorotate

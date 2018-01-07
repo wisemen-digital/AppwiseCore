@@ -13,6 +13,9 @@ import Foundation
 
 /// A protocol to define notifications that are sent around with our `NotificationCenter` extension functionality.
 public protocol TypedNotification {
+	/// Generate a `Notification` object from this instance, with the correct name.
+	///
+	/// - returns: A new `Notification` instance.
 	func generateNotification() -> Notification
 }
 
@@ -39,6 +42,9 @@ public extension TypedNotification {
 }
 
 extension TypedNotification {
+	/// Generate a `Notification` object from this instance, with the correct name.
+	///
+	/// - returns: A new `Notification` instance.
 	public func generateNotification() -> Notification {
 		return Notification(name: Self.notificationName)
 	}

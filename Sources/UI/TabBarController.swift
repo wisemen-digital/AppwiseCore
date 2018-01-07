@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// UITabBarController that passes calls for orientation and status bar to it's selected
+/// view controller.
 open class TabBarController: UITabBarController {
 	open override var shouldAutorotate: Bool {
 		return selectedViewController?.shouldAutorotate ?? super.shouldAutorotate

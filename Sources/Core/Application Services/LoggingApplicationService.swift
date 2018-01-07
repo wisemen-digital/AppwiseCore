@@ -9,6 +9,7 @@
 import CocoaLumberjack
 import CrashlyticsRecorder
 
+/// Internal class for initializing the logging framework
 final class LoggingApplicationService: NSObject, ApplicationService {
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		if let tty = DDTTYLogger.sharedInstance {

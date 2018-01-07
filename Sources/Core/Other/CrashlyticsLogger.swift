@@ -9,6 +9,7 @@
 import CocoaLumberjack
 import CrashlyticsRecorder
 
+/// Internal CocoaLumberjack logger to Crashlytics
 internal final class CrashlyticsLogger: DDAbstractLogger {
 	static let shared = CrashlyticsLogger()
 

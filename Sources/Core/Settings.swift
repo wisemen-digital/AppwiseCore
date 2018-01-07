@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// This is a light layer over the UserDefaults framework, that'll load any settings you have
+/// in a settings bundle, and perform version checks for the `Config`.
 public struct Settings {
 	fileprivate enum DefaultsKey: String {
 		case reset = "reset_app"
@@ -15,7 +17,9 @@ public struct Settings {
 		case version
 	}
 
+	/// `Settings` is a singleton.
 	public static var shared = Settings()
+	/// The underlying user defaults.
 	public let defaults = UserDefaults.standard
 	private init() {}
 

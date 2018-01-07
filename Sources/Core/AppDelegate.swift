@@ -10,27 +10,35 @@ import CloudKit
 import UIKit
 
 extension UIApplication {
+	/// The document directory of your application
 	public var documentsDirectory: URL? {
-		return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+		return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
 	}
 
+	// The support directory of your application
 	public var supportDirectory: URL? {
 		guard let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last,
-			let name = Bundle.main.infoDictionary![kCFBundleNameKey as String] as? String,
+			let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String,
 			let escaped = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return nil }
 
 		return URL(string: escaped, relativeTo: dir)
 	}
 }
 
-// Based on https://github.com/fmo91/PluggableApplicationDelegate
-
+/// An implementation of the application delegate, that automatically integrates with application services and the `Config` you provide.
+///
+/// Expects a generic parameter for the type of `Config` you'll be using.
 open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
+	/// The shared application delegate
 	public static var shared: AppDelegate {
-		return UIApplication.shared.delegate as! AppDelegate
+		let result = UIApplication.shared.delegate as? AppDelegate
+		return result.require(hint: "Unable to cast app delegate to correct type")
 	}
 
+	/// The application's window
 	public var window: UIWindow?
+
+	/// The list of application services, empty by default
 	open var services: [ApplicationService] { return [] }
 	private lazy var internalServices: [ApplicationService] = [
 		LoggingApplicationService(),
@@ -42,10 +50,16 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return self.services + self.internalServices
 	}()
 
+	/// The document directory of your application
 	public let documentsDirectory: URL = UIApplication.shared.documentsDirectory.require(hint: "Application requires a documents directory")
+
+	// The support directory of your application
 	public let supportDirectory: URL = UIApplication.shared.supportDirectory.require(hint: "Application requires an application support directory")
 
 	// MARK: UIApplicationDelegate
+
+	// Based on https://github.com/fmo91/PluggableApplicationDelegate
+	// Last synced on 8 November 2017, commit 465ebe3
 
 	public func applicationDidFinishLaunching(_ application: UIApplication) {
 		for service in allServices {

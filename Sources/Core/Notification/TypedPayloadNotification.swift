@@ -14,7 +14,7 @@ public protocol TypedPayloadNotification: TypedNotification {
 	/// The type must be defined a `Notification`.
 	associatedtype Payload
 
-	/// A payload to send in a notification. It is sent through `Notification`'s the `object` property.
+	/// A payload to send in a notification. It is sent through `Notification`'s `userInfo` property.
 	var payload: Payload { get }
 }
 

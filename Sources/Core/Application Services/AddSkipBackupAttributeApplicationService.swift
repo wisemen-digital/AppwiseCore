@@ -9,6 +9,7 @@
 import CocoaLumberjack
 import UIKit
 
+/// Internal class for adding a "skip backup" attribute to the application support directory.
 final class AddSkipBackupAttributeApplicationService: NSObject, ApplicationService {
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		DispatchQueue.global(qos: .background).async { [weak self] in

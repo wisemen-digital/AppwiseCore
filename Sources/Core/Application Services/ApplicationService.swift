@@ -8,9 +8,13 @@
 
 import UIKit
 
+/// Application services are a way of distributing `UIApplicationDelegate` implementations into
+/// smaller isolated parts. Just implement whatever delegate calls you want and wrap it in a small
+/// NSObject.
 public protocol ApplicationService: UIApplicationDelegate {}
 
 public extension ApplicationService {
+	/// The application window.
 	public var window: UIWindow? {
 		return UIApplication.shared.delegate?.window ?? nil
 	}

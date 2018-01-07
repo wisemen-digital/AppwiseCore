@@ -11,14 +11,30 @@ import CocoaLumberjack
 
 public typealias Version = String
 
+/// This protocol complements the `AppDelegate` class, and should be where you place all code
+/// related to the configuration of your application.
 public protocol Config {
+	/// `Config`s are singletons.
 	static var shared: Self { get }
 
+	/// This method will be called on start-up, and after each reset when needed. Any and all
+	/// additional setup code should go here.
 	func initialize()
+
+	/// This method will be called on start-up if the user turned on the "reset" toggle. You
+	/// should provide additional reset instructions here if needed.
 	func teardownForReset()
+
+	/// On start-up, the config will check if the application's version differs from the previous
+	/// run. If it does, it'll call this method to allow you to perform the necessary upgrade
+	/// operations.
+	///
+	/// - parameter old: The old application version, from the previous run.
+	/// - parameter new: The new (current) application version.
 	func handleUpdate(from old: Version, to new: Version)
 }
 
+/// Default implementations.
 public extension Config {
 	func initialize() {
 	}
@@ -40,6 +56,8 @@ private enum DBProxy {
 }
 
 public extension Config {
+	/// This method will be called on start-up, and after each reset when needed. It will load
+	/// the setings from the bundle, and initialize the database if needed.
 	func setupApplication() {
 		// if needed, reset app and exit early. At the end of reset, setup is
 		// called again
@@ -58,6 +76,9 @@ public extension Config {
 		initialize()
 	}
 
+	/// This method will be called on start-up if the user turned on the "reset" toggle. It will
+	/// reset the settings, and the database (if needed), then it'll finally call the
+	/// `setupApplication()` method.
 	func resetApplication() {
 		// reset defaults
 		Settings.shared.reset()
@@ -87,16 +108,19 @@ private enum InfoKeys {
 }
 
 public extension Config {
+	/// The name of the application, taken from the info dictionary.
 	var appName: String {
 		guard let value = Bundle.main.infoDictionary?[InfoKeys.displayName] as? String else { return "" }
 		return value
 	}
 
+	/// The version of the application, taken from the info dictionary.
 	var appVersion: Version {
 		guard let value = Bundle.main.infoDictionary?[InfoKeys.shortVersion] as? String else { return "" }
 		return value
 	}
 
+	/// The build version of the application, taken from the info dictionary.
 	var appBuild: String {
 		guard let value = Bundle.main.infoDictionary?[InfoKeys.version] as? String else { return "" }
 		return value

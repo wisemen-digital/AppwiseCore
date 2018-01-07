@@ -17,10 +17,12 @@ internal extension DispatchQueue {
 }
 
 public extension DispatchQueue {
+	/// Easy and safe way of checking if the current queue is the main queue
 	static var isMain: Bool {
 		return getSpecific(key: mainQueueKey) != nil
 	}
 
+	/// Easy and safe way of checking if the current queue is the main queue
 	var isMain: Bool {
 		return getSpecific(key: DispatchQueue.mainQueueKey) != nil
 	}

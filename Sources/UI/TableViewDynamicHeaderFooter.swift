@@ -8,8 +8,11 @@
 
 import UIKit
 
-// Note: The content view's bottom edge should not be constrained to it's parent
-//       view so that it can grow freely in height.
+/// Header (or footer) view for in a UITableView, that will automatically resize itself
+/// to fit its content, with the help of the accompanying `DynamicHeaderFooterBehaviour`.
+///
+/// Note: The content view's bottom edge should not be constrained to it's parent
+///       view so that it can grow freely in height.
 open class ResizableTableHeaderFooterView: UIView {
 	@IBOutlet weak var contentView: UIView?
 
@@ -28,6 +31,8 @@ open class ResizableTableHeaderFooterView: UIView {
 }
 
 public extension UITableView {
+	/// Update the height of the header view to match its content's height, if it is
+	/// a `ResizableTableHeaderFooterView`.
 	func updateHeaderViewHeight() {
 		guard let view = self.tableHeaderView as? ResizableTableHeaderFooterView else { return }
 
@@ -36,6 +41,8 @@ public extension UITableView {
 		}
 	}
 
+	/// Update the height of the footer view to match its content's height, if it is
+	/// a `ResizableTableHeaderFooterView`.
 	func updateFooterViewHeight() {
 		guard let view = self.tableFooterView as? ResizableTableHeaderFooterView else { return }
 
@@ -45,9 +52,16 @@ public extension UITableView {
 	}
 }
 
+/// Behaviour to resize the header and/or footer views of a `UITableView` to match their
+/// content, works in conjunction with `ResizableTableHeaderFooterView`.
 public struct DynamicHeaderFooterBehaviour: ViewControllerLifeCycleBehaviour {
 	weak var tableView: UITableView?
 
+	/// Creates a new instance with the specified foreground and background closures.
+	///
+	/// - parameter tableView: The table view whose headers/footers we should monitor.
+	///
+	/// - returns: The new behaviour instance.
 	public init(tableView: UITableView) {
 		self.tableView = tableView
 	}
