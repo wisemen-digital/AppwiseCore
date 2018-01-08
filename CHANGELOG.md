@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Breaking
+
+* ViewModel protocol has changed a bit. Essentially, the `data` property is no longer an implicitly unwrapped optional, and the constructor has changed to accept a data argument.
+
 ### New Features
 
 * Documented all types and methods.

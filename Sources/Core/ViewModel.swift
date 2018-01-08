@@ -16,19 +16,14 @@ public protocol ViewModel: Then {
 	/// The data model type
 	associatedtype Model
 
-	var data: Model! { get set }
-	init()
+	/// The data instance
+	var data: Model { get }
+
+	/// Mandatory initializer
+	init(_ data: Model)
 }
 
 public extension ViewModel {
-	/// Default implementation for initializer
-	///
-	/// - parameter data: The data instance
-	init(_ data: Model) {
-		self.init()
-		self.data = data
-	}
-
 	/// Initializer for handling optionals. If the data instance is nil, the view model will also be nil.
 	///
 	/// - parameter data: The data instance (can be nil)
