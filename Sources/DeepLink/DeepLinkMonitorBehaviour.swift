@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Internal class for keeping track if a registered deeplink item is visible or not.
 class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 	let path: String
 	weak var matchable: DeepLinkMatchable?

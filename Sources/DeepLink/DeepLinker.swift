@@ -9,21 +9,32 @@
 import Foundation
 import UIKit
 
+/// A deep link stack item, for connecting an identifier to a matchable item.
 public struct DeepLinkStackItem {
+	/// The path component
 	public let path: String
 	weak var matchable: DeepLinkMatchable?
 }
 
+/// The general subsystem for performing (and keep track of) deep linking.
 public final class DeepLinker {
 	typealias Stack = [DeepLinkStackItem]
+
+	/// This is a singleton
 	public static let shared = DeepLinker()
 
 	private var stack: Stack = []
 	private var scheduledRoute: (path: [String], animated: Bool)?
-
 	private init() {
 	}
 
+	/// Register a deep link stack item (a view controller) for a specific path component
+	///
+	/// Note: an internal behaviour will be added to the view controller, to keep track of
+	/// when it's visible or not.
+	///
+	/// - parameter matchable: The view controller to register and keep track of.
+	/// - parameter path: The path component this view controller represents.
 	public func register(_ matchable: DeepLinkMatchable & UIViewController, for path: String) {
 		if matchable is UITabBarController {
 			addToStack(matchable, for: path)
@@ -48,6 +59,13 @@ public final class DeepLinker {
 		stack = cleanupWeakReferences().filter { !($0.matchable?.isEqual(matchable) ?? false) }
 	}
 
+	/// Try to open a deep link (a path)
+	///
+	/// - parameter path: The path to open, for example: "/root/some/thing/here"
+	/// - parameter animated: Whether this should be animated or not.
+	///
+	/// - returns: True if successful. Otherwise, the link will be kept and the system will
+	/// try to open it at a later time (unless you try to open a new link).
 	@discardableResult
 	public func open(path: String, animated: Bool) -> Bool {
 		let route = path.split(separator: "/").map { String($0) }
