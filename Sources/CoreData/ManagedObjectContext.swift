@@ -15,7 +15,12 @@ public extension NSManagedObjectContext {
 		case unsupportedIdentityAttributes
 		case unableToCastObject(to: Any)
 	}
-	
+
+	/// Find the first object matching a given value, using the Groot unique key.
+	///
+	/// - parameter value: The value to match.
+	///
+	/// - returns: The found object or nil.
 	public func first<T: Entity>(value: Any) throws -> T? {
 		guard let entity = T.self as? NSManagedObject.Type else { throw StorageError.invalidType }
 		guard let description = NSEntityDescription.entity(forEntityName: entity.entityName, in: self) else {
@@ -28,19 +33,40 @@ public extension NSManagedObjectContext {
 		
 		return first(key: key, value: value)
 	}
-	
-	public func first<T: Entity>(key: String, value: Any) -> T? {
+
+	/// Find the first object matching a given value, using a given key.
+	///
+	/// - parameter key: The key to search.
+	/// - parameter value: The value to match.
+	///
+	/// - returns: The found object or nil.
+	public func first<T: Entity>(key: PartialKeyPath<T>, value: Any) -> T? {
+		return first(key: String(describing: key), value: value)
+	}
+
+	private func first<T: Entity>(key: String, value: Any) -> T? {
 		let predicate = NSPredicate(format: "%K = %@", argumentArray: [key, value])
 		return first(predicate: predicate)
 	}
-	
+
+	/// Find the first object matching a given predicate and sorting.
+	///
+	/// - parameter sortDescriptor: The descriptor to sort against.
+	/// - parameter predicate: The predicate to search with.
+	///
+	/// - returns: The found object or nil.
 	public func first<T: Entity>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
 		let request = FetchRequest<T>(self, sortDescriptor: sortDescriptor, predicate: predicate, fetchLimit: 1)
 		
 		guard let result = try? request.fetch() else { return nil }
 		return result.first
 	}
-	
+
+	/// Convert an object from one context into an instance from this context.
+	///
+	/// - parameter item: The object to convert.
+	///
+	/// - returns: The converted object or nil.
 	public func inContext<T: NSManagedObject>(_ item: T) throws -> T {
 		if item.objectID.isTemporaryID {
 			try item.managedObjectContext?.obtainPermanentIDs(for: [item])
@@ -51,7 +77,12 @@ public extension NSManagedObjectContext {
 		}
 		return result
 	}
-	
+
+	/// Find all the old unmodified objects in this context, matching a predicate.
+	///
+	/// - parameter filter: The predicate to match against.
+	///
+	/// - returns: A list of old objects.
 	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) throws -> [T] {
 		let request = NSFetchRequest<T>(entityName: T.entityName)
 		

@@ -11,6 +11,10 @@ import CoreData
 import SugarRecord
 
 extension DB {
+	/// Create a new temporary save context. Call `saveToPersistentStore(_:)` with it
+	/// when done.
+	///
+	/// - returns: The new context.
 	public func newSave() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		
@@ -20,7 +24,10 @@ extension DB {
 		
 		return moc
 	}
-	
+
+	/// Save the changes in the given context to the persistent store.
+	///
+	/// - parameter moc: The managed object context.
 	public func saveToPersistentStore(_ moc: NSManagedObjectContext) throws {
 		guard let parent = moc.parent, parent == root else {
 			throw DBError.invalidContext
