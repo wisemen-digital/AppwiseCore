@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '0.7.2'
+	s.version = '0.8.0'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
 	}
 	s.ios.deployment_target = '9.0'
 	s.swift_version = '4.0'
+	s.static_framework = true
 	
 	# files
 	s.source = {
