@@ -1,0 +1,27 @@
+{% for type in types.based.ViewModel %}
+// MARK: - {{ type.name }}
+
+{% set associatedType %}{% for var in type.variables where var.name == "data" %}{{ var.typeName }}{% endfor %}{% endset %}
+extension {{ type.name }} {
+	{% if type.kind == "struct" %}{% if type.initializers|isEmpty %}
+	init(_ data: {{ associatedType }}) {
+		self.data = data
+		{% if type|based:"NSObject" %}
+		super.init()
+		{% endif %}
+	}
+
+	{% endif %}{% endif %}
+	{% for modelType in types.all where modelType.name == associatedType %}
+	{% for var in modelType.storedVariables %}
+	{% set exists %}{% for typeVar in type.variables where typeVar.name == var.name %}exists{% endfor %}{% endset %}
+	{% if exists == "" %}
+	var {{ var.name }}: {{ var.typeName }} {
+		return data.{{ var.name }}
+	}
+	{% endif %}
+	{% endfor %}
+	{% endfor %}
+}
+
+{% endfor %}

@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Documented all types and methods.
+* Add a sourcery template to automatically generate ViewModel init and properties implementations.
 
 ## [0.7.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.7.2)
 

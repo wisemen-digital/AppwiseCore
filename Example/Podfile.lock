@@ -1,33 +1,33 @@
 PODS:
-  - Alamofire (4.5.1)
-  - AlamofireCoreData (1.0.0):
-    - Alamofire (~> 4.0)
+  - Alamofire (4.6.0)
+  - AlamofireCoreData (1.1.0):
+    - Alamofire (~> 4.5)
     - Groot (~> 2.0)
-  - AppwiseCore (0.6.1):
-    - AppwiseCore/Behaviours (= 0.6.1)
-    - AppwiseCore/Core (= 0.6.1)
-    - AppwiseCore/UI (= 0.6.1)
-  - AppwiseCore/Behaviours (0.6.1):
+  - AppwiseCore (0.7.2):
+    - AppwiseCore/Behaviours (= 0.7.2)
+    - AppwiseCore/Core (= 0.7.2)
+    - AppwiseCore/UI (= 0.7.2)
+  - AppwiseCore/Behaviours (0.7.2):
     - Then
-  - AppwiseCore/Core (0.6.1):
+  - AppwiseCore/Core (0.7.2):
     - Alamofire
     - CocoaLumberjack/Swift
     - CrashlyticsRecorder
     - Then
-  - AppwiseCore/CoreData (0.6.1):
+  - AppwiseCore/CoreData (0.7.2):
     - AlamofireCoreData
     - AppwiseCore/Core
     - SugarRecord/CoreData
-  - AppwiseCore/DeepLink (0.6.1):
+  - AppwiseCore/DeepLink (0.7.2):
     - AppwiseCore/Behaviours
-  - AppwiseCore/UI (0.6.1):
+  - AppwiseCore/UI (0.7.2):
     - AppwiseCore/Behaviours
     - AppwiseCore/Core
     - IBAnimatable
-  - CocoaLumberjack/Default (3.3.0)
-  - CocoaLumberjack/Swift (3.3.0):
+  - CocoaLumberjack/Default (3.4.0)
+  - CocoaLumberjack/Swift (3.4.0):
     - CocoaLumberjack/Default
-  - CrashlyticsRecorder (2.1.0)
+  - CrashlyticsRecorder (2.2.0)
   - Groot (2.0):
     - Groot/Swift (= 2.0)
   - Groot/Swift (2.0)
@@ -35,7 +35,7 @@ PODS:
   - Result (3.2.4)
   - SugarRecord/CoreData (3.1.2):
     - Result (~> 3.0)
-  - Then (2.2.0)
+  - Then (2.3.0)
 
 DEPENDENCIES:
   - AppwiseCore (from `../`)
@@ -48,16 +48,16 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  AlamofireCoreData: 20618959493cf6bc804c39b538da21806365209b
-  AppwiseCore: a96a7070cb7342b2c6e273f649d0738202d30d4b
-  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  CrashlyticsRecorder: c0f79b5fe91239f60fa4491de79c3d33c9d1480e
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  AlamofireCoreData: e7366aef23927626e8cf2f1039eaf47209c1f183
+  AppwiseCore: 97fa6cbe08ffd3e6f3ef1594f1ec9d9eda1ec675
+  CocoaLumberjack: e033a5d8513357af2dd456eb66e202c325c30627
+  CrashlyticsRecorder: 5f132a14135b37bfa674e8b4dc0957313ecdb30c
   Groot: 7543f84980bfb1613750818029d9b927d4378211
   IBAnimatable: aa2286a9cf8fb4ae2e1be85c5287ae56143b024f
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SugarRecord: be6aa5c18b4a4dec0de4c1f49fc61c85eabb5328
-  Then: 823f9813e1d4d0a814a5ba15e9c9d33ec7aca631
+  Then: ee21c97b85ff6062b9b0080c9abb1eea46743345
 
 PODFILE CHECKSUM: 2edf2447ae61e57efdf6117a42cb59750757fcb3
 
