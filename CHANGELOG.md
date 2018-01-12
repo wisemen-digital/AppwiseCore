@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Internal
+
+* Undo the switch to static_framework for CocoaPods for now.
+
 ## [0.8.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.0)
 
 ### Breaking
