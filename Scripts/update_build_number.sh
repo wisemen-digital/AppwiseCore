@@ -3,9 +3,10 @@
 git rev-parse 2> /dev/null > /dev/null || { echo >&2 "Git repository required. Aborting build number update script."; exit 0; }
 
 # Create version
-count=`git log --oneline | wc -l  | awk '{gsub(/^ +| +$/,"")} {print $0}'`
-date=$(((`date "+%s"` - 1514764800) / (15 * 60)))
-version="$count.$date"
+commitCount=`git log --oneline | wc -l | awk '{gsub(/^ +| +$/,"")} {print $0}'`
+commitTimestamp=`git log -1 --format=%ct | awk '{gsub(/^ +| +$/,"")} {print $0}'`
+dateRelativeToCommit=$((((`date "+%s"` - $commitTimestamp) / (15 * 60)) + 1))
+version="$commitCount.$dateRelativeToCommit"
 echo "Build number is $version"
 
 # Main app info.plist

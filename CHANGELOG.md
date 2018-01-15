@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Internal
+
+* Update build number script to make the date counter relative to the last commit date.
+
 ## [0.8.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.1)
 
 ### Internal
