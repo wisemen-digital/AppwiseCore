@@ -43,21 +43,23 @@ extension DB {
 		context.performAndWait { [weak self] in
 			do {
 				result = try operation(context, { () -> Void in
-					do {
-						try context.save()
-					} catch {
-						_error = error
-					}
-					guard let root = self?.root else { return }
-					root.performAndWait({
-						if root.hasChanges {
-							do {
-								try root.save()
-							} catch {
-								_error = error
-							}
+					context.performAndWait {
+						do {
+							try context.save()
+						} catch {
+							_error = error
 						}
-					})
+						guard let root = self?.root else { return }
+						root.performAndWait({
+							if root.hasChanges {
+								do {
+									try root.save()
+								} catch {
+									_error = error
+								}
+							}
+						})
+					}
 				})
 			} catch {
 				_error = error
@@ -95,21 +97,23 @@ extension DB {
 		context.performAndWait { [weak self] in
 			do {
 				try operation(context, { () -> Void in
-					do {
-						try context.save()
-					} catch {
-						_error = error
-					}
-					guard let root = self?.root else { return }
-					root.performAndWait({
-						if root.hasChanges {
-							do {
-								try root.save()
-							} catch {
-								_error = error
-							}
+					context.performAndWait {
+						do {
+							try context.save()
+						} catch {
+							_error = error
 						}
-					})
+						guard let root = self?.root else { return }
+						root.performAndWait({
+							if root.hasChanges {
+								do {
+									try root.save()
+								} catch {
+									_error = error
+								}
+							}
+						})
+					}
 				})
 			} catch {
 				_error = error
@@ -141,27 +145,29 @@ extension DB {
 		
 		context.perform { [weak self] in
 			operation(context, { (callback) in
-				do {
-					try context.save()
-				} catch {
-					_error = error
-				}
-				guard let root = self?.root else {
-					return DispatchQueue.main.async {
-						callback(_error)
+				context.perform {
+					do {
+						try context.save()
+					} catch {
+						_error = error
 					}
-				}
-				
-				root.perform {
-					if root.hasChanges {
-						do {
-							try root.save()
-						} catch {
-							_error = error
+					guard let root = self?.root else {
+						return DispatchQueue.main.async {
+							callback(_error)
 						}
 					}
-					DispatchQueue.main.async {
-						callback(_error)
+
+					root.perform {
+						if root.hasChanges {
+							do {
+								try root.save()
+							} catch {
+								_error = error
+							}
+						}
+						DispatchQueue.main.async {
+							callback(_error)
+						}
 					}
 				}
 			})

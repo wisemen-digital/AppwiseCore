@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 * Update build number script to make the date counter relative to the last commit date.
 * Make the library compatible with app extensions.
 
+### Bug Fixes
+
+* Core Data: Fix some issues leading to crashes & deadlocks due to accessing MOCs on the wrong queue.
+
 ## [0.8.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.1)
 
 ### Internal

@@ -29,7 +29,9 @@ public extension DataRequest {
 	{
 		db.backgroundOperation { (context, save) in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
-				completionHandler(response, context, save)
+				context.perform {
+					completionHandler(response, context, save)
+				}
 			}
 		}
 		
