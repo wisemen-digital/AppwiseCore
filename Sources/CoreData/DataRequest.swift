@@ -13,8 +13,8 @@ import CoreData
 public extension DataRequest {
 	/// Adds a handler to be called once the request has finished.
 	///
-	/// - parameter queue:             The queue on which the completion handler is dispatched.
-	/// - parameter jsonSerializer:    The se
+	/// - parameter queue:             The queue on which the deserializer (and your completion handler) is dispatched.
+	/// - parameter jsonSerializer:    The response JSON serializer
 	/// - parameter type:              The `Insertable` type that will be used in the serialization
 	/// - parameter completionHandler: The code to be executed once the request has finished.
 	///
@@ -29,9 +29,7 @@ public extension DataRequest {
 	{
 		db.backgroundOperation { (context, save) in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: context, type: T.self) { response in
-				context.perform {
-					completionHandler(response, context, save)
-				}
+				completionHandler(response, context, save)
 			}
 		}
 		

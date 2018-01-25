@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.3)
+
+### Bug Fixes
+
+* Core Data: Reverted the callback queue for insert operations.
+
 ## [0.8.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.2)
 
 ### Internal
