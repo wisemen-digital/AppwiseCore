@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Bug Fixes
+
+* Version script: Only update the build number for app extensions in archive builds, this fixes an installation bug (during running) due to code signing.
+
 ## [0.8.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.3)
 
 ### Bug Fixes
