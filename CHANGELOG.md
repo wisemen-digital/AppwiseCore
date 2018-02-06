@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.4)
+
 ### New Features
 
 * Added `TintedImageView` view for fixing broken tintColor (for template images) in `UIImageView` in XCode 9.
