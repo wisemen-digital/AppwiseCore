@@ -8,6 +8,9 @@
 
 import Foundation
 
+// Credit to John Sundell for the original implementation:
+// https://github.com/JohnSundell/Require
+
 extension Optional {
 	/// Require this optional to contain a non-nil value
 	///
@@ -28,15 +31,12 @@ extension Optional {
 				message.append(". Debugging hint: \(hint)")
 			}
 
-			#if !os(Linux)
-				let exception = NSException(
-					name: .invalidArgumentException,
-					reason: message,
-					userInfo: nil
-				)
-
-				exception.raise()
-			#endif
+			let exception = NSException(
+				name: .invalidArgumentException,
+				reason: message,
+				userInfo: nil
+			)
+			exception.raise()
 
 			preconditionFailure(message)
 		}

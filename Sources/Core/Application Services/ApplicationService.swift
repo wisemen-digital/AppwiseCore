@@ -8,6 +8,9 @@
 
 import UIKit
 
+// Credit to Fernando Martín Ortiz for the original implementation:
+// https://github.com/fmo91/PluggableApplicationDelegate
+
 /// Application services are a way of distributing `UIApplicationDelegate` implementations into
 /// smaller isolated parts. Just implement whatever delegate calls you want and wrap it in a small
 /// NSObject.
