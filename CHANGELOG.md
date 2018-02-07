@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Bug Fixes
+
+* DB: don't block on main thread during merge from save.
+
 ## [0.8.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.4)
 
 ### New Features

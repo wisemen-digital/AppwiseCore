@@ -56,7 +56,7 @@ extension DB {
 	
 	@objc private func contextDidSave(notification: Notification) {
 		guard let main = db?.mainContext as? NSManagedObjectContext else { return }
-		main.performAndWait {
+		main.perform {
 			main.mergeChanges(fromContextDidSave: notification as Notification)
 		}
 	}
