@@ -8,24 +8,18 @@
 
 import AppwiseCore
 
-enum Router: String, AppwiseCore.Router {
-	static var baseURLString = "http://google.com"
-	
-	case ab
-	case cd
-	case helloWorld
-	
-	var path: String {
-		return "/"
-	}
-}
-
 struct Config: AppwiseCore.Config {
 	static let shared = Config()
 
 	func initialize() {
+		// do some init stuff
 	}
 
-	func teardown() {
+	func teardownForReset() {
+		// do some reset stuff
+	}
+
+	func handleUpdate(from old: Version, to new: Version) {
+		// upgrade between versions
 	}
 }

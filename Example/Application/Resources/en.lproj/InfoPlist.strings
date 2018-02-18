@@ -1,0 +1,8 @@
+/* Display name */
+"CFBundleDisplayName" = "Example";
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Example needs access to your camera for uploading photos for caes, or for your profile picture.";
+
+/* Photo library permission */
+"NSPhotoLibraryUsageDescription" = "Example needs access to your photo library for uploading photos for caes, or for your profile picture.";

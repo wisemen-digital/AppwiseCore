@@ -11,12 +11,5 @@ import UIKit
 class ViewController: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
-		// This will trigger error messages in debug builds
-		DispatchQueue.global(qos: .background).async { [weak self] in
-			
-			self?.view.setNeedsLayout()
-			self?.view.setNeedsDisplay()
-		}
 	}
 }
