@@ -17,7 +17,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ### CocoaPods
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. We recommend you use `Bundler` to manage gems, but you can manually install it with the following command:
 
 ```bash
 $ gem install cocoapods
@@ -34,7 +34,7 @@ pod 'AppwiseCore'
 Then, run the following command:
 
 ```bash
-$ pod install
+$ bundle exec pod install
 ```
 
 
@@ -44,13 +44,29 @@ Create an implementation of the `Config` protocol, and a subclass of the generic
 
 If you need database functionality, additionally add the "AppwiseCore/CoreData" dependency. It will automatically be initialised as long as you've implemented the AppDelegate & Config types.
 
+We recommend you take a look at the [Example](https://github.com/appwise-labs/AppwiseCore/blob/master/Example) project, it contains most of the basic structure we use in each project.
+
 ### Fabric integration
 
-When using, you'll want to add Crashlytics logging to your project. To do so, add the following logger to your project:
+When using AppwiseCore, you'll want to add Crashlytics logging to your project. To do so, add (and use) the following application service (see [source](https://github.com/appwise-labs/AppwiseCore/blob/master/Example/Application/Sources/Application%20Services/FabricApplicationService.swift)):
 
 ```swift
+import AppwiseCore
 import Crashlytics
 import CrashlyticsRecorder
+import Fabric
+
+final class FabricApplicationService: NSObject, ApplicationService {
+	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+		Fabric.with([Crashlytics()])
+		_ = CrashlyticsRecorder.createSharedInstance(crashlytics: Crashlytics.sharedInstance())
+		_ = AnswersRecorder.createSharedInstance(answers: Answers.self)
+
+		return true
+	}
+}
+
+// MARK: - Conform Crashlytics & Fabric to recorder protocol
 
 extension Crashlytics: CrashlyticsProtocol {
 	public func log(_ format: String, args: CVaListPointer) {
@@ -66,28 +82,9 @@ extension Answers: AnswersProtocol {
 }
 ```
 
-And then create the needed recorders in your app delegate:
-
-```swift
-@UIApplicationMain
-final class AppDelegate: AppwiseCore.AppDelegate<Config> {
-	override func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-		guard super.application(application, willFinishLaunchingWithOptions: launchOptions) else { return false }
-
-		// initialize fabric
-		Fabric.with([Crashlytics()])
-		_ = CrashlyticsRecorder.createSharedInstance(crashlytics: Crashlytics.sharedInstance())
-		_ = AnswersRecorder.createSharedInstance(answers: Answers.self)
-		
-		return true
-	}
-}
-```
-
 ## Author
 
-David Jennes
-
+[David Jennes](https://github.com/djbe)
 
 ## License
 
