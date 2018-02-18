@@ -44,11 +44,11 @@ Create an implementation of the `Config` protocol, and a subclass of the generic
 
 If you need database functionality, additionally add the "AppwiseCore/CoreData" dependency. It will automatically be initialised as long as you've implemented the AppDelegate & Config types.
 
-We recommend you take a look at the [Example](https://github.com/appwise-labs/AppwiseCore/blob/master/Example) project, it contains most of the basic structure we use in each project.
+We recommend you take a look at the [Example](https://github.com/appwise-labs/AppwiseCore-Example) project, it contains most of the basic structure we use in each project.
 
 ### Fabric integration
 
-When using AppwiseCore, you'll want to add Crashlytics logging to your project. To do so, add (and use) the following application service (see [source](https://github.com/appwise-labs/AppwiseCore/blob/master/Example/Application/Sources/Application%20Services/FabricApplicationService.swift)):
+When using AppwiseCore, you'll want to add Crashlytics logging to your project. To do so, add (and use) the following application service (see [source](https://github.com/appwise-labs/AppwiseCore-Example/blob/master/Example/Application/Sources/Application%20Services/FabricApplicationService.swift)):
 
 ```swift
 import AppwiseCore

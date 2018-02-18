@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
 	# files
 	s.source = {
 		:git => 'https://github.com/appwise-labs/AppwiseCore.git',
-		:tag => s.version
+		:tag => s.version,
+		:submodules => true
 	}
 	s.preserve_paths = ['Scripts/*', 'Sourcery/*']
 	s.default_subspec = 'Core', 'Behaviours', 'UI'
