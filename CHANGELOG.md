@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.6](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.6)
+
 ### New Features
 
 * Updated the documentation and sample project to match library changes. The sample project is now a fully featured skeleton project.
