@@ -84,15 +84,19 @@ public extension NSManagedObjectContext {
 	///
 	/// - returns: A list of old objects.
 	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) throws -> [T] {
-		let request = NSFetchRequest<T>(entityName: T.entityName)
-		
-		request.predicate = filter
-		request.returnsObjectsAsFaults = true
-		request.includesPropertyValues = false
-		
-		return (try self.fetch(request)).filter({
-			!self.updatedObjects.contains($0) && !insertedObjects.contains($0)
-		})
+		let request = NSFetchRequest<T>(entityName: T.entityName).then {
+			$0.predicate = filter
+			$0.returnsObjectsAsFaults = true
+			$0.includesPropertyValues = false
+		}
+
+		let newIDs = Set<NSManagedObjectID>(
+			updatedObjects.flatMap { ($0 as? T)?.objectID } +
+			insertedObjects.flatMap { ($0 as? T)?.objectID }
+		)
+
+		let fetched: [T] = try self.fetch(request)
+		return fetched.filter { !newIDs.contains($0.objectID) }
 	}
 }
 

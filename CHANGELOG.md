@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Internal
+
+* Greatly improved the performance of `findOldItems(filter:)` for large data sets.
+
 ## [0.8.6](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.6)
 
 ### New Features
