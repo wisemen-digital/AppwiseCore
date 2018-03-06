@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.7](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.7)
+
 ### New Features
 
 * Core Data: added new protocol `Importable` for easier post-processing of imported entities.
