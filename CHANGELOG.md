@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### New Features
+
+* Core Data: added new protocol `Importable` for easier post-processing of imported entities.
+
 ### Internal
 
 * Greatly improved the performance of `findOldItems(filter:)` for large data sets.
