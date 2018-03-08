@@ -53,6 +53,12 @@ public protocol ManyImportable {
 	static func didImport(items: [Any], data: [Any], context: ImportContext) throws
 }
 
+/// Default implementation so that the user isn't obligated to implement the single-item import function
+public extension ManyImportable {
+	static func didImport(item: Any, data: Any, context: ImportContext) throws {
+	}
+}
+
 /// Default implementation where an entity is both `Importable` and `ManyImportable`, where it'll try
 /// to call `didImport` for each item by default
 public extension ManyImportable where Self: Importable {
@@ -67,14 +73,24 @@ public extension ManyImportable where Self: Importable {
 
 extension Many: Importable {
 	public func didImport(data: Any, context: ImportContext) throws {
+		guard Element.self is Importable.Type || Element.self is ManyImportable.Type else { return }
 		guard let data = data as? [Any] else { throw ImportError.dataIsIncorrectType }
-		guard let array = self.array as? [ManyImportable],
-			let type = Element.self as? ManyImportable.Type else { throw ImportError.elementIsIncorrectType }
 
-		for (importedData, importedItem) in zip(data, array) {
-			try type.didImport(item: importedItem, data: importedData, context: context)
+		// if many importable, iterate over each item, and call the general function with all items
+		if let array = self.array as? [ManyImportable],
+			let type = Element.self as? ManyImportable.Type {
+
+			for (importedData, importedItem) in zip(data, array) {
+				try type.didImport(item: importedItem, data: importedData, context: context)
+			}
+
+			try type.didImport(items: array, data: data, context: context)
+
+			// otherwise if items are importable, iterate over each item
+		} else if let array = self.array as? [Importable] {
+			for (importedData, importedItem) in zip(data, array) {
+				try importedItem.didImport(data: importedData, context: context)
+			}
 		}
-
-		try type.didImport(items: array, data: data, context: context)
 	}
 }
