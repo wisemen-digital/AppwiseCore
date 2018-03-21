@@ -10,7 +10,7 @@ import CoreData
 import SugarRecord
 
 public extension NSManagedObjectContext {
-	enum Error: Swift.Error {
+	public enum Error: Swift.Error {
 		case entityNotFound
 		case unsupportedIdentityAttributes
 		case unableToCastObject(to: Any)
@@ -41,7 +41,8 @@ public extension NSManagedObjectContext {
 	///
 	/// - returns: The found object or nil.
 	public func first<T: Entity>(key: PartialKeyPath<T>, value: Any) -> T? {
-		return first(key: String(describing: key), value: value)
+		guard let keyPath = key._kvcKeyPathString else { return nil }
+		return first(key: keyPath, value: value)
 	}
 
 	private func first<T: Entity>(key: String, value: Any) -> T? {

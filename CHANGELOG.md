@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+### Bug Fixes
+
+* DB: Fix a bug in the keyPath conversion code in `first`.
+
 ## [0.8.8](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.8)
 
 ### New Features
