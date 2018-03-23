@@ -32,7 +32,7 @@ public extension DataRequest {
 	{
 		db.backgroundOperation { moc, save in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: moc, type: T.self) { response in
-				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer) { response in
+				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer, contextObject: contextObject) { response in
 					completionHandler(response, moc, save)
 				}
 			}
@@ -61,7 +61,7 @@ public extension DataRequest {
 	{
 		db.backgroundOperation { moc, save in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: moc, type: T.self) { response in
-				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer) { response in
+				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer, contextObject: contextObject) { response in
 					completionHandler(response, save)
 				}
 			}
@@ -89,7 +89,7 @@ extension DataResponse {
 		moc: NSManagedObjectContext,
 		queue: DispatchQueue?,
 		serializer: DataResponseSerializer<Any>,
-		contextObject: Any? = nil,
+		contextObject: Any?,
 		completionHandler: @escaping (DataResponse<Value>) -> Void)
 	{
 		switch result {
