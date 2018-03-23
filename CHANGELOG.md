@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.10](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.10)
+
 ### Bug Fixes
 
 * DB: Fix a bug where the `Importable` context object was missing.
