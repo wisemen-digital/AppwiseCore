@@ -149,8 +149,10 @@ public extension Router {
 		completion(self, should)
 	}
 
-	func touch() {
-		let now = Date().timeIntervalSince1970
-		Settings.shared.setTimestamp(now, router: self)
+	/// Set the last updated timestamp for this resource
+	///
+	/// - parameter timestamp: The date to set the timestamp to. Defaults to now.
+	func touch(_ timestamp: Date = Date()) {
+		Settings.shared.setTimestamp(timestamp.timeIntervalSince1970, router: self)
 	}
 }
