@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 
 * Core: you can now provide a timestamp when "touching" a route.
 
+### Bug Fixes
+
+* Script: Only set the version number of DSYM bundles if they exist.
+
 ## [0.8.10](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.10)
 
 ### Bug Fixes

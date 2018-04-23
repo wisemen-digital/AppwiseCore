@@ -11,7 +11,7 @@ echo "Build number is $version"
 
 # Main app info.plist
 filepath="${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}"
-echo "Updating $filepath"
+echo "Updating '$filepath'"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${version}" "${filepath}"
 
 # Only update version numbers for extensions during archive
@@ -34,5 +34,7 @@ fi
 
 # Dsym info.plist
 filepath="${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist"
-echo "Updating dSYM at ${filepath}"
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${version}" "${filepath}"
+if [ -f "$filepath" ]; then
+	echo "Updating dSYM at '${filepath}'"
+	/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${version}" "${filepath}" || true
+fi
