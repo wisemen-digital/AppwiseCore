@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com//AppwiseCore)
 
+## [0.8.11](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.11)
+
 ### New Features
 
 * Core: you can now provide a timestamp when "touching" a route.
