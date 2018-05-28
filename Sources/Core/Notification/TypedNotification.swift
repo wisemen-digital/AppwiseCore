@@ -39,6 +39,16 @@ public extension TypedNotification {
 		let name = Self.notificationName
 		notificationCenter.addObserver(observer, selector: selector, name: name, object: nil)
 	}
+
+	/// This function unregisters the observer for this type of notification
+	///
+	/// - Parameters:
+	///   - observer: The observer to unregister.
+	///   - notificationCenter: The notification center to unregister with (default: .default)
+	static func unregister(observer: Any, notificationCenter: NotificationCenter = .default) {
+		let name = Self.notificationName
+		notificationCenter.removeObserver(observer, name: name, object: nil)
+	}
 }
 
 extension TypedNotification {
