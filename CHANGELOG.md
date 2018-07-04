@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * AutoViewModel: add support for nested types.
+* Core: fix build number plist key.
 
 ## [0.8.12](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.12)
 

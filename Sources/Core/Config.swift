@@ -104,7 +104,7 @@ public extension Config {
 private enum InfoKeys {
 	static let displayName = "CFBundleDisplayName"
 	static let shortVersion = "CFBundleShortVersionString"
-	static let version = "CFBundleVersionKey"
+	static let version = "CFBundleVersion"
 }
 
 public extension Config {
