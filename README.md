@@ -82,9 +82,18 @@ extension Answers: AnswersProtocol {
 }
 ```
 
-## Author
+## Authors
 
-[David Jennes](https://github.com/djbe)
+* [David Jennes](https://github.com/djbe)
+* [Jonas Beckers](https://github.com/jonasbeckers)
+
+This framework contains source code based on:
+
+* [AlamofireCoredata](https://github.com/ManueGE/AlamofireCoreData) by [Manuel García-Estañ](https://github.com/ManueGE)
+* [Lifecycle behaviours](https://irace.me/lifecycle-behaviors) by [Bryan Irace](https://github.com/irace)
+* [PluggableApplicationDelegate](https://github.com/fmo91/PluggableApplicationDelegate) by [Fernando Martín Ortiz](https://github.com/fmo91)
+* [Require](https://github.com/JohnSundell/Require) by [John Sundell](https://github.com/JohnSundell)
+* [TypedNotifications](https://github.com/mergesort/TypedNotifications) by [Joe Fabisevich](https://github.com/mergesort/TypedNotifications)
 
 ## License
 
