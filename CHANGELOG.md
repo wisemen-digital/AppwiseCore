@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+### Breaking
+
+* DB: AlamofireCoreData has been replaced by a built-in solution. This means that:
+  * The `Importable` and `ManyImportable` protocols have been merged into the `Insertable` and `ManyInsertable` protocols respectively.
+  * There's no longer a `responseInsert` call where you can provide your own `NSManagedObjectContext`.
+
 ### Bug Fixes
 
 * AutoViewModel: add support for nested types.

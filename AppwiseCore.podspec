@@ -54,8 +54,8 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
+		ss.dependency 'Groot'
 		ss.dependency 'SugarRecord/CoreData'
-		ss.dependency 'AlamofireCoreData'
 	end
 
 	# deeplinking
