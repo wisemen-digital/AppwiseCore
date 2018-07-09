@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * DB: AlamofireCoreData has been replaced by a built-in solution. This means that:
   * The `Importable` and `ManyImportable` protocols have been merged into the `Insertable` and `ManyInsertable` protocols respectively.
   * There's no longer a `responseInsert` call where you can provide your own `NSManagedObjectContext`.
+* Network: remove the old `responseInsert` functions where the completion block accepted a `NSManagedObjectContext` parameter. This has been replaced by the `didImport` functions on `Insertable` types. (see version [0.8.7](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.7))
 
 ### Bug Fixes
 

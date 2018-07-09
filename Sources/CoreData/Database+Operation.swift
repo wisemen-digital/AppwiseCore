@@ -23,18 +23,6 @@ public extension DB {
 	/// - parameter save: The save closure, you should call this when you're ready to save.
 	///
 	/// - returns: The result object converted to the main context
-	@available(*, renamed: "shared.operation", message: "You should invoke this on `DB.shared` instead.")
-	static func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
-		return try shared.operation(operation)
-	}
-
-	/// Perform an operation synchronously, and return a result object
-	///
-	/// - parameter operation: The closure to perform within a new context.
-	/// - parameter context: The temporary save context.
-	/// - parameter save: The save closure, you should call this when you're ready to save.
-	///
-	/// - returns: The result object converted to the main context
 	func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
 		let context = newSave()
 		var resultError: Error!
@@ -80,16 +68,6 @@ public extension DB {
 	/// - parameter operation: The closure to perform within a new context.
 	/// - parameter context: The temporary save context.
 	/// - parameter save: The save closure, you should call this when you're ready to save.
-	@available(*, renamed: "shared.operation", message: "You should invoke this on `DB.shared` instead.")
-	static func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
-		try shared.operation(operation)
-	}
-
-	/// Perform an operation synchronously.
-	///
-	/// - parameter operation: The closure to perform within a new context.
-	/// - parameter context: The temporary save context.
-	/// - parameter save: The save closure, you should call this when you're ready to save.
 	func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
 		let context = newSave()
 		var resultError: Error!
@@ -122,16 +100,6 @@ public extension DB {
 		if let error = resultError {
 			throw error
 		}
-	}
-
-	/// Perform an operation asynchronously.
-	///
-	/// - parameter operation: The closure to perform within a new context.
-	/// - parameter context: The temporary save context.
-	/// - parameter save: The save closure, you should call this when you're ready to save.
-	@available(*, renamed: "shared.backgroundOperation", message: "You should invoke this on `DB.shared` instead.")
-	static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
-		shared.backgroundOperation(operation)
 	}
 
 	/// Perform an operation asynchronously.
