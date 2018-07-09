@@ -10,11 +10,11 @@ import CocoaLumberjack
 import CoreData
 import SugarRecord
 
-extension DB {
+public extension DB {
 	/// A save closure with no arguments
-	public typealias SaveBlock = () -> Void
+	typealias SaveBlock = () -> Void
 	/// A save closure with a callback argument that accepts an optional error
-	public typealias SaveBlockWitCallback = (@escaping (Error?) -> Void) -> Void
+	typealias SaveBlockWitCallback = (@escaping (Error?) -> Void) -> Void
 
 	/// Perform an operation synchronously, and return a result object
 	///
@@ -24,7 +24,7 @@ extension DB {
 	///
 	/// - returns: The result object converted to the main context
 	@available(*, renamed: "shared.operation", message: "You should invoke this on `DB.shared` instead.")
-	public static func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
+	static func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
 		return try shared.operation(operation)
 	}
 
@@ -35,37 +35,37 @@ extension DB {
 	/// - parameter save: The save closure, you should call this when you're ready to save.
 	///
 	/// - returns: The result object converted to the main context
-	public func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
+	func operation<T: NSManagedObject>(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> T) throws -> T {
 		let context = newSave()
-		var _error: Error!
+		var resultError: Error!
 		var result: T!
-		
+
 		context.performAndWait { [weak self] in
 			do {
-				result = try operation(context, { () -> Void in
+				result = try operation(context) { () -> Void in
 					context.performAndWait {
 						do {
 							try context.save()
 						} catch {
-							_error = error
+							resultError = error
 						}
 						guard let root = self?.root else { return }
-						root.performAndWait({
+						root.performAndWait {
 							if root.hasChanges {
 								do {
 									try root.save()
 								} catch {
-									_error = error
+									resultError = error
 								}
 							}
-						})
+						}
 					}
-				})
+				}
 			} catch {
-				_error = error
+				resultError = error
 			}
 		}
-		if let error = _error {
+		if let error = resultError {
 			throw error
 		}
 
@@ -81,7 +81,7 @@ extension DB {
 	/// - parameter context: The temporary save context.
 	/// - parameter save: The save closure, you should call this when you're ready to save.
 	@available(*, renamed: "shared.operation", message: "You should invoke this on `DB.shared` instead.")
-	public static func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
+	static func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
 		try shared.operation(operation)
 	}
 
@@ -90,36 +90,36 @@ extension DB {
 	/// - parameter operation: The closure to perform within a new context.
 	/// - parameter context: The temporary save context.
 	/// - parameter save: The save closure, you should call this when you're ready to save.
-	public func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
+	func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlock) throws -> Void) throws {
 		let context = newSave()
-		var _error: Error!
+		var resultError: Error!
 
 		context.performAndWait { [weak self] in
 			do {
-				try operation(context, { () -> Void in
+				try operation(context) { () -> Void in
 					context.performAndWait {
 						do {
 							try context.save()
 						} catch {
-							_error = error
+							resultError = error
 						}
 						guard let root = self?.root else { return }
-						root.performAndWait({
+						root.performAndWait {
 							if root.hasChanges {
 								do {
 									try root.save()
 								} catch {
-									_error = error
+									resultError = error
 								}
 							}
-						})
+						}
 					}
-				})
+				}
 			} catch {
-				_error = error
+				resultError = error
 			}
 		}
-		if let error = _error {
+		if let error = resultError {
 			throw error
 		}
 	}
@@ -130,7 +130,7 @@ extension DB {
 	/// - parameter context: The temporary save context.
 	/// - parameter save: The save closure, you should call this when you're ready to save.
 	@available(*, renamed: "shared.backgroundOperation", message: "You should invoke this on `DB.shared` instead.")
-	public static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> ()) {
+	static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
 		shared.backgroundOperation(operation)
 	}
 
@@ -139,21 +139,21 @@ extension DB {
 	/// - parameter operation: The closure to perform within a new context.
 	/// - parameter context: The temporary save context.
 	/// - parameter save: The save closure, you should call this when you're ready to save.
-	public func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> ()) {
+	func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
 		let context = newSave()
-		var _error: Error!
-		
+		var resultError: Error!
+
 		context.perform { [weak self] in
-			operation(context, { (callback) in
+			operation(context) { callback in
 				context.perform {
 					do {
 						try context.save()
 					} catch {
-						_error = error
+						resultError = error
 					}
 					guard let root = self?.root else {
 						return DispatchQueue.main.async {
-							callback(_error)
+							callback(resultError)
 						}
 					}
 
@@ -162,15 +162,15 @@ extension DB {
 							do {
 								try root.save()
 							} catch {
-								_error = error
+								resultError = error
 							}
 						}
 						DispatchQueue.main.async {
-							callback(_error)
+							callback(resultError)
 						}
 					}
 				}
-			})
+			}
 		}
 	}
 }

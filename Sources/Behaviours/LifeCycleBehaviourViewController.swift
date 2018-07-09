@@ -16,10 +16,12 @@ final class LifecycleBehaviourViewController: UIViewController {
 		super.init(nibName: nil, bundle: nil)
 	}
 
+	@available(*, unavailable)
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		fatalError("init(nibName:bundle:) has not been implemented")
 	}
 
+	@available(*, unavailable)
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -29,7 +31,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 
 		view.isHidden = true
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.afterLoading(viewController: viewController)
 		}
 	}
@@ -37,7 +39,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.beforeAppearing(viewController: viewController, animated: animated)
 		}
 	}
@@ -45,7 +47,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.afterAppearing(viewController: viewController, animated: animated)
 		}
 	}
@@ -53,7 +55,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.beforeDisappearing(viewController: viewController, animated: animated)
 		}
 	}
@@ -61,7 +63,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.afterDisappearing(viewController: viewController, animated: animated)
 		}
 	}
@@ -69,7 +71,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.beforeLayingOutSubviews(viewController: viewController)
 		}
 	}
@@ -77,7 +79,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.afterLayingOutSubviews(viewController: viewController)
 		}
 	}
@@ -85,19 +87,19 @@ final class LifecycleBehaviourViewController: UIViewController {
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		super.viewWillTransition(to: size, with: coordinator)
 
-		applyBehaviours { (behaviour, viewController) in
+		applyBehaviours { behaviour, viewController in
 			behaviour.beforeTransitioning(viewController: viewController, to: size, with: coordinator)
 		}
 
-		coordinator.animate(alongsideTransition: { [weak self] (context) in
-			self?.applyBehaviours { (behaviour, viewController) in
+		coordinator.animate(alongsideTransition: { [weak self] _ in
+			self?.applyBehaviours { behaviour, viewController in
 				behaviour.whileTransitioning(viewController: viewController, to: size, with: coordinator)
 			}
-		}) { [weak self] (context) in
-			self?.applyBehaviours { (behaviour, viewController) in
+		}, completion: { [weak self] _ in
+			self?.applyBehaviours { behaviour, viewController in
 				behaviour.afterTransitioning(viewController: viewController, to: size, with: coordinator)
 			}
-		}
+		})
 	}
 
 	private func applyBehaviours(_ apply: (ViewControllerLifeCycleBehaviour, UIViewController) -> Void) {

@@ -81,7 +81,7 @@ public final class DeepLinker {
 
 	private func cleanupWeakReferences() -> Stack {
 		return stack.filter { item in
-			return item.matchable != nil
+			item.matchable != nil
 		}
 	}
 }
@@ -130,9 +130,9 @@ extension DeepLinker {
 			guard start >= beforeIndex else { return nil }
 
 			var dismissedSomething = false
-			for i in (beforeIndex...start).reversed() {
-				guard let parent = stack[i].matchable else { continue }
-				let after = stack.index(after: i)
+			for offset in (beforeIndex...start).reversed() {
+				guard let parent = stack[offset].matchable else { continue }
+				let after = stack.index(after: offset)
 
 				if parent.dismiss(items: Array(stack.suffix(from: after)), animated: animated) {
 					stack = Array(stack.dropLast(stack.endIndex - after))
@@ -152,9 +152,9 @@ extension DeepLinker {
 	private func buildUpStack(existing: Stack, for route: [String], lastCommon: Int, animated: Bool) -> Stack? {
 		var stack = existing
 
-		for i in lastCommon..<route.index(before: route.endIndex) {
-			guard let item = stack[i].matchable else { return nil }
-			let next = route.index(after: i)
+		for index in lastCommon..<route.index(before: route.endIndex) {
+			guard let item = stack[index].matchable else { return nil }
+			let next = route.index(after: index)
 
 			if let matchable = item.present(link: Array(route.suffix(from: next)), animated: animated) {
 				stack.append(DeepLinkStackItem(path: String(route[next]), matchable: matchable))

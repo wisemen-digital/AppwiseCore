@@ -19,8 +19,9 @@ public protocol ApplicationService: UIApplicationDelegate {}
 public extension ApplicationService {
 	/// The application window.
 	@available(iOS 8.0, *)
-	public var window: UIWindow? {
-		return UIApplication.shared.delegate?.window ?? nil
+	var window: UIWindow? {
+		guard let window = UIApplication.shared.delegate?.window else { return nil }
+		return window
 	}
 }
 
@@ -33,10 +34,10 @@ extension Array where Element == ApplicationService {
 
 		for service in self {
 			dispatchGroup.enter()
-			let returned = work(service, { result in
+			let returned = work(service) { result in
 				results.append(result)
 				dispatchGroup.leave()
-			})
+			}
 			if let returned = returned {
 				returns.append(returned)
 			} else { // delegate doesn't impliment method

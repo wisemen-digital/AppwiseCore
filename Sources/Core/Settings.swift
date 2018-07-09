@@ -27,8 +27,9 @@ public struct Settings {
 		// version check
 		let old = version?.components(separatedBy: " ").first
 		let new = config.appVersion
-		if (old?.compare(new, options: .numeric) == .orderedAscending) {
-			config.handleUpdate(from: old!, to: new)
+		if let old = old,
+			old.compare(new, options: .numeric) == .orderedAscending {
+			config.handleUpdate(from: old, to: new)
 		}
 		version = "\(config.appVersion) (\(config.appBuild))"
 
@@ -52,7 +53,8 @@ public struct Settings {
 	}
 
 	internal func reset() {
-		defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+		guard let identifier = Bundle.main.bundleIdentifier else { return }
+		defaults.removePersistentDomain(forName: identifier)
 	}
 
 	internal var shouldReset: Bool {
@@ -80,7 +82,7 @@ extension Settings {
 	func key<R: Router>(router: R) -> String {
 		return "\(router.method)|\(R.baseURLString)|\(router.path)"
 	}
-	
+
 	func timestamp<R: Router>(router: R) -> TimeInterval {
 		guard let timestamps = defaults.dictionary(forKey: DefaultsKey.resourceTimestamps.rawValue) as? [String: Double] else {
 			return 0
@@ -88,9 +90,9 @@ extension Settings {
 		return timestamps[key(router: router)] ?? 0
 	}
 
-	func setTimestamp<R: Router>(_ timestamp: TimeInterval, router: R) -> Void {
+	func setTimestamp<R: Router>(_ timestamp: TimeInterval, router: R) {
 		var timestamps = defaults.dictionary(forKey: DefaultsKey.resourceTimestamps.rawValue) as? [String: Double] ?? [String: Double]()
-		
+
 		timestamps[key(router: router)] = timestamp
 		defaults.set(timestamps, forKey: DefaultsKey.resourceTimestamps.rawValue)
 		defaults.synchronize()

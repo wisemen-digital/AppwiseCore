@@ -17,11 +17,11 @@ extension DB {
 	/// - returns: The new context.
 	public func newSave() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-		
+
 		moc.parent = root
 		NotificationCenter.default.addObserver(self, selector: #selector(contextWillSave(notification:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: moc)
 		NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: moc)
-		
+
 		return moc
 	}
 
@@ -32,29 +32,31 @@ extension DB {
 		guard let parent = moc.parent, parent == root else {
 			throw DBError.invalidContext
 		}
-		
+
 		try moc.save()
-		
-		var _error: Error?
+
+		var resultError: Error?
 		parent.performAndWait {
 			do {
 				try parent.save()
 			} catch {
-				_error = error
+				resultError = error
 			}
 		}
-		
-		if let error = _error {
+
+		if let error = resultError {
 			throw error
 		}
 	}
-	
-	@objc private func contextWillSave(notification: Notification) {
+
+	@objc
+	private func contextWillSave(notification: Notification) {
 		guard let moc = notification.object as? NSManagedObjectContext else { return }
 		_ = try? moc.obtainPermanentIDs(for: Array(moc.insertedObjects))
 	}
-	
-	@objc private func contextDidSave(notification: Notification) {
+
+	@objc
+	private func contextDidSave(notification: Notification) {
 		guard let main = db?.mainContext as? NSManagedObjectContext else { return }
 		main.perform {
 			main.mergeChanges(fromContextDidSave: notification as Notification)

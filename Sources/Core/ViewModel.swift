@@ -46,9 +46,9 @@ public extension ViewModel where Model: NSObject {
 		switch data[keyPath: key] {
 		case let value as String:
 			return !value.isEmpty
-		case  let value as Array<Any>:
+		case  let value as [Any]:
 			return !value.isEmpty
-		case let value as Dictionary<AnyHashable, Any>:
+		case let value as [AnyHashable: Any]:
 			return !value.isEmpty
 		default:
 			return false

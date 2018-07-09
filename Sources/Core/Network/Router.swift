@@ -107,15 +107,15 @@ public extension Router {
 	var method: HTTPMethod {
 		return .get
 	}
-	
+
 	var headers: [String: String] {
 		return [:]
 	}
-	
+
 	var params: Parameters? {
 		return nil
 	}
-	
+
 	var encoding: ParameterEncoding {
 		return JSONEncoding.default
 	}
@@ -128,7 +128,7 @@ public extension Router {
 public extension Router {
 	/// Default update interval is 1 day
 	var updateInterval: TimeInterval {
-		return 24*3600
+		return 24 * 3_600
 	}
 
 	/// When the request was last performed (defaults to timestamp 0)

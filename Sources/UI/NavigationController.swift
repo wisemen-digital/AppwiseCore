@@ -11,23 +11,23 @@ import UIKit
 /// UINavigationController that passes calls for orientation and status bar to it's top
 /// view controller.
 open class NavigationController: UINavigationController {
-	open override var shouldAutorotate: Bool {
+	override open var shouldAutorotate: Bool {
 		return topViewController?.shouldAutorotate ?? super.shouldAutorotate
 	}
 
-	open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+	override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 		return topViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
 	}
 
-	open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+	override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
 		return topViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
-	open override var childViewControllerForStatusBarStyle: UIViewController? {
+	override open var childViewControllerForStatusBarStyle: UIViewController? {
 		return topViewController
 	}
 
-	open override var childViewControllerForStatusBarHidden: UIViewController? {
+	override open var childViewControllerForStatusBarHidden: UIViewController? {
 		return topViewController
 	}
 }

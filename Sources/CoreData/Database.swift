@@ -16,18 +16,18 @@ public enum DBError: Error {
 }
 
 /// Container for all core data related operations.
+// swiftlint:disable:next type_name
 public final class DB: NSObject {
 	fileprivate let bundle: Bundle
-	internal var db: CoreDataDefaultStorage? = nil
-	
+	internal var db: CoreDataDefaultStorage?
+
 	internal var root: NSManagedObjectContext {
 		guard let moc = main.parent else { fatalError("Core Data not initialized") }
 		return moc
 	}
 
 	/// The default database is a singleton (points to the main bundle).
-	@objc
-	public static let shared = DB(bundle: Bundle.main)
+	@objc public static let shared = DB(bundle: Bundle.main)
 
 	/// The main context, equivalent of `DB.shared.main`
 	@available(*, renamed: "shared.main", message: "You should use the `main` variable on `DB.shared` instead.")
@@ -67,14 +67,14 @@ extension DB {
 	public func initialize(storeName: String) {
 		let store: CoreDataStore = .named(storeName)
 		let model: CoreDataObjectModel = .merged([bundle])
-		
+
 		do {
 			db = try CoreDataDefaultStorage(store: store, model: model)
 		} catch {
 			try? FileManager.default.removeItem(at: store.path() as URL)
 			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-shm")
 			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-wal")
-			
+
 			db = try? CoreDataDefaultStorage(store: store, model: model)
 		}
 	}

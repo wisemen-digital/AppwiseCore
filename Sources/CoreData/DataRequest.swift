@@ -21,15 +21,15 @@ public extension DataRequest {
 	///
 	/// - returns: the request
 	@available(*, deprecated, message: "Use `responseInsert` without a `NSManagedObjectContext` in the callback, and use the `Importable` protocol")
-	@discardableResult public func responseInsert<T: Insertable>(
+	@discardableResult
+	func responseInsert<T: Insertable>(
 		db: DB = DB.shared,
 		queue: DispatchQueue? = nil,
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		contextObject: Any? = nil,
 		completionHandler: @escaping (DataResponse<T>, NSManagedObjectContext, @escaping DB.SaveBlockWitCallback) -> Void)
-		-> Self
-	{
+		-> Self {
 		db.backgroundOperation { moc, save in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: moc, type: T.self) { response in
 				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer, contextObject: contextObject) { response in
@@ -50,15 +50,15 @@ public extension DataRequest {
 	/// - parameter completionHandler: The code to be executed once the request has finished.
 	///
 	/// - returns: the request
-	@discardableResult public func responseInsert<T: Insertable>(
+	@discardableResult
+	func responseInsert<T: Insertable>(
 		db: DB = DB.shared,
 		queue: DispatchQueue? = nil,
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		contextObject: Any? = nil,
 		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void)
-		-> Self
-	{
+		-> Self {
 		db.backgroundOperation { moc, save in
 			self.responseInsert(queue: queue, jsonSerializer: jsonSerializer, context: moc, type: T.self) { response in
 				response.handleImport(moc: moc, queue: queue, serializer: jsonSerializer, contextObject: contextObject) { response in
@@ -90,8 +90,7 @@ extension DataResponse {
 		queue: DispatchQueue?,
 		serializer: DataResponseSerializer<Any>,
 		contextObject: Any?,
-		completionHandler: @escaping (DataResponse<Value>) -> Void)
-	{
+		completionHandler: @escaping (DataResponse<Value>) -> Void) {
 		switch result {
 		case let .success(value as Importable):
 			moc.perform {

@@ -15,7 +15,8 @@ final class ConfigurationApplicationService<ConfigType: Config>: NSObject, Appli
 		ConfigType.shared.setupApplication()
 	}
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	// swiftlint:disable:next discouraged_optional_collection
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		ConfigType.shared.setupApplication()
 
 		return true

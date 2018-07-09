@@ -11,7 +11,8 @@ import UIKit
 
 /// Internal class for configuring the main queue for checking later
 final class ConfigureMainQueueApplicationService: NSObject, ApplicationService {
-	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	// swiftlint:disable:next discouraged_optional_collection
+	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		DispatchQueue.configureMainQueue()
 
 		return true

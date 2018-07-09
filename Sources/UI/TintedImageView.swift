@@ -12,8 +12,9 @@ class TintedImageView: AnimatableImageView {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 
-		let t = tintColor
+		// swiftlint:disable swiftgen_colors
+		let tint = tintColor
 		tintColor = #colorLiteral(red: 0.1, green: 0.2, blue: 0.3, alpha: 1)
-		tintColor = t
+		tintColor = tint
 	}
 }

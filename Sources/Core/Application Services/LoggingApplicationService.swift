@@ -11,13 +11,14 @@ import CrashlyticsRecorder
 
 /// Internal class for initializing the logging framework
 final class LoggingApplicationService: NSObject, ApplicationService {
-	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	// swiftlint:disable:next discouraged_optional_collection
+	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		if let tty = DDTTYLogger.sharedInstance {
 			tty.colorsEnabled = true
 			DDLog.add(tty)
 		}
 
-		if let _ = CrashlyticsRecorder.sharedInstance {
+		if CrashlyticsRecorder.sharedInstance != nil {
 			DDLog.add(CrashlyticsLogger.shared)
 		}
 
@@ -30,7 +31,8 @@ final class LoggingApplicationService: NSObject, ApplicationService {
 		}
 	}
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	// swiftlint:disable:next discouraged_optional_collection
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		if CrashlyticsRecorder.sharedInstance == nil {
 			DDLogError("CrashlyticsRecorder instance is missing!")
 		}

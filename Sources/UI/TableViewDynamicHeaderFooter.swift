@@ -36,7 +36,7 @@ public extension UITableView {
 	func updateHeaderViewHeight() {
 		guard let view = self.tableHeaderView as? ResizableTableHeaderFooterView else { return }
 
-		view.resizeToMatchContent() { [weak self] in
+		view.resizeToMatchContent { [weak self] in
 			self?.tableHeaderView = view
 		}
 	}
@@ -46,7 +46,7 @@ public extension UITableView {
 	func updateFooterViewHeight() {
 		guard let view = self.tableFooterView as? ResizableTableHeaderFooterView else { return }
 
-		view.resizeToMatchContent() { [weak self] in
+		view.resizeToMatchContent { [weak self] in
 			self?.tableFooterView = view
 		}
 	}

@@ -6,8 +6,8 @@
 //  Copyright © 2016 Appwise. All rights reserved.
 //
 
-import Foundation
 import CocoaLumberjack
+import Foundation
 
 public typealias Version = String
 
@@ -92,7 +92,7 @@ public extension Config {
 		// re-setup application
 		setupApplication()
 	}
-	
+
 	private var db: NSObject? {
 		guard let type = DBProxy.`class` as? NSObject.Type else { return nil }
 		return type.perform(DBProxy.shared).takeUnretainedValue() as? NSObject

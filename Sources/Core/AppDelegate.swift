@@ -9,14 +9,16 @@
 import CloudKit
 import UIKit
 
-extension UIApplication {
+// swiftlint:disable type_body_length file_length
+
+public extension UIApplication {
 	/// The document directory of your application
-	public var documentsDirectory: URL? {
+	var documentsDirectory: URL? {
 		return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
 	}
 
 	// The support directory of your application
-	public var supportDirectory: URL? {
+	var supportDirectory: URL? {
 		guard let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last,
 			let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String,
 			let escaped = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return nil }
@@ -48,7 +50,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		ConfigurationApplicationService<ConfigType>()
 	]
 	private lazy var allServices: [ApplicationService] = {
-		return self.services + self.internalServices
+		self.services + self.internalServices
 	}()
 
 	/// The document directory of your application
@@ -67,6 +69,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	// Based on https://github.com/fmo91/PluggableApplicationDelegate
 	// Last synced on 8 November 2017, commit 465ebe3
+	// swiftlint:disable discouraged_optional_boolean discouraged_optional_collection
 
 	public func applicationDidFinishLaunching(_ application: UIApplication) {
 		for service in allServices {
@@ -74,7 +77,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(application, willFinishLaunchingWithOptions: launchOptions) ?? false {
@@ -85,7 +88,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
-	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(application, didFinishLaunchingWithOptions: launchOptions) ?? false {
@@ -107,8 +110,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 			service.applicationWillResignActive?(application)
 		}
 	}
-	
-	public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+	public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(app, open: url, options: options) ?? false {
@@ -135,7 +138,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 			service.applicationSignificantTimeChange?(application)
 		}
 	}
-
 
 	public func application(_ application: UIApplication, willChangeStatusBarOrientation newStatusBarOrientation: UIInterfaceOrientation, duration: TimeInterval) {
 		for service in allServices {
@@ -181,7 +183,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	@available(iOS, introduced: 3.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate willPresentNotification:withCompletionHandler:] or -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:] for user visible notifications and -[UIApplicationDelegate application:didReceiveRemoteNotification:fetchCompletionHandler:] for silent remote notifications")
-	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
 		for service in allServices {
 			service.application?(application, didReceiveRemoteNotification: userInfo)
 		}
@@ -194,7 +196,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Swift.Void) {
 		allServices.apply({ (service, completion: @escaping (()) -> Void) -> Void? in
@@ -204,10 +205,9 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		})
 	}
 
-
 	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable : Any], withResponseInfo responseInfo: [AnyHashable : Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completion: @escaping (()) -> Void) -> Void? in
+	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
+		allServices.apply({ (service, _: @escaping (()) -> Void) -> Void? in
 			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, withResponseInfo: responseInfo, completionHandler: completionHandler)
 		}, completionHandler: { _ in
 			completionHandler()
@@ -215,7 +215,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable : Any], completionHandler: @escaping () -> Swift.Void) {
+	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
 		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
 			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
 		}, completionHandler: { _ in
@@ -224,7 +224,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, withResponseInfo responseInfo: [AnyHashable : Any], completionHandler: @escaping () -> Swift.Void) {
+	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
 		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
 			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo, completionHandler: completionHandler)
 		}, completionHandler: { _ in
@@ -232,30 +232,30 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		})
 	}
 
-	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
-		allServices.apply({ (service, completionHandler) -> Void? in
+	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
+		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
 		}, completionHandler: { results in
-			let result = results.min(by: { $0.rawValue < $1.rawValue }) ?? .noData
+			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
 			completionHandler(result)
 		})
 	}
 
 	public func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
-		allServices.apply({ (service, completionHandler) -> Void? in
+		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, performFetchWithCompletionHandler: completionHandler)
 		}, completionHandler: { results in
-			let result = results.min(by: { $0.rawValue < $1.rawValue }) ?? .noData
+			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
 			completionHandler(result)
 		})
 	}
 
 	public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Swift.Void) {
-		allServices.apply({ (service, completionHandler) -> Void? in
+		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, performActionFor: shortcutItem, completionHandler: completionHandler)
 		}, completionHandler: { results in
 			// if any service handled the shortcut, return true
-			let result = results.reduce(false, { $0 || $1 })
+			let result = results.reduce(false) { $0 || $1 }
 			completionHandler(result)
 		})
 	}
@@ -268,20 +268,20 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		})
 	}
 
-	public func application(_ application: UIApplication, handleWatchKitExtensionRequest userInfo: [AnyHashable : Any]?, reply: @escaping ([AnyHashable : Any]?) -> Swift.Void) {
+	public func application(_ application: UIApplication, handleWatchKitExtensionRequest userInfo: [AnyHashable: Any]?, reply: @escaping ([AnyHashable: Any]?) -> Swift.Void) {
 		for service in allServices {
 			service.application?(application, handleWatchKitExtensionRequest: userInfo, reply: reply)
 		}
-		allServices.apply({ (service, reply) -> Void? in
+		allServices.apply({ service, reply -> Void? in
 			service.application?(application, handleWatchKitExtensionRequest: userInfo, reply: reply)
 		}, completionHandler: { results in
-			let result = results.reduce([:], { initial, next in
+			let result = results.reduce([:]) { initial, next in
 				var initial = initial
 				for (key, value) in next ?? [:] {
 					initial[key] = value
 				}
 				return initial
-			})
+			}
 			reply(result)
 		})
 	}
@@ -379,14 +379,14 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Swift.Void) -> Bool {
-		let returns = allServices.apply({ (service, restorationHandler) -> Bool? in
+		let returns = allServices.apply({ service, restorationHandler -> Bool? in
 			service.application?(application, continue: userActivity, restorationHandler: restorationHandler)
 		}, completionHandler: { results in
-			let result = results.reduce([], { $0 + ($1 ?? []) })
+			let result = results.reduce([]) { $0 + ($1 ?? []) }
 			restorationHandler(result)
 		})
 
-		return returns.reduce(false, { $0 || $1 })
+		return returns.reduce(false) { $0 || $1 }
 	}
 
 	public func application(_ application: UIApplication, didFailToContinueUserActivityWithType userActivityType: String, error: Error) {

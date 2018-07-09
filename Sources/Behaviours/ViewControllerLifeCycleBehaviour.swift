@@ -14,19 +14,19 @@ import UIKit
 public protocol ViewControllerLifeCycleBehaviour {
 	/// Called at the end of `viewDidLoad()`
 	func afterLoading(viewController: UIViewController)
-	
+
 	/// Called at the end of `viewWillAppear(_:)`
 	func beforeAppearing(viewController: UIViewController, animated: Bool)
 
 	/// Called at the end of `viewDidAppear(_:)`
 	func afterAppearing(viewController: UIViewController, animated: Bool)
-	
+
 	/// Called at the end of `viewWillDisappear(_:)`
 	func beforeDisappearing(viewController: UIViewController, animated: Bool)
 
 	/// Called at the end of `viewDidDisappear(_:)`
 	func afterDisappearing(viewController: UIViewController, animated: Bool)
-	
+
 	/// Called at the end of `viewWillLayoutSubviews(_:)`
 	func beforeLayingOutSubviews(viewController: UIViewController)
 
@@ -46,13 +46,13 @@ public protocol ViewControllerLifeCycleBehaviour {
 /// Default empty implementations
 public extension ViewControllerLifeCycleBehaviour {
 	func afterLoading(viewController: UIViewController) {}
-	
+
 	func beforeAppearing(viewController: UIViewController, animated: Bool) {}
 	func afterAppearing(viewController: UIViewController, animated: Bool) {}
-	
+
 	func beforeDisappearing(viewController: UIViewController, animated: Bool) {}
 	func afterDisappearing(viewController: UIViewController, animated: Bool) {}
-	
+
 	func beforeLayingOutSubviews(viewController: UIViewController) {}
 	func afterLayingOutSubviews(viewController: UIViewController) {}
 

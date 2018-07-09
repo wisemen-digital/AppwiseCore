@@ -11,23 +11,23 @@ import UIKit
 /// UITabBarController that passes calls for orientation and status bar to it's selected
 /// view controller.
 open class TabBarController: UITabBarController {
-	open override var shouldAutorotate: Bool {
+	override open var shouldAutorotate: Bool {
 		return selectedViewController?.shouldAutorotate ?? super.shouldAutorotate
 	}
 
-	open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+	override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 		return selectedViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
 	}
 
-	open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+	override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
 		return selectedViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
-	open override var childViewControllerForStatusBarStyle: UIViewController? {
+	override open var childViewControllerForStatusBarStyle: UIViewController? {
 		return selectedViewController
 	}
 
-	open override var childViewControllerForStatusBarHidden: UIViewController? {
+	override open var childViewControllerForStatusBarHidden: UIViewController? {
 		return selectedViewController
 	}
 }

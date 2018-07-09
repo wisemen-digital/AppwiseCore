@@ -10,6 +10,7 @@ import Foundation
 
 // Credit to Joe Fabisevich for the original idea and implementation, which can be found here:
 // https://github.com/mergesort/TypedNotifications
+// Last check on 31st December 2017
 
 /// A protocol to define notifications that are sent around with our `NotificationCenter` extension functionality.
 public protocol TypedNotification {

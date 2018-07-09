@@ -10,8 +10,9 @@ import Foundation
 
 // Credit to John Sundell for the original implementation:
 // https://github.com/JohnSundell/Require
+// Last sync on 5 November 2017
 
-extension Optional {
+public extension Optional {
 	/// Require this optional to contain a non-nil value
 	///
 	/// This method will either return the value that this optional contains, or trigger
@@ -21,9 +22,11 @@ extension Optional {
 	///                   message generated in case nil was found.
 	///
 	/// - return: The value this optional contains.
-	public func require(hint hintExpression: @autoclosure () -> String? = nil,
-						file: StaticString = #file,
-						line: UInt = #line) -> Wrapped {
+	func require(
+		hint hintExpression: @autoclosure () -> String? = nil,
+		file: StaticString = #file,
+		line: UInt = #line
+	) -> Wrapped {
 		guard let unwrapped = self else {
 			var message = "Required value was nil in \(file), at line \(line)"
 

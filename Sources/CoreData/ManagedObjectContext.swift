@@ -30,7 +30,7 @@ public extension NSManagedObjectContext {
 		guard keys.count == 1, let key = keys.first else {
 			throw Error.unsupportedIdentityAttributes
 		}
-		
+
 		return first(key: key, value: value)
 	}
 
@@ -58,7 +58,7 @@ public extension NSManagedObjectContext {
 	/// - returns: The found object or nil.
 	public func first<T: Entity>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
 		let request = FetchRequest<T>(self, sortDescriptor: sortDescriptor, predicate: predicate, fetchLimit: 1)
-		
+
 		guard let result = try? request.fetch() else { return nil }
 		return result.first
 	}
@@ -72,7 +72,7 @@ public extension NSManagedObjectContext {
 		if item.objectID.isTemporaryID {
 			try item.managedObjectContext?.obtainPermanentIDs(for: [item])
 		}
-		
+
 		guard let result = try existingObject(with: item.objectID) as? T else {
 			throw Error.unableToCastObject(to: T.self)
 		}
@@ -101,21 +101,21 @@ public extension NSManagedObjectContext {
 	}
 }
 
-extension NSEntityDescription {
-	fileprivate var keysForUniquing: Set<String> {
+fileprivate extension NSEntityDescription {
+	var keysForUniquing: Set<String> {
 		var keys = Set<String>()
 		var entity: NSEntityDescription? = self
-		
-		while (entity != nil) {
+
+		while entity != nil {
 			if let identity = entity?.userInfo?["identityAttributes"] as? String {
 				identity.components(separatedBy: CharacterSet(charactersIn: " ,"))
 					.filter { !$0.isEmpty }
 					.forEach { keys.insert($0) }
 			}
-			
+
 			entity = entity?.superentity
 		}
-			
+
 		return keys
 	}
 }
