@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+## [0.9.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.0)
+
 ### Breaking
 
 * DB: AlamofireCoreData has been replaced by a built-in solution. This means that:
