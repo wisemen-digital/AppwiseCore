@@ -92,8 +92,8 @@ public extension NSManagedObjectContext {
 		}
 
 		let newIDs = Set<NSManagedObjectID>(
-			updatedObjects.flatMap { ($0 as? T)?.objectID } +
-			insertedObjects.flatMap { ($0 as? T)?.objectID }
+			updatedObjects.compactMap { ($0 as? T)?.objectID } +
+			insertedObjects.compactMap { ($0 as? T)?.objectID }
 		)
 
 		let fetched: [T] = try self.fetch(request)

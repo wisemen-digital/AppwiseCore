@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/cocoapods/v/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
 [![License](https://img.shields.io/cocoapods/l/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
 [![Platform](https://img.shields.io/cocoapods/p/AppwiseCore.svg?style=flat)](https://cocoapods.org/pods/AppwiseCore)
-[![Swift version](https://img.shields.io/badge/Swift-4-orange.svg)](https://cocoapods.org/pods/AppwiseCore)
+[![Swift version](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://cocoapods.org/pods/AppwiseCore)
 
 ## Example
 

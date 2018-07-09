@@ -23,6 +23,15 @@ open class NavigationController: UINavigationController {
 		return topViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
+	#if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+	override open var childForStatusBarStyle: UIViewController? {
+		return topViewController
+	}
+
+	override open var childForStatusBarHidden: UIViewController? {
+		return topViewController
+	}
+	#else
 	override open var childViewControllerForStatusBarStyle: UIViewController? {
 		return topViewController
 	}
@@ -30,4 +39,5 @@ open class NavigationController: UINavigationController {
 	override open var childViewControllerForStatusBarHidden: UIViewController? {
 		return topViewController
 	}
+	#endif
 }

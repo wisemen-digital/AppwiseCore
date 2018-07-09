@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file.
   * There's no longer a `responseInsert` call where you can provide your own `NSManagedObjectContext`.
 * Network: remove the old `responseInsert` functions where the completion block accepted a `NSManagedObjectContext` parameter. This has been replaced by the `didImport` functions on `Insertable` types. (see version [0.8.7](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.7))
 
+### New Features
+
+* Swift 4.2 and Xcode 10 support.
+
 ### Bug Fixes
 
 * AutoViewModel: add support for nested types.

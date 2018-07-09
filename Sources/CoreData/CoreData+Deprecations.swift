@@ -46,3 +46,12 @@ public extension DB {
 	static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
 	}
 }
+
+#if !(swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0)))
+public func <- <T: Insertable>( left: inout T!, right: MapValue?) {
+    if let mapValue = right {
+        let value: T? = mapValue.serialize()
+        left = value
+    }
+}
+#endif

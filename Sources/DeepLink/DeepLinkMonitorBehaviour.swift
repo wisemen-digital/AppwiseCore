@@ -43,7 +43,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 			viewController != selected && viewController.navigationController != selected {
 			DeepLinker.shared.removeFromStack(matchable)
 		} else if !wasTabBarVisible,
-			viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParentViewController {
+			viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParent {
 			DeepLinker.shared.removeFromStack(matchable)
 		}
 	}

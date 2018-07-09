@@ -89,7 +89,7 @@ public extension ManyInsertable where Self: Insertable {
             throw InsertError.invalidJSON(json)
         }
 
-        return array.flatMap { try? insert(from: $0, in: context) }
+        return array.compactMap { try? insert(from: $0, in: context) }
     }
 
 	static func didImport(items: [Any], from json: [Any], in context: ImportContext) throws {

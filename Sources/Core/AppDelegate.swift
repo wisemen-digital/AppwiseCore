@@ -77,7 +77,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(application, willFinishLaunchingWithOptions: launchOptions) ?? false {
@@ -88,7 +88,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
-	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(application, didFinishLaunchingWithOptions: launchOptions) ?? false {
@@ -111,7 +111,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+	public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(app, open: url, options: options) ?? false {
@@ -316,7 +316,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	public func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
+	public func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
 		var result = false
 		for service in allServices {
 			if service.application?(application, shouldAllowExtensionPointIdentifier: extensionPointIdentifier) ?? true {
@@ -326,6 +326,17 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
+	#if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
+		for service in allServices {
+			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {
+				return viewController
+			}
+		}
+
+		return nil
+	}
+	#else
 	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
 		for service in allServices {
 			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {
@@ -335,6 +346,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 		return nil
 	}
+	#endif
 
 	public func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
 		var result = false
@@ -378,7 +390,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
-	public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Swift.Void) -> Bool {
+	public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Swift.Void) -> Bool {
 		let returns = allServices.apply({ service, restorationHandler -> Bool? in
 			service.application?(application, continue: userActivity, restorationHandler: restorationHandler)
 		}, completionHandler: { results in
@@ -402,7 +414,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	@available(iOS 10.0, *)
-	public func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShareMetadata) {
+	public func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
 		for service in allServices {
 			service.application?(application, userDidAcceptCloudKitShareWith: cloudKitShareMetadata)
 		}

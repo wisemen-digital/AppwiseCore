@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '0.8.12'
+	s.version = '0.9.0'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 		:file => 'LICENSE'
 	}
 	s.ios.deployment_target = '9.0'
-	s.swift_version = '4.0'
+	s.swift_version = '4.2'
 	
 	# files
 	s.source = {

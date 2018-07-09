@@ -45,7 +45,7 @@ public final class DeepLinker {
 	}
 
 	func addToStack(_ matchable: DeepLinkMatchable, for path: String) {
-		guard !stack.flatMap({ $0.matchable }).contains(where: { $0.isEqual(matchable) }) else { return }
+		guard !stack.compactMap({ $0.matchable }).contains(where: { $0.isEqual(matchable) }) else { return }
 
 		stack = cleanupWeakReferences()
 		stack.append(DeepLinkStackItem(path: path, matchable: matchable))

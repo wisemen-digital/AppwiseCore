@@ -72,13 +72,13 @@ public extension UIViewController {
 		guard !behaviours.isEmpty else { return }
 		let behaviourViewController = LifecycleBehaviourViewController(behaviours: behaviours)
 
-		addChildViewController(behaviourViewController)
+		addChild(behaviourViewController)
 		behaviourViewController.view?.do {
 			$0.frame = view.bounds
 			$0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 			$0.translatesAutoresizingMaskIntoConstraints = true
 			view.insertSubview($0, at: 0)
 		}
-		behaviourViewController.didMove(toParentViewController: self)
+		behaviourViewController.didMove(toParent: self)
 	}
 }

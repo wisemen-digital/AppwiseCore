@@ -18,14 +18,7 @@ public func <- <T: Insertable>(left: inout T, right: MapValue?) {
     }
 }
 
-public func <- <T: Insertable>( left: inout T?, right: MapValue?) {
-    if let mapValue = right {
-        let value: T? = mapValue.serialize()
-        left = value
-    }
-}
-
-public func <- <T: Insertable>( left: inout T!, right: MapValue?) {
+public func <- <T: Insertable>(left: inout T?, right: MapValue?) {
     if let mapValue = right {
         let value: T? = mapValue.serialize()
         left = value
