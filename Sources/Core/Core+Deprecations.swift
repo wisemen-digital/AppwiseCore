@@ -9,7 +9,7 @@
 import CloudKit
 import UIKit
 
-#if !(swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0)))
+#if !(swift(>=4.2))
 public extension UIApplication {
     typealias LaunchOptionsKey = UIApplicationLaunchOptionsKey
     typealias OpenURLOptionsKey = UIApplicationOpenURLOptionsKey

@@ -326,7 +326,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
-	#if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+	#if swift(>=4.2)
 	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
 		for service in allServices {
 			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {

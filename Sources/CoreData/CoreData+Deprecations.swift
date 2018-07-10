@@ -47,7 +47,7 @@ public extension DB {
 	}
 }
 
-#if !(swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0)))
+#if !(swift(>=4.2))
 public func <- <T: Insertable>( left: inout T!, right: MapValue?) {
     if let mapValue = right {
         let value: T? = mapValue.serialize()
