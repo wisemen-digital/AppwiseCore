@@ -25,26 +25,33 @@ Pod::Spec.new do |s|
 	}
 	s.preserve_paths = ['Scripts/*', 'Sourcery/*']
 	s.default_subspec = 'Core', 'Behaviours', 'UI'
-	
-	# core spec
-	s.subspec 'Core' do |ss|
-		ss.source_files = 'Sources/Core/**/*.swift'
-		ss.pod_target_xcconfig = {
-			'SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]' => 'DEBUG'
-		}
-		
-		# dependencies
-		ss.dependency 'Alamofire'
-		ss.dependency 'CocoaLumberjack/Swift'
-		ss.dependency 'CrashlyticsRecorder'
-		ss.dependency 'Then'
-	end
 
 	# VC behaviours
 	s.subspec 'Behaviours' do |ss|
 		ss.source_files = 'Sources/Behaviours/**/*.swift'
 
 		# dependencies
+		ss.dependency 'AppwiseCore/Common'
+		ss.dependency 'Then'
+	end
+	
+	# Common files
+	s.subspec 'Common' do |ss|
+		ss.source_files = 'Sources/Common/**/*.swift'
+		ss.pod_target_xcconfig = {
+			'SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]' => 'DEBUG'
+		}
+	end
+	
+	# core spec
+	s.subspec 'Core' do |ss|
+		ss.source_files = 'Sources/Core/**/*.swift'
+		
+		# dependencies
+		ss.dependency 'AppwiseCore/Common'
+		ss.dependency 'Alamofire'
+		ss.dependency 'CocoaLumberjack/Swift'
+		ss.dependency 'CrashlyticsRecorder'
 		ss.dependency 'Then'
 	end
 	
@@ -53,6 +60,7 @@ Pod::Spec.new do |s|
 		ss.source_files = 'Sources/CoreData/**/*.swift'
 
 		# dependencies
+		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'Groot'
 		ss.dependency 'SugarRecord/CoreData'
@@ -64,6 +72,7 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Behaviours'
+		ss.dependency 'AppwiseCore/Common'
 	end
 	
 	# UI

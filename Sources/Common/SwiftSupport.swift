@@ -1,5 +1,5 @@
 //
-//  Deprecations.swift
+//  SwiftSupport.swift
 //  AppwiseCore
 //
 //  Created by David Jennes on 06/03/2017.
