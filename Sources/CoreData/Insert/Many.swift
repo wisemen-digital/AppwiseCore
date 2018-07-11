@@ -22,7 +22,7 @@ public struct Many<Element: ManyInsertable> {
 }
 
 extension Many: Insertable {
-    public static func insert(from json: Any, in context: ImportContext) throws -> Many<Element> {
+    public static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Many<Element> {
         guard let jsonArray = json as? JSONArray else {
             throw InsertError.invalidJSON(json)
         }
@@ -31,17 +31,30 @@ extension Many: Insertable {
 			.require(hint: "Insert result is not of type \([Element].self)")
         return Many(array)
     }
+}
 
-    public func didImport(from json: Any, in context: ImportContext) throws {
-        guard let jsonArray = json as? JSONArray else {
-            throw InsertError.invalidJSON(json)
-        }
+extension Many: Importable {
+	public func didImport(from data: Any, in context: ImportContext) throws {
+		guard Element.self is Importable.Type || Element.self is ManyImportable.Type else { return }
+		guard let data = data as? [Any] else { throw ImportError.dataIsIncorrectType }
 
-        for (item, importedData) in zip(array, jsonArray) {
-            try Element.didImport(item: item, json: importedData, context: context)
-        }
-        try Element.didImport(items: array, from: jsonArray, in: context)
-    }
+		// if many importable, iterate over each item, and call the general function with all items
+		if let array = self.array as? [ManyImportable],
+			let type = Element.self as? ManyImportable.Type {
+
+			for (importedData, importedItem) in zip(data, array) {
+				try type.didImport(item: importedItem, from: importedData, in: context)
+			}
+
+			try type.didImport(items: array, from: data, in: context)
+
+			// otherwise if items are importable, iterate over each item
+		} else if let array = self.array as? [Importable] {
+			for (importedData, importedItem) in zip(data, array) {
+				try importedItem.didImport(from: importedData, in: context)
+			}
+		}
+	}
 }
 
 // MARK: Array protocols

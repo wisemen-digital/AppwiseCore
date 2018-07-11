@@ -5,12 +5,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+### Breaking
+
+* DB: The `Importable` and `ManyImportable` protocols are back due to limitations in Swift.
+
 ## [0.9.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.0)
 
 ### Breaking
 
 * DB: AlamofireCoreData has been replaced by a built-in solution. This means that:
-  * The `Importable` and `ManyImportable` protocols have been merged into the `Insertable` and `ManyInsertable` protocols respectively.
+  * ~~The `Importable` and `ManyImportable` protocols have been merged into the `Insertable` and `ManyInsertable` protocols respectively.~~ This change was undone in 0.9.1 due to limitations in Swift.
   * There's no longer a `responseInsert` call where you can provide your own `NSManagedObjectContext`.
 * Network: remove the old `responseInsert` functions where the completion block accepted a `NSManagedObjectContext` parameter. This has been replaced by the `didImport` functions on `Insertable` types. (see version [0.8.7](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.8.7))
 

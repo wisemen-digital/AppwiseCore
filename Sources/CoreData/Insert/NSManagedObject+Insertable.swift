@@ -11,26 +11,26 @@ import Foundation
 import Groot
 
 extension NSManagedObject: Insertable {
-    public static func insert(from json: Any, in context: ImportContext) throws -> Self {
+    public static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Self {
         guard let dictionary = json as? JSONDictionary else {
             throw InsertError.invalidJSON(json)
         }
 
-        return try object(fromJSONDictionary: dictionary, inContext: context.moc)
+        return try object(fromJSONDictionary: dictionary, inContext: context)
     }
 }
 
 extension NSManagedObject: ManyInsertable {
-    public static func insertMany(from json: Any, in context: ImportContext) throws -> [Any] {
+    public static func insertMany(from json: Any, in context: NSManagedObjectContext) throws -> [Any] {
         guard let array = json as? JSONArray else {
             throw InsertError.invalidJSON(json)
         }
 
-        let entityName = context.moc.entityDescriptionForClass(self).name.require(hint: "Entity has no name")
+        let entityName = context.entityDescriptionForClass(self).name.require(hint: "Entity has no name")
 
         return try objects(withEntityName: entityName,
                            fromJSONArray: array,
-                           inContext: context.moc)
+                           inContext: context)
     }
 }
 

@@ -78,10 +78,13 @@ public extension DataRequest {
             }
 
             do {
-				let context = ImportContext(moc: moc, object: contextObject)
 				let data = result.value ?? [:]
-                let value: T = try T.insert(from: data, in: context)
-				try handleImport(value: value, data: data, context: context)
+                let value: T = try T.insert(from: data, in: moc)
+
+				if let value = value as? Importable {
+					let importContext = ImportContext(moc: moc, object: contextObject)
+					try handleImport(value: value, data: data, context: importContext)
+				}
                 return .success(value)
             } catch let error {
                 return .failure(error)
@@ -90,7 +93,7 @@ public extension DataRequest {
     }
 
 	/// Helper method to perform handleImport on context queue, and catch any resulting error.
-	fileprivate static func handleImport<T: Insertable>(value: T, data: Any, context: ImportContext) throws {
+	fileprivate static func handleImport(value: Importable, data: Any, context: ImportContext) throws {
 		var importError: Error?
 
 		context.moc.performAndWait {

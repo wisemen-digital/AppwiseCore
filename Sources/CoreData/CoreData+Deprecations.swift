@@ -9,19 +9,17 @@
 import Alamofire
 import CoreData
 
-@available(*, unavailable, renamed: "Insertable")
-public protocol Importable {
-	@available(*, deprecated, message: "didImport(from:in:)")
-	func didImport(data: Any, context: ImportContext) throws
+public extension Importable {
+	@available(*, unavailable, message: "didImport(from:in:)")
+	func didImport(data: Any, context: ImportContext) throws {}
 }
 
-@available(*, unavailable, renamed: "ManyInsertable")
-public protocol ManyImportable {
-	@available(*, deprecated, renamed: "didImport(item:from:in:)")
-	static func didImport(item: Any, data: Any, context: ImportContext) throws
+public extension ManyImportable {
+	@available(*, unavailable, renamed: "didImport(item:from:in:)")
+	static func didImport(item: Any, data: Any, context: ImportContext) throws {}
 
-	@available(*, deprecated, renamed: "didImport(items:from:in:)")
-	static func didImport(items: [Any], data: [Any], context: ImportContext) throws
+	@available(*, unavailable, renamed: "didImport(items:from:in:)")
+	static func didImport(items: [Any], data: [Any], context: ImportContext) throws {}
 }
 
 public extension DataRequest {

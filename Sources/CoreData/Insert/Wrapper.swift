@@ -21,7 +21,7 @@ public protocol Wrapper: Insertable {
 }
 
 public extension Wrapper {
-    static func insert(from json: Any, in context: ImportContext) throws -> Self {
+    static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Self {
         guard let jsonObject = json as? JSONDictionary else {
             throw InsertError.invalidJSON(json)
         }
@@ -51,7 +51,7 @@ public struct Map {
     internal var dictionary: [String: Any]
 
     /// The context that will be used to insert the Insertable objects
-    internal var context: ImportContext
+    internal var context: NSManagedObjectContext
 
     /// Returns a MapValue with the value at the given keypath. If the receiver doesn't have any value at this keypath it returns nil.
     /// If the value at the keypath is `NSNull` it will return a MapValue with a nil value
@@ -97,7 +97,7 @@ public struct MapValue {
     internal private(set) var originalValue: Any?
 
     /// The context that will be used to insert the `Insertable` objects
-    fileprivate var context: ImportContext
+    fileprivate var context: NSManagedObjectContext
 
     /**
      Serialize the receiver to a `Insertable` item
