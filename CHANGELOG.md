@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+## [0.9.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.1)
+
 ### Breaking
 
 * DB: The `Importable` and `ManyImportable` protocols are back due to limitations in Swift.
