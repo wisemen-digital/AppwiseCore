@@ -12,7 +12,7 @@ import CoreData
 // swiftlint:disable function_default_parameter_at_end
 
 public extension Importable {
-	@available(*, unavailable, message: "didImport(from:in:)")
+	@available(*, unavailable, renamed: "didImport(from:in:)")
 	func didImport(data: Any, context: ImportContext) throws {}
 }
 
@@ -46,6 +46,9 @@ public extension DB {
 	static func backgroundOperation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
 	}
 }
+
+@available(*, unavailable, message: "Many<MyStuff> is no longer neaded, use [MyStuff] instead.")
+public struct Many<Element: ManyInsertable> {}
 
 #if !(swift(>=4.2))
 public func <- <T: Insertable>( left: inout T!, right: MapValue?) {
