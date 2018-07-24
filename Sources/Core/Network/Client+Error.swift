@@ -19,7 +19,7 @@ public enum ClientError: Error, LocalizedError {
 		case .message(let message):
 			return message
 		case .unauthorized:
-			return "Unauthorized access, session may have expired."
+			return L10n.Client.Error.unauthorized
 		}
 	}
 }

@@ -1,0 +1,8 @@
+input_dir: Resources
+output_dir: Sources
+strings:
+  paths: Core/en.lproj/Localizable.strings
+  templatePath: Sources/strings.stencil
+  output: Core/Generated/Strings.swift
+  params:
+    bundle: AppwiseCore-Core

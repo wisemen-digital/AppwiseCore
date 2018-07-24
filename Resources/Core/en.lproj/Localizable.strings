@@ -1,0 +1,2 @@
+// ClientError translations
+"client.error.unauthorized" = "Unauthorized access, session may have expired.";

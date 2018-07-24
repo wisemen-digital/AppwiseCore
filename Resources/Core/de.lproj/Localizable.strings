@@ -1,0 +1,2 @@
+// ClientError translations
+"client.error.unauthorized" = "Nicht autorisierter Zugriff, Sitzung ist möglicherweise abgelaufen.";
