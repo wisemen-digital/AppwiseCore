@@ -8,13 +8,14 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Core: translate the user visible errors (such as unauthorized).
+* Core: added more network shortcut methods such as `requestJSON` and `requestString`.
 
 ## [0.9.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.2)
 
 ### New Features
 
 * Core: Add a method to extract an nice error from a server's response.
-* DB: Add a shortcut method for building a request, performing an insert and saving the result in one go. (see `Client.insertRequest(...)`)
+* DB: Add a shortcut method for building a request, performing an insert and saving the result in one go. (see `Client.requestInsert(...)`)
 
 ## [0.9.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.1)
 

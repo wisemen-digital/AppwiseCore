@@ -1,6 +1,6 @@
 //
 //  Client+Insert.swift
-//  Alamofire
+//  AppwiseCore
 //
 //  Created by David Jennes on 24/07/2018.
 //
@@ -18,9 +18,7 @@ public extension Client {
 	/// - parameter type:              The `Insertable` type that will be used in the serialization
 	/// - parameter contextObject:     The object to pass along to an import operation (see `ImportContext.object`)
 	/// - parameter completionHandler: The code to be executed once the request has finished.
-	///
-	/// - returns: The data request object
-	func insertRequest<T: Insertable>(
+	func requestInsert<T: Insertable>(
 		_ request: RouterType,
 		db: DB = DB.shared,
 		queue: DispatchQueue? = nil,
