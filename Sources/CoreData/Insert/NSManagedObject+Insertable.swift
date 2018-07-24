@@ -18,6 +18,14 @@ extension NSManagedObject: Insertable {
 
         return try object(fromJSONDictionary: dictionary, inContext: context)
     }
+
+	public func inContext(_ context: NSManagedObjectContext) throws -> Self {
+		return try inContext(value: self, context: context)
+	}
+
+	private func inContext<T: NSManagedObject>(value: T, context: NSManagedObjectContext) throws -> T {
+		return try context.inContext(value)
+	}
 }
 
 extension NSManagedObject: ManyInsertable {

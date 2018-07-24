@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Core: Add a method to extract an nice error from a server's response.
+* DB: Add a shortcut method for building a request, performing an insert and saving the result in one go. (see `Client.insertRequest(...)`)
 
 ## [0.9.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.1)
 

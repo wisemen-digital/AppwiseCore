@@ -111,6 +111,7 @@ public extension DataRequest {
 
 	/// Adds a handler to be called once the request has finished.
 	///
+	/// - parameter db:                The database to work in
 	/// - parameter queue:             The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter jsonSerializer:    The response JSON serializer
 	/// - parameter type:              The `Insertable` type that will be used in the serialization

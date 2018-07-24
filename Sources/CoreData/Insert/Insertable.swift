@@ -28,6 +28,13 @@ public protocol Insertable {
     ///
     /// - returns: The inserted object
     static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Self
+
+	/// Convert the object to a given context (see `NSManagedObjectContext.inContext(:)`).
+	///
+	/// - parameter context: The managed object context
+	///
+	/// - returns: The converted object
+	func inContext(_ context: NSManagedObjectContext) throws -> Self
 }
 
 /// Objects that can be bulk-inserted into a `NSManagedObjectContext` from a JSON array

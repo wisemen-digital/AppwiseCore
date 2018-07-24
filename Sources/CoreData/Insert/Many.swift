@@ -21,7 +21,7 @@ public struct Many<Element: ManyInsertable> {
     }
 }
 
-extension Many: Insertable {
+extension Many: Insertable where Element: Insertable {
     public static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Many<Element> {
         guard let jsonArray = json as? JSONArray else {
             throw InsertError.invalidJSON(json)
@@ -31,6 +31,11 @@ extension Many: Insertable {
 			.require(hint: "Insert result is not of type \([Element].self)")
         return Many(array)
     }
+
+	public func inContext(_ context: NSManagedObjectContext) throws -> Many<Element> {
+		let items = try array.compactMap { try $0.inContext(context) }
+		return Many(items)
+	}
 }
 
 extension Many: Importable {
