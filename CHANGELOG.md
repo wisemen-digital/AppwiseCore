@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+### New Features
+
+* Core: Add a method to extract an nice error from a server's response.
+
 ## [0.9.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.9.1)
 
 ### Breaking

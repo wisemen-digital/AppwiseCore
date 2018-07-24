@@ -20,6 +20,14 @@ public protocol Client {
 
 	/// The AlamoFire session manager for this client
 	var sessionManager: SessionManager { get }
+
+	/// Extract a readable error from the response in case of an error.
+	///
+	/// - parameter response: The data response
+	/// - parameter error: The existing error
+	///
+	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
+	static func extract<T>(from response: DataResponse<T>, error: Error) -> Error
 }
 
 public extension Client {
