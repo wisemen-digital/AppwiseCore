@@ -11,10 +11,8 @@ import CoreData
 /// The errors that can be thrown if
 ///
 /// - dataIsIncorrectType: The data used for import does not match the expected data type
-/// - elementIsIncorrectType: The element type of a `Many` isn't `ManyImportable`
 public enum ImportError: Error {
 	case dataIsIncorrectType
-	case elementIsIncorrectType
 }
 
 /// Extra context information for handling an import operation

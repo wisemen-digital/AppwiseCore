@@ -9,6 +9,8 @@
 import Alamofire
 import CoreData
 
+// swiftlint:disable function_default_parameter_at_end
+
 public extension Importable {
 	@available(*, unavailable, message: "didImport(from:in:)")
 	func didImport(data: Any, context: ImportContext) throws {}

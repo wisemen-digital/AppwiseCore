@@ -9,6 +9,7 @@ import Alamofire
 import CocoaLumberjack
 
 public extension Client {
+	// swiftlint:disable function_default_parameter_at_end
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
 	/// - parameter request:           The router request type

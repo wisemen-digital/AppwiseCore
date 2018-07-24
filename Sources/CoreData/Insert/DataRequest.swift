@@ -109,6 +109,7 @@ public extension DataRequest {
 		}
 	}
 
+	// swiftlint:disable function_default_parameter_at_end
 	/// Adds a handler to be called once the request has finished.
 	///
 	/// - parameter db:                The database to work in

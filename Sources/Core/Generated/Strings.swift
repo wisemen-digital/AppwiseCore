@@ -35,4 +35,3 @@ extension L10n {
 }
 
 private final class BundleToken {}
-
