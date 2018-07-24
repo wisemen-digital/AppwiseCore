@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+## [0.10.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.0)
+
 ### Breaking
 
 * DB: Removed the `Many` wrapper structure (for `Array`), as Swift no longer needs this (since 4.1). You can simply use `[MyStuff].self` instead of `Many<MyStuff>.self` during insert calls.
