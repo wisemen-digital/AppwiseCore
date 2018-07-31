@@ -15,7 +15,7 @@ import UIKit
 ///
 /// Note: You'll also need to implement this protocol even for items you don't want to deep link to,
 /// just to make the matcher system aware of what's currently visible and needs to be dismissed.
-public protocol DeepLinkMatchable: class, NSObjectProtocol {
+public protocol DeepLinkMatchable: AnyObject, NSObjectProtocol {
 	/// Dismiss a currently visible stack of items
 	///
 	/// - parameter items: The list of items to dismiss (you only need to dismiss the first one).
