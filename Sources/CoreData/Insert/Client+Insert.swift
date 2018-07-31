@@ -31,7 +31,7 @@ public extension Client {
 		buildRequest(request) { result in
 			switch result {
 			case let .success(request):
-				request.responseInsert(type: type, contextObject: contextObject) { response, save in
+				request.responseInsert(db: db, queue: queue, jsonSerializer: jsonSerializer, type: type, contextObject: contextObject) { response, save in
 					switch response.result {
 					case .success(let value):
 						save { error in

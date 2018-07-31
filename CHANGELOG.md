@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+### Bug Fixes
+
+* DB: fix insert requests with custom serializers and/or non-default databases, using the shortcut `requestInsert` method.
+
 ## [0.10.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.0)
 
 ### Breaking

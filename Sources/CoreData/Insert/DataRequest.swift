@@ -139,7 +139,7 @@ public extension DataRequest {
 					saveError = error
 				}
 
-				DispatchQueue.main.async {
+				(queue ?? DispatchQueue.main).async {
 					completion(saveError)
 				}
 			}

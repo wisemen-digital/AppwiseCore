@@ -17,7 +17,6 @@ public extension Client {
 	func requestData(
 		_ request: RouterType,
 		queue: DispatchQueue? = nil,
-		encoding: String.Encoding? = nil,
 		completionHandler: @escaping (Alamofire.Result<Data>) -> Void
 	) {
 		buildRequest(request) { result in
