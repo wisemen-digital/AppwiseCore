@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labes/AppwiseCore)
 
+## [0.10.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.2)
+
 ### New Features
 
 * Core: Add a new network shortcut for loading a `Decodable` object from JSON.
