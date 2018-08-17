@@ -7,6 +7,7 @@
 
 import Alamofire
 import CocoaLumberjack
+import CodableAlamofire
 
 public extension Client {
 	/// Shortcut method for building the request and loading the data.
@@ -55,6 +56,38 @@ public extension Client {
 			switch result {
 			case let .success(request):
 				request.responseJSON(queue: queue, options: options) { response in
+					switch response.result {
+					case .success(let value):
+						completionHandler(response.result)
+					case .failure(let error):
+						let error = Self.extract(from: response, error: error)
+						DDLogInfo(error.localizedDescription)
+						completionHandler(.failure(error))
+					}
+				}
+			case .failure(let error):
+				DDLogInfo("Error creating request: \(error.localizedDescription)")
+				completionHandler(.failure(error))
+			}
+		}
+	}
+
+	/// Shortcut method for building the request, parsing the JSON and decoding it into an object.
+	///
+	/// - parameter request:           The router request type
+	/// - parameter queue:             The queue on which the deserializer (and your completion handler) is dispatched.
+	/// - parameter keyPath:           The keyPath where object decoding should be performed. Default: `nil`.
+	/// - parameter completionHandler: The code to be executed once the request has finished.
+	func requestJSONDecodable<T: Decodable>(
+		_ request: RouterType,
+		queue: DispatchQueue? = nil,
+		keyPath: String? = nil,
+		completionHandler: @escaping (Alamofire.Result<T>) -> Void
+	) {
+		buildRequest(request) { result in
+			switch result {
+			case let .success(request):
+				request.responseDecodableObject(queue: queue, keyPath: keyPath) { (response: DataResponse<T>) in
 					switch response.result {
 					case .success(let value):
 						completionHandler(response.result)
