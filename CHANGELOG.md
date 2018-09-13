@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 `AppwiseCore` adheres to [Semantic Versioning](http://semver.org/).
 
-## [Master](https://github.com/appwise-labes/AppwiseCore)
+## [Master](https://github.com/appwise-labs/AppwiseCore)
+
+* AutoViewModel: better support for nested (and other) types.
 
 ## [0.10.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.2)
 

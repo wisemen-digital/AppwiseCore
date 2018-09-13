@@ -18,7 +18,7 @@ extension {{ type.name }} {
 	{% for var in modelType.storedVariables %}
 	{% set exists %}{% for typeVar in type.variables where typeVar.name == var.name %}exists{% endfor %}{% endset %}
 	{% if exists == "" %}
-	var {{ var.name }}: {% if var.type.name %}{{ var.type.name }}{% if var.isOptional %}?{% endif %}{% else %}{{ var.typeName }}{% endif %} {
+	var {{ var.name }}: {{ var.typeName.actualTypeName|default:var.typeName }} {
 		return data.{{ var.name }}
 	}
 	{% endif %}
