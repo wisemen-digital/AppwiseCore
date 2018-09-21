@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '0.10.2'
+	s.version = '0.10.3'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 	}
 	s.ios.deployment_target = '9.0'
 	s.swift_version = '4.2'
-	
+
 	# files
 	s.source = {
 		:git => 'https://github.com/appwise-labs/AppwiseCore.git',
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'Then'
 	end
-	
+
 	# Common files
 	s.subspec 'Common' do |ss|
 		ss.source_files = 'Sources/Common/**/*.swift'
@@ -42,14 +42,14 @@ Pod::Spec.new do |s|
 			'SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]' => 'DEBUG'
 		}
 	end
-	
+
 	# core spec
 	s.subspec 'Core' do |ss|
 		ss.source_files = 'Sources/Core/**/*.swift'
 		ss.resource_bundles = {
 			'AppwiseCore-Core' => ['Resources/Core/*.lproj']
 		}
-		
+
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'Alamofire'
@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
 		ss.dependency 'CrashlyticsRecorder'
 		ss.dependency 'Then'
 	end
-	
+
 	# coredata
 	s.subspec 'CoreData' do |ss|
 		ss.source_files = 'Sources/CoreData/**/*.swift'
@@ -78,11 +78,11 @@ Pod::Spec.new do |s|
 		ss.dependency 'AppwiseCore/Behaviours'
 		ss.dependency 'AppwiseCore/Common'
 	end
-	
+
 	# UI
 	s.subspec 'UI' do |ss|
 		ss.source_files = 'Sources/UI/**/*.swift'
-		
+
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'AppwiseCore/Behaviours'

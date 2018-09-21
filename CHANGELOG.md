@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.10.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.3)
+
 ### Bug Fixes
 
 * AutoViewModel: better support for nested (and other) types.
