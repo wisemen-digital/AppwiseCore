@@ -13,11 +13,15 @@ public enum ClientError: Error, LocalizedError {
 	case message(String)
 	/// In case of HTTP Status 401 or 403
 	case unauthorized
+	
+	case notfound
 
 	public var errorDescription: String? {
 		switch self {
 		case .message(let message):
 			return message
+		case .notFound:
+			return L10n.Client.Error.notfound
 		case .unauthorized:
 			return L10n.Client.Error.unauthorized
 		}
@@ -42,6 +46,10 @@ public extension Client {
 	static func extract<T>(from response: DataResponse<T>, error: Error) -> Error {
 		if let status = response.response?.statusCode, status == 401 || status == 403 {
 			return ClientError.unauthorized
+		}
+		
+		if let status = response.response?.statusCode, status == 404 {
+			return ClientError.notfound
 		}
 
 		guard let data = response.data else { return error }
