@@ -22,6 +22,14 @@ public enum ClientError: Error, LocalizedError {
 			return L10n.Client.Error.unauthorized
 		}
 	}
+
+	/// The underlying error as reported by serializers, Alamofire, ...
+	public var underlyingError: Error {
+		switch self {
+		case .message(_, let error), .unauthorized(let error):
+			return error
+		}
+	}
 }
 
 private enum Keys {
