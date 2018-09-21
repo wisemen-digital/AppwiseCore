@@ -16,7 +16,7 @@ public enum ClientError: Error, LocalizedError {
 
 	public var errorDescription: String? {
 		switch self {
-		case .message(let message):
+		case .message(let message, _):
 			return message
 		case .unauthorized:
 			return L10n.Client.Error.unauthorized

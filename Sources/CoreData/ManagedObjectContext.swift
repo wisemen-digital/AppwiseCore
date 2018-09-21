@@ -13,7 +13,7 @@ public extension NSManagedObjectContext {
 	public enum Error: Swift.Error {
 		case entityNotFound
 		case unsupportedIdentityAttributes
-		case unableToCastObject(to: Any)
+		case unableToCastObjectTo(type: NSManagedObject.Type)
 	}
 
 	/// Find the first object matching a given value, using the Groot unique key.
@@ -74,7 +74,7 @@ public extension NSManagedObjectContext {
 		}
 
 		guard let result = try existingObject(with: item.objectID) as? T else {
-			throw Error.unableToCastObject(to: T.self)
+			throw Error.unableToCastObjectTo(type: T.self)
 		}
 		return result
 	}

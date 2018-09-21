@@ -25,7 +25,7 @@ public extension Client {
 			case let .success(request):
 				request.responseData(queue: queue) { response in
 					switch response.result {
-					case .success(let value):
+					case .success:
 						completionHandler(response.result)
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
@@ -57,7 +57,7 @@ public extension Client {
 			case let .success(request):
 				request.responseJSON(queue: queue, options: options) { response in
 					switch response.result {
-					case .success(let value):
+					case .success:
 						completionHandler(response.result)
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
@@ -89,7 +89,7 @@ public extension Client {
 			case let .success(request):
 				request.responseDecodableObject(queue: queue, keyPath: keyPath) { (response: DataResponse<T>) in
 					switch response.result {
-					case .success(let value):
+					case .success:
 						completionHandler(response.result)
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
@@ -123,7 +123,7 @@ public extension Client {
 			case let .success(request):
 				request.responseString(queue: queue, encoding: encoding) { response in
 					switch response.result {
-					case .success(let value):
+					case .success:
 						completionHandler(response.result)
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
