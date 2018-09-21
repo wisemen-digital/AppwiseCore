@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Then'
+		ss.dependency 'Then', '~> 2.3'
 	end
 
 	# Common files
@@ -52,11 +52,11 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Alamofire'
-		ss.dependency 'CocoaLumberjack/Swift'
-		ss.dependency 'CodableAlamofire'
-		ss.dependency 'CrashlyticsRecorder'
-		ss.dependency 'Then'
+		ss.dependency 'Alamofire', '~> 4.7'
+		ss.dependency 'CocoaLumberjack/Swift', '~> 3.4'
+		ss.dependency 'CodableAlamofire', '~> 1.1'
+		ss.dependency 'CrashlyticsRecorder', '~> 2.2'
+		ss.dependency 'Then', '~> 2.3'
 	end
 
 	# coredata
@@ -66,8 +66,8 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'AppwiseCore/Core'
-		ss.dependency 'Groot'
-		ss.dependency 'SugarRecord/CoreData'
+		ss.dependency 'Groot', '~> 3.0'
+		ss.dependency 'SugarRecord/CoreData', '~> 3.1'
 	end
 
 	# deeplinking
@@ -86,6 +86,6 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'AppwiseCore/Behaviours'
-		ss.dependency 'IBAnimatable'
+		ss.dependency 'IBAnimatable', '~> 5.2'
 	end
 end
