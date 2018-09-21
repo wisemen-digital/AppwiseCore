@@ -10,18 +10,14 @@ import Alamofire
 /// Potential extra errors returned by `Client.extract(from:error)`
 public enum ClientError: Error, LocalizedError {
 	/// Message from response
-	case message(String)
+	case message(String, underlyingError: Error)
 	/// In case of HTTP Status 401 or 403
-	case unauthorized
-	
-	case notfound
+	case unauthorized(underlyingError: Error)
 
 	public var errorDescription: String? {
 		switch self {
 		case .message(let message):
 			return message
-		case .notFound:
-			return L10n.Client.Error.notfound
 		case .unauthorized:
 			return L10n.Client.Error.unauthorized
 		}
@@ -45,11 +41,7 @@ public extension Client {
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
 	static func extract<T>(from response: DataResponse<T>, error: Error) -> Error {
 		if let status = response.response?.statusCode, status == 401 || status == 403 {
-			return ClientError.unauthorized
-		}
-		
-		if let status = response.response?.statusCode, status == 404 {
-			return ClientError.notfound
+			return ClientError.unauthorized(underlyingError: error)
 		}
 
 		guard let data = response.data else { return error }
@@ -57,12 +49,12 @@ public extension Client {
 
 		if let json = json as? [[String: Any]],
 			let message = json.first?[Keys.message] as? String {
-			return ClientError.message(message)
+			return ClientError.message(message, underlyingError: error)
 		} else if let json = json as? [String: Any],
 			let message = json[Keys.message] as? String {
-			return ClientError.message(message)
+			return ClientError.message(message, underlyingError: error)
 		} else if let message = String(data: data, encoding: .utf8), !message.isEmpty {
-			return ClientError.message(message)
+			return ClientError.message(message, underlyingError: error)
 		} else {
 			return error
 		}
