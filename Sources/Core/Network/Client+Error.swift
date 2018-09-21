@@ -55,13 +55,13 @@ public extension Client {
 		guard let data = response.data else { return error }
 		let json = try? JSONSerialization.jsonObject(with: data, options: [])
 
-		if let json = json as? [[String: String]],
-			let message = json.first?[Keys.message] {
+		if let json = json as? [[String: Any]],
+			let message = json.first?[Keys.message] as? String {
 			return ClientError.message(message)
-		} else if let json = json as? [String: String],
-			let message = json[Keys.message] {
+		} else if let json = json as? [String: Any],
+			let message = json[Keys.message] as? String {
 			return ClientError.message(message)
-		} else if let message = String(data: data, encoding: .utf8) {
+		} else if let message = String(data: data, encoding: .utf8), !message.isEmpty {
 			return ClientError.message(message)
 		} else {
 			return error
