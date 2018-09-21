@@ -1,2 +1,3 @@
 // ClientError translations
 "client.error.unauthorized" = "Accès non autorisé, la session a peut-être expiré.";
+"client.error.notfound" = "Indisponible";

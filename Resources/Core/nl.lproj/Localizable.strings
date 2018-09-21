@@ -1,2 +1,3 @@
 // ClientError translations
 "client.error.unauthorized" = "Ongeautoriseerde toegang, sessie is mogelijk verlopen.";
+"client.error.notfound" = "Pagina niet gevonden";

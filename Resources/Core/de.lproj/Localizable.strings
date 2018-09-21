@@ -1,2 +1,3 @@
 // ClientError translations
 "client.error.unauthorized" = "Nicht autorisierter Zugriff, Sitzung ist möglicherweise abgelaufen.";
+"client.error.notfound" = "Nicht gefunden";
