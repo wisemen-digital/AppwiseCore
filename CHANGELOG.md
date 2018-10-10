@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### New Features
+
+* DB: `Map` (used by `Wrapper`) `context` property is now public, so you can access the context during an import.
+
 ## [0.10.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.3)
 
 ### Bug Fixes

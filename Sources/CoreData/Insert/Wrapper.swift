@@ -51,7 +51,7 @@ public struct Map {
     internal var dictionary: [String: Any]
 
     /// The context that will be used to insert the Insertable objects
-    internal var context: NSManagedObjectContext
+    public internal(set) var context: NSManagedObjectContext
 
     /// Returns a MapValue with the value at the given keypath. If the receiver doesn't have any value at this keypath it returns nil.
     /// If the value at the keypath is `NSNull` it will return a MapValue with a nil value
