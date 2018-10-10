@@ -99,6 +99,29 @@ public extension NSManagedObjectContext {
 		let fetched: [T] = try self.fetch(request)
 		return fetched.filter { !newIDs.contains($0.objectID) }
 	}
+
+	/// Delete all objects of a certain type, using a batch delete.
+	///
+	/// - parameter entity: The entity type to delete all instances of.
+	/// - parameter resultType: The desired batch delete result type. (default:
+	///                         `.resultTypeStatusOnly`)
+	/// - returns: The result of the batch delete request.
+	///
+	/// - warning: This may not be directly visible in your current until it's
+	///            sync'ed with the persistent store. You can use either
+	///            `NSManagedObjectContext.reset()` or use the result of the batch
+	///            request by setting the result type to `.resultTypeObjectIDs`.
+	@discardableResult
+	public func removeAll<T: NSManagedObject>(of entity: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
+		let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: T.entityName)
+		let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+		deleteRequest.resultType = resultType
+
+		guard let result = try execute(deleteRequest) as? NSBatchDeleteResult else {
+			fatalError("Must be a batch delete result")
+		}
+		return result
+	}
 }
 
 fileprivate extension NSEntityDescription {

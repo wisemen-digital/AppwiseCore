@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * DB: `Map` (used by `Wrapper`) `context` property is now public, so you can access the context during an import.
+* DB: Added a `NSManagedObjectContext.removeAll(of:)` method that uses a batch delete request. Note: this delete won't automatically trigger an update of your context.
 
 ## [0.10.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.3)
 
