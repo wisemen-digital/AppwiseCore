@@ -32,7 +32,6 @@ public extension UIApplication {
 /// Expects a generic parameter for the type of `Config` you'll be using.
 open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The shared application delegate
-	@available(iOS 8.0, *)
 	public static var shared: AppDelegate {
 		let result = UIApplication.shared.delegate as? AppDelegate
 		return result.require(hint: "Unable to cast app delegate to correct type")
@@ -54,13 +53,11 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}()
 
 	/// The document directory of your application
-	@available(iOS 8.0, *)
 	public var documentsDirectory: URL {
 		return UIApplication.shared.documentsDirectory.require(hint: "Application requires a documents directory")
 	}
 
 	// The support directory of your application
-	@available(iOS 8.0, *)
 	public var supportDirectory: URL {
 		return UIApplication.shared.supportDirectory.require(hint: "Application requires an application support directory")
 	}
