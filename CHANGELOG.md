@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.10.6](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.6)
+
 ### Bug Fixes
 
 * DeepLink: fix a crash when opening a link if the stack was empty (i.e. on app startup).
