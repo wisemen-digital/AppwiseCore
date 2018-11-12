@@ -104,7 +104,8 @@ extension DeepLinker {
 
 		// if common > stack -> build stack up
 		let lastCommon = stack.index(before: firstDifferent)
-		guard let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon, animated: animated) else {
+		guard lastCommon >= 0,
+			let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon, animated: animated) else {
 			return false
 		}
 
