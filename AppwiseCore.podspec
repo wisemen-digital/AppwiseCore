@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 		:submodules => true
 	}
 	s.preserve_paths = ['Scripts/*', 'Sourcery/*']
-	s.default_subspec = 'Core', 'Behaviours', 'UI'
+	s.default_subspec = 'Core', 'Behaviours', 'UI', 'UIApplication'
 
 	# VC behaviours
 	s.subspec 'Behaviours' do |ss|
@@ -87,5 +87,13 @@ Pod::Spec.new do |s|
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'AppwiseCore/Behaviours'
 		ss.dependency 'IBAnimatable', '~> 5.2'
+	end
+
+	# UIApplication
+	s.subspec 'UIApplication' do |ss|
+		ss.source_files = 'Sources/UIApplication/**/*.swift'
+
+		# dependencies
+		ss.dependency 'AppwiseCore/Core'
 	end
 end

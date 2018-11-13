@@ -11,22 +11,6 @@ import UIKit
 
 // swiftlint:disable type_body_length file_length
 
-public extension UIApplication {
-	/// The document directory of your application
-	var documentsDirectory: URL? {
-		return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-	}
-
-	// The support directory of your application
-	var supportDirectory: URL? {
-		guard let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last,
-			let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String,
-			let escaped = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return nil }
-
-		return URL(string: escaped, relativeTo: dir)
-	}
-}
-
 /// An implementation of the application delegate, that automatically integrates with application services and the `Config` you provide.
 ///
 /// Expects a generic parameter for the type of `Config` you'll be using.
@@ -53,13 +37,15 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}()
 
 	/// The document directory of your application
+	@available(*, deprecated, message: "Please use FileManager.default.documentsDirectory instead")
 	public var documentsDirectory: URL {
-		return UIApplication.shared.documentsDirectory.require(hint: "Application requires a documents directory")
+		return FileManager.default.documentsDirectory.require(hint: "Application requires a documents directory")
 	}
 
 	// The support directory of your application
+	@available(*, deprecated, message: "Please use FileManager.default.supportDirectory instead")
 	public var supportDirectory: URL {
-		return UIApplication.shared.supportDirectory.require(hint: "Application requires an application support directory")
+		return FileManager.default.supportDirectory.require(hint: "Application requires an application support directory")
 	}
 
 	// MARK: UIApplicationDelegate

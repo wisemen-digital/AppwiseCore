@@ -22,7 +22,7 @@ final class AddSkipBackupAttributeApplicationService: NSObject, ApplicationServi
 
 	private func addSkipBackupAttributeToAppSupportDirectory() {
 		do {
-			guard let supportDirectory = UIApplication.shared.supportDirectory else { return }
+			guard let supportDirectory = FileManager.default.supportDirectory else { return }
 			let mgr = FileManager.default
 
 			// create support directory if needed
