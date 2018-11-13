@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Core: split off the application delegate and services into a separate subspec `UIApplication`, so that the `Core` subspec can be used in application extensions.
+* Behaviours: added a new `RefreshOnAppearBehaviour`, that by default will only trigger a refresh if the appear is **not** from a pop navigation.
 
 ## [0.10.6](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.10.6)
 
