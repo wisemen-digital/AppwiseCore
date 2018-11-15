@@ -10,31 +10,38 @@ import Foundation
 
 infix operator <-
 
-// MARK: Insertable Operator
-public func <- <T: Insertable>(left: inout T, right: MapValue?) {
-    if let mapValue = right {
-        let value: T? = mapValue.serialize()
-		left = value.require(hint: "Unable to serialze value")
-    }
-}
+public extension Optional where Wrapped == MapValue {
 
-public func <- <T: Insertable>(left: inout T?, right: MapValue?) {
-    if let mapValue = right {
-        let value: T? = mapValue.serialize()
-        left = value
-    }
-}
+	// MARK: Insertable Operator
 
-// MARK: Generic operator
-public func <- <T>(left: inout T, right: MapValue?) {
-    left <- (right, { $0 })
-}
+	static func <- <T: Insertable>(left: inout T, right: MapValue?) {
+		if let mapValue = right {
+			let value: T? = mapValue.serialize()
+			left = value.require(hint: "Unable to serialze value")
+		}
+	}
 
-public func <- <T: ExpressibleByNilLiteral> (left: inout T, right: MapValue?) {
-    left <- (right, { $0 })
+	static func <- <T: Insertable>(left: inout T?, right: MapValue?) {
+		if let mapValue = right {
+			let value: T? = mapValue.serialize()
+			left = value
+		}
+	}
+
+	// MARK: Generic operator
+
+	static func <- <T>(left: inout T, right: MapValue?) {
+		left <- (right, { $0 })
+	}
+
+	static func <- <T: ExpressibleByNilLiteral> (left: inout T, right: MapValue?) {
+		left <- (right, { $0 })
+	}
 }
 
 // MARK: Generic operator with converter
+
+// swiftlint:disable:next static_operator
 public func <- <T, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) {
     guard let mapValue = right.mapValue else {
         return
@@ -45,6 +52,7 @@ public func <- <T, R>(left: inout T, right: (mapValue: MapValue?, transformer: (
     left = transformedValue as T
 }
 
+// swiftlint:disable:next static_operator
 public func <- <T: ExpressibleByNilLiteral, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) {
     guard let mapValue = right.mapValue else {
         return
