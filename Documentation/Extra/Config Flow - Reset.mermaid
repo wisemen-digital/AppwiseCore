@@ -1,0 +1,13 @@
+sequenceDiagram
+
+participant User
+participant Config
+participant Settings
+participant DB
+
+User->>Config: resetApplication()
+activate Config
+Config->>Settings: reset()
+Config->>DB: reset()
+Config-->>Config: tearDownForReset()
+deactivate Config

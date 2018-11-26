@@ -1,0 +1,17 @@
+sequenceDiagram
+
+participant AppDelegate
+participant Config
+participant Settings
+participant DB
+
+AppDelegate->>Config: setupApplication()
+activate Config
+Config->>Settings: load()
+activate Settings
+Settings->>Settings: Load defaults from bundle
+deactivate Settings
+Config->>DB: initialize()
+Config-->>Config: initialize()
+Config->>AppDelegate: setupApplication() Done
+deactivate Config

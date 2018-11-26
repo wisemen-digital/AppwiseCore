@@ -1,0 +1,29 @@
+sequenceDiagram
+
+participant AppDelegate
+participant Config
+participant Settings
+participant DB
+
+AppDelegate->>Config: setupApplication()
+activate Config
+Config->Settings: shouldReset?
+opt Reset needed
+    Config->>Config: resetApplication()
+    activate Config
+    Config->>Settings: reset()
+    Config->>DB: reset()
+    Config-->>Config: tearDownForReset()
+    deactivate Config
+end
+Config->>Settings: load()
+activate Settings
+opt Version Changed
+    Settings-->>Config: handleUpdate(from:, to:)
+end
+Settings->>Settings: Load defaults from bundle
+deactivate Settings
+Config->>DB: initialize()
+Config-->>Config: initialize()
+Config->>AppDelegate: setupApplication() Done
+deactivate Config

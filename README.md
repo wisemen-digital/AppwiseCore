@@ -37,55 +37,26 @@ Then, run the following command:
 $ bundle exec pod install
 ```
 
-
 ## Usage
-
-Create an implementation of the `Config` protocol, and a subclass of the generic `AppDelegate` class (referencing your config type). If you use networking functionality, it's recommended to use the `Router` and `Client` types.
-
-If you need database functionality, additionally add the "AppwiseCore/CoreData" dependency. It will automatically be initialised as long as you've implemented the AppDelegate & Config types.
 
 We recommend you take a look at the [Example](https://github.com/appwise-labs/AppwiseCore-Example) project, it contains most of the basic structure we use in each project.
 
-### Fabric integration
+The library is split up into a few sub libraries, mostly one for each purpose:
 
-When using AppwiseCore, you'll want to add Crashlytics logging to your project. To do so, add (and use) the following application service (see [source](https://github.com/appwise-labs/AppwiseCore-Example/blob/master/Example/Application/Sources/Application%20Services/FabricApplicationService.swift)):
+- [Common](Documentation/Common.md): Common code and utilities.
+- [UIApplication](Documentation/UIApplication.md): Pluggable app delegate (application services).
+- [Core](Documentation/Core.md): The main library, things like Config, Settings, Networking, ...
+- [CoreData](Documentation/CoreData.md): Integration with core data and groot, Importable and other helpers.
+- [UI](Documentation/UI.md): Some fixes for UIKit weirdness.
+- [Behaviours](Documentation/Behaviours.md): Mechanism for using common code in multiple controllers, with some built-in behaviours.
+- [DeepLink](Documentation/DeepLink.md): Simple deep linking library.
 
-```swift
-import AppwiseCore
-import Crashlytics
-import CrashlyticsRecorder
-import Fabric
-
-final class FabricApplicationService: NSObject, ApplicationService {
-	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
-		Fabric.with([Crashlytics()])
-		_ = CrashlyticsRecorder.createSharedInstance(crashlytics: Crashlytics.sharedInstance())
-		_ = AnswersRecorder.createSharedInstance(answers: Answers.self)
-
-		return true
-	}
-}
-
-// MARK: - Conform Crashlytics & Fabric to recorder protocol
-
-extension Crashlytics: CrashlyticsProtocol {
-	public func log(_ format: String, args: CVaListPointer) {
-		#if DEBUG
-			CLSNSLogv(format, args)
-		#else
-			CLSLogv(format, args)
-		#endif
-	}
-}
-
-extension Answers: AnswersProtocol {
-}
-```
 
 ## Authors
 
 * [David Jennes](https://github.com/djbe)
 * [Jonas Beckers](https://github.com/jonasbeckers)
+* [Tom Knapen](https://github.com/wassup-)
 
 This framework contains source code based on:
 
