@@ -33,16 +33,13 @@ final class MyConfig: Config {
   static var shared = MyConfig()
 
   func handleUpdate(from old: Version, to new: Version) {
-    let components = old.components(separatedBy: ".")
-    let old = (major: Int(components[0]) ?? 0, minor: Int(components[1]) ?? 0, bugfix: Int(components[2]) ?? 0)
-
     // migrating from major 1
-    if old.major < 2 {
+    if old < Version(2, 0, 0) {
       moveDataStore()
     }
 
     // fix a bug in 1.2.x
-    if old.major == 1 && old.minor == 2 {
+    if (Version(1, 2, 0)..<Version(1, 3, 0)).contains(old) {
       fixBugIn12()
     }
   }

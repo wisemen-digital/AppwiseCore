@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* Core: the `Version` provided by `Config.handleUpdate(from:, to:)` and `Config.appVersion` is now an actual structured type, instead of a plain string.
+
 ### Internal
 
 * Update to SwiftLint 0.28.

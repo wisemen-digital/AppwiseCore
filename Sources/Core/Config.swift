@@ -9,8 +9,6 @@
 import CocoaLumberjack
 import Foundation
 
-public typealias Version = String
-
 /// This protocol complements the `AppDelegate` class, and should be where you place all code
 /// related to the configuration of your application.
 public protocol Config {
@@ -116,8 +114,9 @@ public extension Config {
 
 	/// The version of the application, taken from the info dictionary.
 	var appVersion: Version {
-		guard let value = Bundle.main.infoDictionary?[InfoKeys.shortVersion] as? String else { return "" }
-		return value
+		return Bundle.main.infoDictionary?[InfoKeys.shortVersion]
+			.flatMap({ $0 as? String })
+			.flatMap(Version.init(string:)) ?? Version(0, 0, 0)
 	}
 
 	/// The build version of the application, taken from the info dictionary.

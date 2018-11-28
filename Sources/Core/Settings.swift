@@ -6,6 +6,7 @@
 //  Copyright © 2016 Appwise. All rights reserved.
 //
 
+import CocoaLumberjack
 import Foundation
 
 /// This is a light layer over the UserDefaults framework, that'll load any settings you have
@@ -15,6 +16,7 @@ public struct Settings {
 		case reset = "reset_app"
 		case resourceTimestamps
 		case version
+		case lastVersion
 	}
 
 	/// `Settings` is a singleton.
@@ -25,19 +27,18 @@ public struct Settings {
 
 	internal mutating func load<C: Config>(with config: C) {
 		// version check
-		let old = version?.components(separatedBy: " ").first
 		let new = config.appVersion
-		if let old = old,
-			old.compare(new, options: .numeric) == .orderedAscending {
+		if let old = lastVersion, old < new {
 			config.handleUpdate(from: old, to: new)
 		}
 		version = "\(config.appVersion) (\(config.appBuild))"
+		lastVersion = config.appVersion
 
 		// try to load settings bundle
 		guard let bundle = Bundle.main.path(forResource: "Settings", ofType: "bundle") as NSString?,
 			let settings = NSDictionary(contentsOfFile: bundle.appendingPathComponent("Root.plist")),
 			let preferences = settings["PreferenceSpecifiers"] as? [[String: Any]] else {
-				//DDLogError("Could not find Settings.bundle")
+				DDLogError("Could not find Settings.bundle")
 				return
 		}
 
@@ -49,7 +50,6 @@ public struct Settings {
 			data[key] = specification["DefaultValue"]
 		}
 		defaults.register(defaults: data)
-		defaults.synchronize()
 	}
 
 	internal func reset() {
@@ -63,17 +63,27 @@ public struct Settings {
 		}
 		set {
 			defaults.set(false, forKey: DefaultsKey.reset.rawValue)
-			defaults.synchronize()
 		}
 	}
 
-	private var version: Version? {
+	private var version: String? {
 		get {
 			return defaults.string(forKey: DefaultsKey.version.rawValue)
 		}
 		set {
 			defaults.set(newValue, forKey: DefaultsKey.version.rawValue)
-			defaults.synchronize()
+		}
+	}
+
+	private var lastVersion: Version? {
+		get {
+			// fallback to readable version if needed
+			let string = defaults.string(forKey: DefaultsKey.lastVersion.rawValue) ??
+				version?.components(separatedBy: " ").first
+			return string.flatMap(Version.init(string:))
+		}
+		set {
+			defaults.set(newValue, forKey: DefaultsKey.lastVersion.rawValue)
 		}
 	}
 }
@@ -95,6 +105,5 @@ extension Settings {
 
 		timestamps[key(router: router)] = timestamp
 		defaults.set(timestamps, forKey: DefaultsKey.resourceTimestamps.rawValue)
-		defaults.synchronize()
 	}
 }
