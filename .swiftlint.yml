@@ -1,3 +1,5 @@
+swiftlint_version: 0.29.3
+
 disabled_rules:
   - line_length
 
@@ -5,11 +7,12 @@ opt_in_rules:
   - anyobject_protocol
   - array_init
   - attributes
-  - collection_alignment
-  - convenience_type
+  - closure_body_length
   - closure_end_indentation
   - closure_spacing
+  - collection_alignment
   - contains_over_first_not_nil
+  - convenience_type
   - discouraged_optional_boolean
   - discouraged_optional_collection
   - empty_count
@@ -22,14 +25,19 @@ opt_in_rules:
   - function_default_parameter_at_end
   - identical_operands
   - implicit_return
+  - inert_defer
   - joined_default_parameter
+  - last_where
+  - legacy_hashing
   - legacy_random
   - literal_expression_end_indentation
   - lower_acl_than_parent
   - modifier_order
   - multiline_arguments
   - multiline_function_chains
+  - multiline_literal_brackets
   - multiline_parameters
+  - multiline_parameters_brackets
   - nimble_operator
   - number_separator
   - object_literal
@@ -39,6 +47,7 @@ opt_in_rules:
   - pattern_matching_keywords
   - prohibited_super_call
   - redundant_nil_coalescing
+  - redundant_objc_attribute
   - sorted_first_last
   - sorted_imports
   - static_operator
@@ -46,7 +55,11 @@ opt_in_rules:
   - trailing_closure
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
+  - unused_control_flow_label
   - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - xct_specific_matcher
   - yoda_condition
 
 excluded:
@@ -62,9 +75,36 @@ identifier_name:
 custom_rules:
   swiftgen_assets:
     name: "SwiftGen Assets"
-    regex: '(?:UIImage\(named: ".+"\))|(?:#imageLiteral\(resourceName: ".+"\))|(?:UIColor\(named: ".+"\))'
+    regex: '(UIImage|UIColor)(\.init)?\(named: ?"?.+"?(, ?in:.+?, ?compatibleWith:.+?)?\)|#imageLiteral\(resourceName: ?".+"\)'
     message: "Use Asset.<asset> instead"
+    severity: error
   swiftgen_colors:
     name: "SwiftGen Colors"
-    regex: '(?:#colorLiteral\(red: .+?, green: .+?, blue: .+?, alpha: .+?\))'
+    regex: '(UIColor(\.init)?|#colorLiteral)\(((red|displayP3Red):.+?,green:.+?,blue:.+?,alpha:.+?)|(white:.+?,alpha:.+?)|(hue:.+?,saturation:.+?,brightness:.+?,alpha:.+?)\)'
     message: "Use ColorName.<color> instead"
+    severity: error
+  swiftgen_fonts:
+    name: "SwiftGen Fonts"
+    regex: 'UIFont(\.init)?\(name: ?"?.+"?, ?size:.+?\)'
+    message: "Use FontFamily.<family>.<variant>.size(<size>) instead"
+    severity: error
+  swiftgen_storyboard_scenes:
+    name: "SwiftGen Storyboard Scenes"
+    regex: '(UIStoryboard\(name: ?"?.+"?, ?bundle:.+\))|(instantiateViewController\(withIdentifier:.+?\))|(instantiateInitialViewController\(\))'
+    message: "Use StoryboardScene.<storyboad>.<scene>.instantiate() instead"
+    severity: error
+  swiftgen_storyboard_segue_perform:
+    name: "SwiftGen Storyboard Segue Identifier"
+    regex: 'performSegue\(withIdentifier: ?"?.+"?, ?sender:.+\)'
+    message: "Use perform(segue: StoryboardSegue.<storyboard>.<segue>, sender: <sender>) instead"
+    severity: error
+  swiftgen_storyboard_segue_prepare:
+    name: "SwiftGen Storyboard Segue Prepare"
+    regex: 'segue.identifier'
+    message: "Use StoryboardSegue.<storyboard>(segue) instead"
+    severity: error
+  swiftgen_strings:
+    name: "SwiftGen Strings"
+    regex: 'NSLocalizedString'
+    message: "Use L10n.key instead"
+    severity: error

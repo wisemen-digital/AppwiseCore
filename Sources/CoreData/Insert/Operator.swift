@@ -11,7 +11,6 @@ import Foundation
 infix operator <-
 
 public extension Optional where Wrapped == MapValue {
-
 	// MARK: Insertable Operator
 
 	static func <- <T: Insertable>(left: inout T, right: MapValue?) {

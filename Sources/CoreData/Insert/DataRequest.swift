@@ -51,7 +51,6 @@ public extension DataRequest {
         options: JSONSerialization.ReadingOptions = .allowFragments,
         transformer: @escaping ((ResponseInfo, Result<Any>) -> Result<Any>)
         ) -> DataResponseSerializer<Any> {
-
         let parentSerializer = DataRequest.jsonResponseSerializer(options: options)
         return DataResponseSerializer(parent: parentSerializer, transformer: transformer)
     }
@@ -71,7 +70,6 @@ public extension DataRequest {
         jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
         contextObject: Any? = nil
     ) -> DataResponseSerializer<T> {
-
         return DataResponseSerializer(parent: jsonSerializer) { _, result -> Result<T> in
             guard result.isSuccess else {
 				return .failure(result.error.require(hint: "Result is failure, but has no error"))

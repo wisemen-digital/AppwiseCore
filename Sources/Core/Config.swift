@@ -115,7 +115,7 @@ public extension Config {
 	/// The version of the application, taken from the info dictionary.
 	var appVersion: Version {
 		return Bundle.main.infoDictionary?[InfoKeys.shortVersion]
-			.flatMap({ $0 as? String })
+			.flatMap { $0 as? String }
 			.flatMap(Version.init(string:)) ?? Version(0, 0, 0)
 	}
 

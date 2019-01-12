@@ -39,7 +39,6 @@ public protocol Insertable {
 
 /// Objects that can be bulk-inserted into a `NSManagedObjectContext` from a JSON array
 public protocol ManyInsertable {
-
     /// Insert an array object of the receiver type in the given context using the received JSON array
     ///
     /// - parameter json:    The JSON used to insert the objects

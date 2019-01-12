@@ -28,32 +28,41 @@ public extension Client {
 		contextObject: Any? = nil,
 		completionHandler: @escaping (Alamofire.Result<T>) -> Void
 	) {
-		buildRequest(request) { result in
-			switch result {
-			case let .success(request):
-				request.responseInsert(db: db, queue: queue, jsonSerializer: jsonSerializer, type: type, contextObject: contextObject) { response, save in
-					switch response.result {
-					case .success(let value):
-						save { error in
-							// cast the value to the main context
-							do {
-								if let error = error {
-									throw error
-								} else {
-									let mainValue = try value.inContext(db.main)
-									completionHandler(.success(mainValue))
-								}
-							} catch let error {
-								DDLogInfo("Error saving result: \(error.localizedDescription)")
-								completionHandler(.failure(error))
-							}
+		let responseHandler = { (response: DataResponse<T>, save: @escaping DB.SaveBlockWitCallback) in
+			switch response.result {
+			case .success(let value):
+				save { error in
+					// cast the value to the main context
+					do {
+						if let error = error {
+							throw error
+						} else {
+							let mainValue = try value.inContext(db.main)
+							completionHandler(.success(mainValue))
 						}
-					case .failure(let error):
-						let error = Self.extract(from: response, error: error)
-						DDLogInfo(error.localizedDescription)
+					} catch let error {
+						DDLogInfo("Error saving result: \(error.localizedDescription)")
 						completionHandler(.failure(error))
 					}
 				}
+			case .failure(let error):
+				let error = Self.extract(from: response, error: error)
+				DDLogInfo(error.localizedDescription)
+				completionHandler(.failure(error))
+			}
+		}
+
+		buildRequest(request) { result in
+			switch result {
+			case let .success(request):
+				request.responseInsert(
+					db: db,
+					queue: queue,
+					jsonSerializer: jsonSerializer,
+					type: type,
+					contextObject: contextObject,
+					completionHandler: responseHandler
+				)
 			case .failure(let error):
 				DDLogInfo("Error creating request: \(error.localizedDescription)")
 				completionHandler(.failure(error))

@@ -31,7 +31,6 @@ extension Array: Importable {
 		// if many importable, iterate over each item, and call the general function with all items
 		if let array = self as? [ManyImportable],
 			let type = Element.self as? ManyImportable.Type {
-
 			for (importedData, importedItem) in zip(data, array) {
 				try type.didImport(item: importedItem, from: importedData, in: context)
 			}
