@@ -9,7 +9,7 @@ import Foundation
 
 // Based on the Version type from SPM, which can be found here:
 // https://github.com/apple/swift-package-manager/blob/master/Sources/Utility/Version.swift
-// Last check on 27/11/2018
+// Last check on 12/01/2019
 
 /// A struct representing a semver version.
 public struct Version: Hashable {

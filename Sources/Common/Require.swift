@@ -3,7 +3,7 @@
 //  AppwiseCore
 //
 //  Created by David Jennes on 01/12/2017.
-//  Copyright © 2017 Appwise. All rights reserved.
+//  Copyright © 2019 Appwise. All rights reserved.
 //
 
 import Foundation

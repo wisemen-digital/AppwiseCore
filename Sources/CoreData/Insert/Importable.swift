@@ -3,7 +3,7 @@
 //  AppwiseCore
 //
 //  Created by David Jennes on 05/03/2018.
-//  Copyright © 2018 Appwise. All rights reserved.
+//  Copyright © 2019 Appwise. All rights reserved.
 //
 
 import CoreData

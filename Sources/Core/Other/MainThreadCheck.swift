@@ -3,7 +3,7 @@
 //  Pods
 //
 //  Created by David Jennes on 23/09/16.
-//  Copyright © 2016 Appwise. All rights reserved.
+//  Copyright © 2019 Appwise. All rights reserved.
 //
 
 import Foundation

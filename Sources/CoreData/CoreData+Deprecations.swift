@@ -3,7 +3,7 @@
 //  AppwiseCore
 //
 //  Created by David Jennes on 06/03/2017.
-//  Copyright © 2018 Appwise. All rights reserved.
+//  Copyright © 2019 Appwise. All rights reserved.
 //
 
 import Alamofire
