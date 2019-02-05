@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '0.10.7'
+	s.version = '0.11.0'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Then', '~> 2.3'
+		ss.dependency 'Then', '~> 2.4'
 	end
 
 	# Common files
@@ -52,10 +52,10 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Alamofire', '~> 4.7'
-		ss.dependency 'CocoaLumberjack/Swift', '~> 3.4'
+		ss.dependency 'Alamofire', '~> 4.8'
+		ss.dependency 'CocoaLumberjack/Swift', '~> 3.5'
 		ss.dependency 'CodableAlamofire', '~> 1.1'
-		ss.dependency 'CrashlyticsRecorder', '~> 2.2'
+		ss.dependency 'CrashlyticsRecorder', '~> 2.3'
 		ss.dependency 'Then', '~> 2.4'
 	end
 

@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.11.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.0)
+
 ### Breaking
 
 * Core: the `Version` provided by `Config.handleUpdate(from:, to:)` and `Config.appVersion` is now an actual structured type, instead of a plain string.
