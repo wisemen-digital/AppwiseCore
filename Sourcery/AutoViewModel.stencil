@@ -1,9 +1,52 @@
-import Foundation
+import AppwiseCore
+{% macro propertyAlreadyExists var type %}{% filter removeNewlines:"all" %}
+	{% for typeVar in type.variables where typeVar.name == var.name %}
+		EXISTS
+	{% endfor %}
+	{% if type.inheritedTypes.first != "ViewModel" %}
+		{% for inheritedType in types.protocols where inheritedType.name == type.inheritedTypes.first %}
+			{% call propertyAlreadyExists var inheritedType %}
+		{% endfor %}
+	{% endif %}
+{% endfilter %}{% endmacro %}
+{% macro associatedTypeFor vmType %}{% filter removeNewlines:"all" %}
+	{% for var in vmType.variables where var.name == "data" %}
+		{{ var.typeName }}
+	{% endfor %}
+{% endfilter %}{% endmacro %}
+{% macro viewModelFor var %}{% filter removeNewlines:"all" %}
+	{% if var.type %}
+		{% for vmType in types.based.ViewModel where vmType.name == "ClubViewModel" %}
+			{% set associatedType %}{% call associatedTypeFor vmType %}{% endset %}
+			{% if associatedType == var.type.name %}
+				{{ vmType.name }}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+{% endfilter %}{% endmacro %}
+{% macro listProperties typeName %}
+	{% for modelType in types.all where modelType.name == typeName %}
+	{% for var in modelType.storedVariables %}
+	{% set exists %}{% call propertyAlreadyExists var type %}{% endset %}
+	{% if exists == "" %}
+	{% set vmTypeName %}{% call viewModelFor var %}{% endset %}
+	var {{ var.name }}: {% if vmTypeName %}{{ vmTypeName }}{% if var.typeName.isOptional %}?{% endif %}{% else %}{{ var.typeName }}{% endif %} {
+		{% if vmTypeName %}
+		return vm(data.{{ var.name }})
+		{% else %}
+		return data.{{ var.name }}
+		{% endif %}
+	}
+	{% endif %}
+	{% endfor %}
+	{% if modelType.inheritedTypes.first != "NSManagedObject" %}{% call listProperties modelType.inheritedTypes.first %}{% endif %}
+	{% endfor %}
+{% endmacro %}
 
 {% for type in types.based.ViewModel %}
 // MARK: - {{ type.name }}
 
-{% set associatedType %}{% for var in type.variables where var.name == "data" %}{{ var.typeName }}{% endfor %}{% endset %}
+{% set associatedType %}{% call associatedTypeFor type %}{% endset %}
 extension {{ type.name }} {
 	{% if type.kind == "struct" %}{% if type.initializers|isEmpty %}
 	init(_ data: {{ associatedType }}) {
@@ -14,16 +57,7 @@ extension {{ type.name }} {
 	}
 
 	{% endif %}{% endif %}
-	{% for modelType in types.all where modelType.name == associatedType %}
-	{% for var in modelType.storedVariables %}
-	{% set exists %}{% for typeVar in type.variables where typeVar.name == var.name %}exists{% endfor %}{% endset %}
-	{% if exists == "" %}
-	var {{ var.name }}: {{ var.typeName.actualTypeName|default:var.typeName }} {
-		return data.{{ var.name }}
-	}
-	{% endif %}
-	{% endfor %}
-	{% endfor %}
+	{% call listProperties associatedType %}
 }
 
 {% endfor %}
