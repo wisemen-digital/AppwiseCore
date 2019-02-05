@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 
 * Core: the `Version` provided by `Config.handleUpdate(from:, to:)` and `Config.appVersion` is now an actual structured type, instead of a plain string.
 
+### New Features
+
+* DeepLink: you can now see if there's a scheduled route, and cancel it if needed.
+
 ### Bug Fixes
 
 * DeepLink: fixed a bug where the internal state was wrong when switching tabs with navigation controllers (where you weren't in the first view controller).

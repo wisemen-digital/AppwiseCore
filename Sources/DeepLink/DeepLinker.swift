@@ -17,7 +17,7 @@ public final class DeepLinker {
 	public static let shared = DeepLinker()
 
 	private var stack: Stack = []
-	private var scheduledRoute: (path: [String], animated: Bool)?
+	public private(set) var scheduledRoute: (path: [String], animated: Bool)?
 	private init() {
 	}
 
@@ -55,6 +55,11 @@ public final class DeepLinker {
 			scheduledRoute = (path: route, animated: animated)
 			return false
 		}
+	}
+
+	/// Cancels any scheduled route (from `open(path:animated:)`)
+	public func cancelScheduledRoute() {
+		scheduledRoute = nil
 	}
 }
 
