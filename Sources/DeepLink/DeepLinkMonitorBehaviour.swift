@@ -10,18 +10,20 @@ import UIKit
 
 /// Internal class for keeping track if a registered deeplink item is visible or not.
 class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
-	let path: String
 	weak var matchable: DeepLinkMatchable?
+	var stackToRestore: [DeepLinkStackItem] = []
 	var wasTabBarVisible = false
 
 	init(_ matchable: DeepLinkMatchable, for path: String) {
-		self.path = path
 		self.matchable = matchable
+		self.stackToRestore = [
+			DeepLinkStackItem(path: path, matchable: matchable)
+		]
 	}
 
 	func afterAppearing(viewController: UIViewController, animated: Bool) {
-		guard let matchable = matchable else { return }
-		DeepLinker.shared.addToStack(matchable, for: path)
+		guard matchable != nil else { return }
+		DeepLinker.shared.addToStack(items: stackToRestore)
 	}
 
 	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
@@ -41,10 +43,17 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 			let tbc = viewController.tabBarController,
 			let selected = tbc.selectedViewController,
 			viewController != selected && viewController.navigationController != selected {
-			DeepLinker.shared.removeFromStack(matchable)
+			if let nvc = viewController.navigationController {
+				// switching tabs, have a NVC (need to remove all VCs in NVC)
+				stackToRestore = DeepLinker.shared.removeFromStack(items: nvc.viewControllers.compactMap { $0 as? DeepLinkMatchable })
+			} else {
+				// switching tabs, don't have a NVC
+				stackToRestore = DeepLinker.shared.removeFromStack(items: [matchable])
+			}
 		} else if !wasTabBarVisible,
 			viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParent {
-			DeepLinker.shared.removeFromStack(matchable)
+			// dismissing modal
+			stackToRestore = DeepLinker.shared.removeFromStack(items: [matchable])
 		}
 	}
 

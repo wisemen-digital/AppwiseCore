@@ -9,13 +9,6 @@
 import Foundation
 import UIKit
 
-/// A deep link stack item, for connecting an identifier to a matchable item.
-public struct DeepLinkStackItem {
-	/// The path component
-	public let path: String
-	weak var matchable: DeepLinkMatchable?
-}
-
 /// The general subsystem for performing (and keep track of) deep linking.
 public final class DeepLinker {
 	typealias Stack = [DeepLinkStackItem]
@@ -37,26 +30,11 @@ public final class DeepLinker {
 	/// - parameter path: The path component this view controller represents.
 	public func register(_ matchable: DeepLinkMatchable & UIViewController, for path: String) {
 		if matchable is UITabBarController {
-			addToStack(matchable, for: path)
+			addToStack(matchable: matchable, for: path)
 		} else {
 			let behaviour = DeepLinkMonitorBehaviour(matchable, for: path)
 			matchable.add(behaviours: [behaviour])
 		}
-	}
-
-	func addToStack(_ matchable: DeepLinkMatchable, for path: String) {
-		guard !stack.compactMap({ $0.matchable }).contains(where: { $0.isEqual(matchable) }) else { return }
-
-		stack = cleanupWeakReferences()
-		stack.append(DeepLinkStackItem(path: path, matchable: matchable))
-
-		if let route = scheduledRoute, navigate(to: route.path, animated: route.animated) {
-			scheduledRoute = nil
-		}
-	}
-
-	func removeFromStack(_ matchable: DeepLinkMatchable) {
-		stack = cleanupWeakReferences().filter { !($0.matchable?.isEqual(matchable) ?? false) }
 	}
 
 	/// Try to open a deep link (a path)
@@ -78,11 +56,51 @@ public final class DeepLinker {
 			return false
 		}
 	}
+}
 
-	private func cleanupWeakReferences() -> Stack {
-		return stack.filter { item in
-			item.matchable != nil
+// MARK: - Stack manipulation
+
+extension DeepLinker {
+	func addToStack(items: [DeepLinkStackItem]) {
+		for item in items {
+			guard let matchable = item.matchable else { continue }
+			addToStack(matchable: matchable, for: item.path, skipNavigation: true)
 		}
+
+		if let route = scheduledRoute, navigate(to: route.path, animated: route.animated) {
+			scheduledRoute = nil
+		}
+	}
+
+	func addToStack(matchable: DeepLinkMatchable, for path: String) {
+		addToStack(matchable: matchable, for: path, skipNavigation: false)
+	}
+
+	private func addToStack(matchable: DeepLinkMatchable, for path: String, skipNavigation: Bool) {
+		guard !stack.compactMap({ $0.matchable }).contains(where: { $0.isEqual(matchable) }) else { return }
+
+		let item = DeepLinkStackItem(path: path, matchable: matchable)
+		stack = stack.removingWeakReferences() + [item]
+
+		if !skipNavigation, let route = scheduledRoute, navigate(to: route.path, animated: route.animated) {
+			scheduledRoute = nil
+		}
+	}
+
+	func removeFromStack(items: [DeepLinkMatchable]) -> [DeepLinkStackItem] {
+		let contains = { (stackItem: DeepLinkStackItem) in
+			items.contains(where: { listItem in
+				return stackItem.matchable?.isEqual(listItem) ?? false
+			})
+		}
+
+		let result = stack.removingWeakReferences().filter { contains($0) }
+		stack = stack.removingWeakReferences().filter { !contains($0) }
+		return result
+	}
+
+	func removeFromStack(matchable: DeepLinkMatchable) {
+		stack = stack.removingWeakReferences().filter { !($0.matchable?.isEqual(matchable) ?? false) }
 	}
 }
 
@@ -90,7 +108,7 @@ public final class DeepLinker {
 
 extension DeepLinker {
 	private func navigate(to route: [String], animated: Bool) -> Bool {
-		let stack = cleanupWeakReferences()
+		let stack = self.stack.removingWeakReferences()
 
 		// if we don't have a stack, store the request for later
 		guard let firstDifferent = findFirstDifferentIndex(stack: stack, route: route) else {
