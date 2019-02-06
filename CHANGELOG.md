@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.11.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.1)
+
 ### Bug Fixes
 
 * Core: fix crash on startup do to `Version` not being archivable.
