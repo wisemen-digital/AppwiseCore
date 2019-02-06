@@ -83,7 +83,7 @@ public struct Settings {
 			return string.flatMap(Version.init(string:))
 		}
 		set {
-			defaults.set(newValue, forKey: DefaultsKey.lastVersion.rawValue)
+			defaults.set(newValue?.description ?? "", forKey: DefaultsKey.lastVersion.rawValue)
 		}
 	}
 }
