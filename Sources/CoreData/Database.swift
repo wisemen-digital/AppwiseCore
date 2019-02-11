@@ -50,6 +50,17 @@ public final class DB: NSObject {
 		self.bundle = bundle
 		super.init()
 	}
+
+	/// The merge policy for the main (and root) contexts
+	public var mergePolicy: NSMergePolicyType {
+		get {
+			return (main.mergePolicy as? NSMergePolicy)?.mergeType ?? .mergeByPropertyObjectTrumpMergePolicyType
+		}
+		set {
+			root.mergePolicy = NSMergePolicy(merge: newValue)
+			main.mergePolicy = NSMergePolicy(merge: newValue)
+		}
+	}
 }
 
 // MARK: Accessed from Config
@@ -76,6 +87,11 @@ extension DB {
 			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-wal")
 
 			db = try? CoreDataDefaultStorage(store: store, model: model)
+		}
+
+		mergePolicy = .mergeByPropertyObjectTrumpMergePolicyType
+		if #available(iOS 10.0, *) {
+			main.automaticallyMergesChangesFromParent = true
 		}
 	}
 
