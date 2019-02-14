@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
 * DB: add a merge policy property, and set it to `mergeByPropertyStoreTrump` by default.
+* AutoViewModel: fix bug that broke auto `vm` property generation.
 
 ## [0.11.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.1)
 

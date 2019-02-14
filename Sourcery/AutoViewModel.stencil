@@ -16,7 +16,7 @@ import AppwiseCore
 {% endfilter %}{% endmacro %}
 {% macro viewModelFor var %}{% filter removeNewlines:"all" %}
 	{% if var.type %}
-		{% for vmType in types.based.ViewModel where vmType.name == "ClubViewModel" %}
+		{% for vmType in types.based.ViewModel %}
 			{% set associatedType %}{% call associatedTypeFor vmType %}{% endset %}
 			{% if associatedType == var.type.name %}
 				{{ vmType.name }}
