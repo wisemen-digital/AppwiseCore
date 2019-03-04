@@ -32,6 +32,7 @@ extension DB {
 	/// Save the changes in the given context to the persistent store.
 	///
 	/// - parameter moc: The managed object context.
+	@available(*, deprecated, message: "Use the async version of this function to avoid deadlocks.")
 	public func saveToPersistentStore(_ moc: NSManagedObjectContext) throws {
 		guard let parent = moc.parent, parent == root else {
 			throw DBError.invalidContext
@@ -50,6 +51,32 @@ extension DB {
 
 		if let error = resultError {
 			throw error
+		}
+	}
+
+	/// Save the changes in the given context to the persistent store.
+	///
+	/// - parameter moc: The managed object context.
+	/// - parameter handler: The callback after saving.
+	public func saveToPersistentStore(_ moc: NSManagedObjectContext, then handler: @escaping (Error?) -> Void) {
+		guard let parent = moc.parent, parent == root else {
+			return handler(DBError.invalidContext)
+		}
+
+		moc.perform {
+			do {
+				try moc.save()
+				parent.perform {
+					do {
+						try parent.save()
+						handler(nil)
+					} catch {
+						handler(error)
+					}
+				}
+			} catch {
+				handler(error)
+			}
 		}
 	}
 

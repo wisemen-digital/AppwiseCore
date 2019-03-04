@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* DB: fix another deadlock that could happen during some saves.
+
 ## [0.11.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.3)
 
 ### Bug Fixes

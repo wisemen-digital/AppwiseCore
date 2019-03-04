@@ -129,16 +129,9 @@ public extension DataRequest {
 	) -> Self {
 		let context = db.newSave()
 		let save: DB.SaveBlockWitCallback = { completion in
-			context.perform {
-				var saveError: Error?
-				do {
-					try db.saveToPersistentStore(context)
-				} catch let error {
-					saveError = error
-				}
-
+			db.saveToPersistentStore(context) { error in
 				(queue ?? DispatchQueue.main).async {
-					completion(saveError)
+					completion(error)
 				}
 			}
 		}
