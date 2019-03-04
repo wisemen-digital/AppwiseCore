@@ -20,7 +20,11 @@ extension DB {
 
 		moc.parent = root
 		NotificationCenter.default.addObserver(self, selector: #selector(contextWillSave(notification:)), name: NSNotification.Name.NSManagedObjectContextWillSave, object: moc)
-		NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: moc)
+		if #available(iOS 10.0, *) {
+		} else {
+			// on older iOS versions, manually merge changes
+			NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: moc)
+		}
 
 		return moc
 	}

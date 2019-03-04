@@ -5,9 +5,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* DB: fix a deadlock that could happen during some saves.
+
 ## [0.11.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.2)
 
+### New Features
+
 * DB: add a merge policy property, and set it to `mergeByPropertyStoreTrump` by default.
+
+### Bug Fixes
+
 * AutoViewModel: fix bug that broke auto `vm` property generation.
 
 ## [0.11.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.11.1)
