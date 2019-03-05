@@ -8,7 +8,6 @@
 
 import CocoaLumberjack
 import CoreData
-import SugarRecord
 
 public enum DBError: Error {
 	/// The provided context is not available for the requested operation.

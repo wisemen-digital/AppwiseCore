@@ -67,7 +67,6 @@ Pod::Spec.new do |s|
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'Groot', '~> 3.0'
-		ss.dependency 'SugarRecord/CoreData', '~> 3.1'
 	end
 
 	# deeplinking
