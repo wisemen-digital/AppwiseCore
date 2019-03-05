@@ -18,26 +18,20 @@ public enum DBError: Error {
 // swiftlint:disable:next type_name
 public final class DB: NSObject {
 	fileprivate let bundle: Bundle
-	internal var db: CoreDataDefaultStorage?
-
-	internal var root: NSManagedObjectContext {
-		guard let moc = main.parent else { fatalError("Core Data not initialized") }
-		return moc
-	}
+	fileprivate let storeName: String
+	internal var container: NSPersistentContainer
 
 	/// The default database is a singleton (points to the main bundle).
-	@objc public static let shared = DB(bundle: Bundle.main)
+	@objc public static let shared = DB(bundle: Bundle.main, storeName: "db")
 
-	/// The main context, equivalent of `DB.shared.main`
-	@available(*, renamed: "shared.main", message: "You should use the `main` variable on `DB.shared` instead.")
-	public static var main: NSManagedObjectContext {
-		return shared.main
+	@available(*, renamed: "view")
+	public var main: NSManagedObjectContext {
+		return view
 	}
 
 	/// The main context. All UI related operations should use this context.
-	public var main: NSManagedObjectContext {
-		guard let moc = db?.mainContext as? NSManagedObjectContext else { fatalError("Core Data not initialized") }
-		return moc
+	public var view: NSManagedObjectContext {
+		return container.viewContext
 	}
 
 	/// Creates a new DB instance with the specified bundle.
@@ -45,19 +39,17 @@ public final class DB: NSObject {
 	/// - parameter bundle: The bundle to work in.
 	///
 	/// - returns: The new DB instance.
-	public required init(bundle: Bundle) {
+	public required init(bundle: Bundle, storeName: String) {
 		self.bundle = bundle
+		self.storeName = storeName
+		self.container = DB.createContainer(bundle: bundle, storeName: storeName)
 		super.init()
 	}
 
 	/// The merge policy for the main (and root) contexts
-	public var mergePolicy: NSMergePolicyType {
-		get {
-			return (main.mergePolicy as? NSMergePolicy)?.mergeType ?? .mergeByPropertyObjectTrumpMergePolicyType
-		}
-		set {
-			root.mergePolicy = NSMergePolicy(merge: newValue)
-			main.mergePolicy = NSMergePolicy(merge: newValue)
+	public var mergePolicy: NSMergePolicyType = .mergeByPropertyStoreTrumpMergePolicyType {
+		didSet {
+			main.mergePolicy = NSMergePolicy(merge: mergePolicy)
 		}
 	}
 }
@@ -65,43 +57,39 @@ public final class DB: NSObject {
 // MARK: Accessed from Config
 
 extension DB {
+	/// Initialize the data store.  It will merge all data models in the DB's bundle.
 	@objc
-	internal func initialize() {
-		initialize(storeName: "db")
-	}
+	public func initialize() {
+		container.loadPersistentStores { [weak self] storeDescription, error in
+			DDLogInfo("Store URL: \(String(describing: storeDescription.url ?? URL(string: "")))")
 
-	/// Initialize the data store with a specific name. Necessary if you have multiple data stores.
-	/// It will merge all data models in the DB's bundle.
-	///
-	/// - parameter storeName: The name of the data store.
-	public func initialize(storeName: String) {
-		let store: CoreDataStore = .named(storeName)
-		let model: CoreDataObjectModel = .merged([bundle])
-
-		do {
-			db = try CoreDataDefaultStorage(store: store, model: model)
-		} catch {
-			try? FileManager.default.removeItem(at: store.path() as URL)
-			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-shm")
-			_ = try? FileManager.default.removeItem(atPath: "\(store.path().absoluteString)-wal")
-
-			db = try? CoreDataDefaultStorage(store: store, model: model)
+			if error != nil, let url = storeDescription.url {
+				try? self?.container.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType)
+				self?.container.loadPersistentStores { _, _ in
+				}
+			}
 		}
 
-		mergePolicy = .mergeByPropertyObjectTrumpMergePolicyType
-		if #available(iOS 10.0, *) {
-			main.automaticallyMergesChangesFromParent = true
-		}
+		container.viewContext.automaticallyMergesChangesFromParent = true
+		container.viewContext.mergePolicy = NSMergePolicy(merge: mergePolicy)
 	}
 
 	/// Reset the data store (effectively deletes it).
 	@objc
 	public func reset() {
+		container.viewContext.reset()
+		container = DB.createContainer(bundle: bundle, storeName: storeName)
+
 		do {
-			try db?.removeStore()
+			guard let url = container.persistentStoreDescriptions.first?.url else { return }
+			try container.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType)
 		} catch let error {
 			DDLogError("Error deleting DB store: \(error)")
 		}
-		db = nil
+	}
+
+	private static func createContainer(bundle: Bundle, storeName: String) -> NSPersistentContainer {
+		let model = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
+		return NSPersistentContainer(name: storeName, managedObjectModel: model)
 	}
 }

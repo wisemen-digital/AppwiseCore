@@ -7,7 +7,6 @@
 //
 
 import CoreData
-import SugarRecord
 
 public extension NSManagedObjectContext {
 	public enum Error: Swift.Error {
@@ -21,12 +20,8 @@ public extension NSManagedObjectContext {
 	/// - parameter value: The value to match.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: Entity>(value: Any) throws -> T? {
-		guard let entity = T.self as? NSManagedObject.Type else { throw StorageError.invalidType }
-		guard let description = NSEntityDescription.entity(forEntityName: entity.entityName, in: self) else {
-			throw Error.entityNotFound
-		}
-		let keys = description.keysForUniquing
+	public func first<T: NSManagedObject>(value: Any) throws -> T? {
+		let keys = T.entity().keysForUniquing
 		guard keys.count == 1, let key = keys.first else {
 			throw Error.unsupportedIdentityAttributes
 		}
@@ -40,12 +35,12 @@ public extension NSManagedObjectContext {
 	/// - parameter value: The value to match.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: Entity>(key: PartialKeyPath<T>, value: Any) -> T? {
+	public func first<T: NSManagedObject>(key: PartialKeyPath<T>, value: Any) -> T? {
 		guard let keyPath = key._kvcKeyPathString else { return nil }
 		return first(key: keyPath, value: value)
 	}
 
-	private func first<T: Entity>(key: String, value: Any) -> T? {
+	private func first<T: NSManagedObject>(key: String, value: Any) -> T? {
 		let predicate = NSPredicate(format: "%K = %@", argumentArray: [key, value])
 		return first(predicate: predicate)
 	}
@@ -56,10 +51,15 @@ public extension NSManagedObjectContext {
 	/// - parameter predicate: The predicate to search with.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: Entity>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
-		let request = FetchRequest<T>(self, sortDescriptor: sortDescriptor, predicate: predicate, fetchLimit: 1)
+	public func first<T: NSManagedObject>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
+		T.fetchRequest()
+		let request = T.fetchRequest(
+			predicate: predicate,
+			sortDescriptors: [sortDescriptor].compactMap { $0 },
+			limit: 1
+		)
 
-		guard let result = try? request.fetch() else { return nil }
+		guard let result = try? fetch(request) else { return nil }
 		return result.first
 	}
 
@@ -84,9 +84,8 @@ public extension NSManagedObjectContext {
 	/// - parameter filter: The predicate to match against.
 	///
 	/// - returns: A list of old objects.
-	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) throws -> [T] {
-		let request = NSFetchRequest<T>(entityName: T.entityName).then {
-			$0.predicate = filter
+	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) -> [T] {
+		let request = T.fetchRequest(predicate: filter).then {
 			$0.returnsObjectsAsFaults = true
 			$0.includesPropertyValues = false
 		}
@@ -96,8 +95,17 @@ public extension NSManagedObjectContext {
 			insertedObjects.compactMap { ($0 as? T)?.objectID }
 		)
 
-		let fetched: [T] = try self.fetch(request)
+		let fetched: [T] = (try? self.fetch(request)) ?? []
 		return fetched.filter { !newIDs.contains($0.objectID) }
+	}
+
+	/// Specifies objects that should be removed from their persistent store when changes are committed.
+	///
+	/// - parameter items: A list of objects
+	func delete<T: NSManagedObject>(_ items: [T]) {
+		for item in items {
+			delete(item)
+		}
 	}
 
 	/// Delete all objects of a certain type, using a batch delete.
@@ -113,7 +121,7 @@ public extension NSManagedObjectContext {
 	///            request by setting the result type to `.resultTypeObjectIDs`.
 	@discardableResult
 	public func removeAll<T: NSManagedObject>(of entity: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
-		let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: T.entityName)
+		let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
 		let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
 		deleteRequest.resultType = resultType
 

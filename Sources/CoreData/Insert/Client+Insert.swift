@@ -26,7 +26,7 @@ public extension Client {
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		contextObject: Any? = nil,
-		completionHandler: @escaping (Alamofire.Result<T>) -> Void
+		then handler: @escaping (Alamofire.Result<T>) -> Void
 	) {
 		let responseHandler = { (response: DataResponse<T>, save: @escaping DB.SaveBlockWitCallback) in
 			switch response.result {
@@ -38,17 +38,17 @@ public extension Client {
 							throw error
 						} else {
 							let mainValue = try value.inContext(db.main)
-							completionHandler(.success(mainValue))
+							handler(.success(mainValue))
 						}
 					} catch let error {
 						DDLogInfo("Error saving result: \(error.localizedDescription)")
-						completionHandler(.failure(error))
+						handler(.failure(error))
 					}
 				}
 			case .failure(let error):
 				let error = Self.extract(from: response, error: error)
 				DDLogInfo(error.localizedDescription)
-				completionHandler(.failure(error))
+				handler(.failure(error))
 			}
 		}
 
@@ -61,11 +61,11 @@ public extension Client {
 					jsonSerializer: jsonSerializer,
 					type: type,
 					contextObject: contextObject,
-					completionHandler: responseHandler
+					then: responseHandler
 				)
 			case .failure(let error):
 				DDLogInfo("Error creating request: \(error.localizedDescription)")
-				completionHandler(.failure(error))
+				handler(.failure(error))
 			}
 		}
 	}
