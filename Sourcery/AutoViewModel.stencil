@@ -39,7 +39,7 @@ import AppwiseCore
 	}
 	{% endif %}
 	{% endfor %}
-	{% if modelType.inheritedTypes.first != "NSManagedObject" %}{% call listProperties modelType.inheritedTypes.first %}{% endif %}
+	{% if modelType.inheritedTypes.first and modelType.inheritedTypes.first != "NSManagedObject" %}{% call listProperties modelType.inheritedTypes.first %}{% endif %}
 	{% endfor %}
 {% endmacro %}
 
