@@ -15,6 +15,7 @@ import Groot
 /// - invalidJSON: The JSON is invalid and can't be used for the given operation
 public enum InsertError: Error {
     case invalidJSON(Any)
+    case invalidValue(key: MapKeyPath, type: Any)
 }
 
 /// Objects that can be inserted into a `NSManagedObjectContext` from a JSON object

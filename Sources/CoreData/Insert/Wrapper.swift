@@ -17,7 +17,7 @@ public protocol Wrapper: Insertable, ManyInsertable {
 
     /// Override to add the values from the given map to the receiver
     /// Properties must be set using the `<-` operator
-    mutating func map(_ map: Map)
+    mutating func map(_ map: Map) throws
 }
 
 public extension Wrapper {
@@ -29,7 +29,7 @@ public extension Wrapper {
         let map = Map(dictionary: jsonObject, context: context)
 
         var object = Self.init()
-        object.map(map)
+        try object.map(map)
 
         return object
     }
@@ -44,7 +44,7 @@ public enum MapKeyPath {
     case path(String)
 }
 
-/// A struct that store a `[String: Any]` and a `NSManagedObjectContext`. 
+/// A struct that store a `[String: Any]` and a `NSManagedObjectContext`.
 /// The values of the dictionary can be inserted into the context by using `serialize` method.
 public struct Map {
     /// The original dictionary whose values will be serialized
@@ -83,9 +83,9 @@ public struct Map {
         case nil:
             return nil
         case _ as NSNull:
-            return MapValue(originalValue: nil, context: context)
+            return MapValue(originalValue: nil, context: context, keyPath: keyPath)
         default:
-            return MapValue(originalValue: originalValue, context: context)
+            return MapValue(originalValue: originalValue, context: context, keyPath: keyPath)
         }
     }
 }
@@ -97,17 +97,20 @@ public struct MapValue {
     internal private(set) var originalValue: Any?
 
     /// The context that will be used to insert the `Insertable` objects
-    fileprivate var context: NSManagedObjectContext
+    fileprivate let context: NSManagedObjectContext
+
+    /// The key path
+    let keyPath: MapKeyPath
 
     /**
      Serialize the receiver to a `Insertable` item
      - returns: The serialized and inserted object, nil if there is any error
      */
-    internal func serialize<T: Insertable>() -> T? {
+    internal func serialize<T: Insertable>() throws -> T? {
         guard let value = originalValue else {
             return nil
         }
 
-        return try? T.insert(from: value, in: context)
+        return try T.insert(from: value, in: context)
     }
 }

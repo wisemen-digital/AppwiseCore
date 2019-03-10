@@ -13,24 +13,28 @@ infix operator <-
 public extension Optional where Wrapped == MapValue {
 	// MARK: Insertable Operator
 
-	static func <- <T: Insertable>(left: inout T, right: MapValue?) {
-		if let mapValue = right {
-			let value: T? = mapValue.serialize()
-			left = value.require(hint: "Unable to serialze value")
+	static func <- <T: Insertable>(left: inout T, right: MapValue?) throws {
+		guard let mapValue = right else { return }
+
+		let value: T? = try mapValue.serialize()
+		if let value = value {
+			left = value
+		} else {
+			throw InsertError.invalidValue(key: mapValue.keyPath, type: T.self)
 		}
 	}
 
 	static func <- <T: Insertable>(left: inout T?, right: MapValue?) {
-		if let mapValue = right {
-			let value: T? = mapValue.serialize()
+		if let mapValue = right,
+			let value: T? = try? mapValue.serialize() {
 			left = value
 		}
 	}
 
 	// MARK: Generic operator
 
-	static func <- <T>(left: inout T, right: MapValue?) {
-		left <- (right, { $0 })
+	static func <- <T>(left: inout T, right: MapValue?) throws {
+		try left <- (right, { $0 })
 	}
 
 	static func <- <T: ExpressibleByNilLiteral> (left: inout T, right: MapValue?) {
@@ -41,12 +45,14 @@ public extension Optional where Wrapped == MapValue {
 // MARK: Generic operator with converter
 
 // swiftlint:disable:next static_operator
-public func <- <T, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) {
+public func <- <T, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) throws {
     guard let mapValue = right.mapValue else {
         return
     }
 
-    let originalValue = (mapValue.originalValue as? R).require(hint: "Value is not of type \(R.self)")
+    guard let originalValue = mapValue.originalValue as? R else {
+    	throw InsertError.invalidValue(key: mapValue.keyPath, type: R.self)
+    }
     let transformedValue = right.transformer(originalValue)
     left = transformedValue as T
 }

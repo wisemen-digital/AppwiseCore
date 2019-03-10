@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* DB: `Wrapper.map(_:)` is now a throwing function, along with some of the `<-` operators.
+
 ### New Features
 
 * New `AutoModel` sourcery template to generate `Model`-namespaced typealiases for your model types. The `AutoViewModel` template has been updated to handle this change.
+* DB: Improved the propagation of errors from inside `Wrapper.map(_:)`. Accordingly, some of the `<-` operators are now throwing as well, just use `try` and `map(_:)` will catch it.
 
 ### Bug Fixes
 
