@@ -12,7 +12,7 @@ import AppwiseCore
 	{% endif %}
 {% endfilter %}{% endmacro %}
 {% macro listProperties modelType viewModelType %}
-	{% for var in modelType.allVariables %}
+	{% for var in modelType.instanceVariables %}
 	{% set exists %}{% if viewModelType %}{% call propertyAlreadyExists var viewModelType %}{% endif %}{% endset %}
 	{% if not exists %}
 	{% set vmTypeName %}{% call viewModelFor var.type %}{% endset %}
