@@ -22,6 +22,8 @@ public extension DB {
 	/// - parameter save: The save closure, you should call this when you're ready to save.
 	func operation(_ operation: @escaping (_ context: NSManagedObjectContext, _ save: @escaping SaveBlockWitCallback) -> Void) {
 		container.performBackgroundTask { context in
+			context.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
+
 			operation(context) { callback in
 				do {
 					try context.save()

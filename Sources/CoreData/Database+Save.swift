@@ -15,7 +15,9 @@ extension DB {
 	///
 	/// - returns: The new context.
 	public func newBackgroundContext() -> NSManagedObjectContext {
-		return container.newBackgroundContext()
+		return container.newBackgroundContext().then {
+			$0.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
+		}
 	}
 
 	/// Save the changes in the given context to the persistent store.
