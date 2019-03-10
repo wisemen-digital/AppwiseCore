@@ -94,9 +94,9 @@ extension DeepLinker {
 
 	func removeFromStack(items: [DeepLinkMatchable]) -> [DeepLinkStackItem] {
 		let contains = { (stackItem: DeepLinkStackItem) in
-			items.contains(where: { listItem in
-				return stackItem.matchable?.isEqual(listItem) ?? false
-			})
+			items.contains { listItem in
+				stackItem.matchable?.isEqual(listItem) ?? false
+			}
 		}
 
 		let result = stack.removingWeakReferences().filter { contains($0) }

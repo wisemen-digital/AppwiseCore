@@ -62,7 +62,7 @@ public struct Settings {
 			return defaults.bool(forKey: DefaultsKey.reset.rawValue)
 		}
 		set {
-			defaults.set(false, forKey: DefaultsKey.reset.rawValue)
+			defaults.set(newValue, forKey: DefaultsKey.reset.rawValue)
 		}
 	}
 

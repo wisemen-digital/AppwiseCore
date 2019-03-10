@@ -14,7 +14,7 @@ import UIKit
 /// Note: The content view's bottom edge should not be constrained to it's parent
 ///       view so that it can grow freely in height.
 open class ResizableTableHeaderFooterView: UIView {
-	@IBOutlet weak var contentView: UIView?
+	@IBOutlet private var contentView: UIView?
 
 	fileprivate func resizeToMatchContent(completion: @escaping (() -> Void)) {
 		guard let contentView = contentView,
