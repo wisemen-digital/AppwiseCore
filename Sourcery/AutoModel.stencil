@@ -1,0 +1,7 @@
+import AppwiseCore
+
+enum Model {
+	{% for modelType in types.based.NSManagedObject %}
+	typealias {{ modelType.name }} = {{ argument.module }}.{{ modelType.name }}
+	{% endfor %}
+}

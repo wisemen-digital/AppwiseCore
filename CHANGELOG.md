@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### New Features
+
+* New `AutoModel` sourcery template to generate `Model`-namespaced typealiases for your model types. The `AutoViewModel` template has been updated to handle this change.
+
 ### Bug Fixes
 
 * DB: fix another deadlock that could happen during some saves.
