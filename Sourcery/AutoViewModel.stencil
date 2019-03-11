@@ -26,7 +26,7 @@ import AppwiseCore
 	{% endif %}
 	{% endfor %}
 	{% if modelType.inheritedTypes.first and modelType.inheritedTypes.first != "NSManagedObject" %}
-	{% call listProperties modelType.inheritedTypes.first viewModelType %}
+	{% call listProperties type[modelType.inheritedTypes.first] viewModelType %}
 	{% endif %}
 {% endmacro %}
 {% macro propertyAlreadyExists var viewModelType %}{% filter removeNewlines:"all" %}

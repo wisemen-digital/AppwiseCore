@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 `AppwiseCore` adheres to [Semantic Versioning](http://semver.org/).
 
+## [Master](https://github.com/appwise-labs/AppwiseCore)
+
+### Bug Fixes
+
+* AutoVM: fix bug where properties of super-types weren't generated.
+
 ## [0.12.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.12.0)
 
 ### Breaking
