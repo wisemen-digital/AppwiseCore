@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.12.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.12.1)
+
 ### Bug Fixes
 
 * AutoVM: fix bug where properties of super-types weren't generated.
