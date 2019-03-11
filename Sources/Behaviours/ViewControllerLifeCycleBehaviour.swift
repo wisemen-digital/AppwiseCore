@@ -77,7 +77,7 @@ public extension UIViewController {
 			$0.frame = view.bounds
 			$0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 			$0.translatesAutoresizingMaskIntoConstraints = true
-			view.insertSubview($0, at: 0)
+			view.addSubview($0)
 		}
 		behaviourViewController.didMove(toParent: self)
 	}
