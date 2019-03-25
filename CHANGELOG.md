@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Behaviours: ensure the hidden behaviour VC doesn't conflict with auto-insetting/large title hiding (scrollviews).
+* AutoVM: avoid infinite recursion for unknown super types.
 
 ## [0.12.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.12.1)
 
