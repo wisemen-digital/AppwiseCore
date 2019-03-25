@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [0.12.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.12.2)
+
 ### Bug Fixes
 
 * Behaviours: ensure the hidden behaviour VC doesn't conflict with auto-insetting/large title hiding (scrollviews).
