@@ -73,7 +73,7 @@ public extension NSManagedObjectContext {
 			try item.managedObjectContext?.obtainPermanentIDs(for: [item])
 		}
 
-		guard let result = try existingObject(with: item.objectID) as? T else {
+		guard let result = try object(with: item.objectID) as? T else {
 			throw Error.unableToCastObjectTo(type: T.self)
 		}
 		return result
