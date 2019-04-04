@@ -32,6 +32,9 @@ public final class DeepLinker {
 		if matchable is UITabBarController {
 			addToStack(matchable: matchable, for: path)
 		} else {
+			addToStack(matchable: matchable, for: path)
+
+			// register for appear/disappear
 			let behaviour = DeepLinkMonitorBehaviour(matchable, for: path)
 			matchable.add(behaviours: [behaviour])
 		}

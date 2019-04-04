@@ -45,7 +45,8 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 			viewController != selected && viewController.navigationController != selected {
 			if let nvc = viewController.navigationController {
 				// switching tabs, have a NVC (need to remove all VCs in NVC)
-				stackToRestore = DeepLinker.shared.removeFromStack(items: nvc.viewControllers.compactMap { $0 as? DeepLinkMatchable })
+				let controllers = collectControllers(in: nvc)
+				stackToRestore = DeepLinker.shared.removeFromStack(items: controllers)
 			} else {
 				// switching tabs, don't have a NVC
 				stackToRestore = DeepLinker.shared.removeFromStack(items: [matchable])
@@ -64,5 +65,12 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		}
 
 		return root
+	}
+
+	// collect child VCs that are DeeplinkMatchable
+	private func collectControllers(in parent: UIViewController)-> [DeepLinkMatchable] {
+		return parent.children
+			.flatMap { [$0] + collectControllers(in: $0) }
+			.compactMap { $0 as? DeepLinkMatchable }
 	}
 }

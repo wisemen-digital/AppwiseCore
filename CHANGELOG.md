@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Deeplink: fix issue with VCs with child deeplink matchables (for example a segmented tabcontroller).
+
 ## [0.12.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/0.12.2)
 
 ### Bug Fixes
