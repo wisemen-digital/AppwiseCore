@@ -12,13 +12,13 @@ public extension Client {
 	// swiftlint:disable function_default_parameter_at_end
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
-	/// - parameter request:           The router request type
-	/// - parameter db:                The database to work in
-	/// - parameter queue:             The queue on which the deserializer (and your completion handler) is dispatched.
-	/// - parameter jsonSerializer:    The response JSON serializer
-	/// - parameter type:              The `Insertable` type that will be used in the serialization
-	/// - parameter contextObject:     The object to pass along to an import operation (see `ImportContext.object`)
-	/// - parameter completionHandler: The code to be executed once the request has finished.
+	/// - parameter request:        The router request type
+	/// - parameter db:             The database to work in
+	/// - parameter queue:          The queue on which the deserializer (and your completion handler) is dispatched.
+	/// - parameter jsonSerializer: The response JSON serializer
+	/// - parameter type:           The `Insertable` type that will be used in the serialization
+	/// - parameter contextObject:  The object to pass along to an import operation (see `ImportContext.object`)
+	/// - parameter handler:        The code to be executed once the request has finished.
 	func requestInsert<T: Insertable>(
 		_ request: RouterType,
 		db: DB = DB.shared,

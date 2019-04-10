@@ -26,7 +26,7 @@ public extension ApplicationService {
 
 extension Array where Element == ApplicationService {
 	@discardableResult
-	func apply<T, S>(_ work: (ApplicationService, @escaping (T) -> Void) -> S?, completionHandler: @escaping ([T]) -> Swift.Void) -> [S] {
+	func apply<T, S>(_ work: (ApplicationService, @escaping (T) -> Void) -> S?, then handler: @escaping ([T]) -> Swift.Void) -> [S] {
 		let dispatchGroup = DispatchGroup()
 		var results: [T] = []
 		var returns: [S] = []
@@ -47,7 +47,7 @@ extension Array where Element == ApplicationService {
 		}
 
 		dispatchGroup.notify(queue: .main) {
-			completionHandler(results)
+			handler(results)
 		}
 
 		return returns
