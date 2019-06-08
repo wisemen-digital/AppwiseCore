@@ -55,12 +55,9 @@ public extension Router {
 
 public extension Router {
 	func asURLRequest() throws -> URLRequest {
-		let request = try buildURLRequest()
+		precondition(multipart == nil, "Cannot build request, it has a multipart constructor. Please use `asURLRequest(with:completion:)`")
 
-		guard multipart == nil else {
-			fatalError("Cannot build request, it has a multipart constructor. Please use `asURLRequest(with:completion:)`")
-		}
-		return request
+		return try buildURLRequest()
 	}
 
 	/// Asynchronously build a data request for this route. This is recommended in case you
