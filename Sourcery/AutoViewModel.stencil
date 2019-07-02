@@ -34,7 +34,7 @@ import AppwiseCore
 	{% for typeVar in viewModelType.variables where typeVar.name == var.name %}
 		EXISTS
 	{% endfor %}
-	{% if viewModelType.inheritedTypes.first != "ViewModel" %}
+	{% if viewModelType.inheritedTypes.first != "ViewModelType" %}
 		{% for inheritedType in types.protocols where inheritedType.name == viewModelType.inheritedTypes.first %}
 			{% call propertyAlreadyExists var inheritedType %}
 		{% endfor %}
@@ -42,7 +42,7 @@ import AppwiseCore
 {% endfilter %}{% endmacro %}
 {% macro viewModelFor dataType %}{% filter removeNewlines:"all" %}
 	{% if dataType %}
-		{% for vmType in types.based.ViewModel %}
+		{% for vmType in types.based.ViewModelType %}
 			{% set associatedType %}{% call associatedTypeFor vmType %}{% endset %}
 			{% set resolvedType %}{% call resolveTypeName associatedType %}{% endset %}
 			{% if resolvedType == dataType.name %}
@@ -52,10 +52,7 @@ import AppwiseCore
 	{% endif %}
 {% endfilter %}{% endmacro %}
 
-enum ViewModels {
-}
-
-{% for viewModelType in types.based.ViewModel %}
+{% for viewModelType in types.based.ViewModelType %}
 // MARK: - {{ viewModelType.name }}
 
 {% set associatedType %}{% call associatedTypeFor viewModelType %}{% endset %}

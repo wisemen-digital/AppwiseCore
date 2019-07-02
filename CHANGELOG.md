@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Dropped support for iOS 9.0.
 * Removed SugarRecord as a dependency.
 * DB: rewritten to use `NSPersistentContainer`.
+* Core: renamed `ViewModel` to `ViewModelType` (so we can have a `ViewModel` namespace).
 
 ### New Features
 
