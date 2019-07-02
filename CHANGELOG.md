@@ -11,6 +11,10 @@ All notable changes to this project will be documented in this file.
 * Removed SugarRecord as a dependency.
 * DB: rewritten to use `NSPersistentContainer`.
 
+### New Features
+
+* Add `Identifiable` protocol for easy `Identifier` phantom types.
+
 ### Bug Fixes
 
 * Deeplink: fix issue with VCs with child deeplink matchables (for example a segmented tabcontroller).
