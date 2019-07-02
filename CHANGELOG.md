@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 
 * Core: add `Identifiable` protocol for easy `Identifier` phantom types.
 * Core: add `PushNotificationType` protocol for parsing incoming pushes.
+* Deeplink: add shortcut method for opening a list of path elements.
 
 ### Bug Fixes
 
