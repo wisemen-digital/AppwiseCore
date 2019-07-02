@@ -16,6 +16,7 @@ import UIKit
 /// Expects a generic parameter for the type of `Config` you'll be using.
 open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The shared application delegate
+	@available(iOSApplicationExtension, unavailable)
 	public static var shared: AppDelegate {
 		let result = UIApplication.shared.delegate as? AppDelegate
 		return result.require(hint: "Unable to cast app delegate to correct type")

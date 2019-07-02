@@ -18,6 +18,7 @@ public protocol ApplicationService: UIApplicationDelegate {}
 
 public extension ApplicationService {
 	/// The application window.
+	@available(iOSApplicationExtension, unavailable)
 	var window: UIWindow? {
 		guard let window = UIApplication.shared.delegate?.window else { return nil }
 		return window
