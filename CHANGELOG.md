@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* Dropped support for iOS 9.0.
+* Removed SugarRecord as a dependency.
+* DB: rewritten to use `NSPersistentContainer`.
+
 ### Bug Fixes
 
 * Deeplink: fix issue with VCs with child deeplink matchables (for example a segmented tabcontroller).
