@@ -1,0 +1,45 @@
+// swiftlint:disable all
+// Generated using SwiftGen — https://github.com/SwiftGen/SwiftGen
+
+// swiftlint:disable superfluous_disable_command
+// swiftlint:disable sorted_imports
+import CoreData
+import Foundation
+{% for import in param.extraImports %}
+import {{ import }}
+{% empty %}
+{# If extraImports is a single String instead of an array, `for` considers it empty but we still have to check if there's a single String value #}
+{% if param.extraImports %}import {{ param.extraImports }}{% endif %}
+{% endfor %}
+
+// swiftlint:disable attributes file_length vertical_whitespace_closing_braces
+// swiftlint:disable identifier_name line_length type_body_length
+{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{{ accessModifier }} enum Schema {
+
+  {% for model in models %}
+  {% for name, entity in model.entities %}
+  {% set superclass %}{% if model.entities[entity.superEntity].className %}Schema.{{ model.entities[entity.superEntity].className }}{% else %}NSObject{% endif %}{% endset %}
+  {% set entityClassName %}{{ entity.className|default:"NSManagedObject" }}{% endset %}
+  // MARK: - {{ entity.name }}
+
+  {{ accessModifier }} class {{ entityClassName }}: {{ superclass }} {
+    override fileprivate init() { fatalError() }
+
+    {% for attribute in entity.attributes %}
+    @objc {{ accessModifier }} var {{ attribute.name }}: {{ attribute.typeName }}
+    {% endfor %}
+    {% for relationship in entity.relationships %}
+    {% set destination model.entities[relationship.destinationEntity].className %}
+    {% if relationship.isToMany %}
+    @objc {{ accessModifier }} var {{ relationship.name }}: [{{ destination|default:"NSManagedObject" }}]
+    {% else %}
+    @objc {{ accessModifier }} var {{ relationship.name }}: {{ destination|default:"NSManagedObject" }}
+    {% endif %}
+    {% endfor %}
+  }
+
+  {% endfor %}
+  {% endfor %}
+}
+// swiftlint:enable identifier_name line_length type_body_length
