@@ -15,7 +15,8 @@ All notable changes to this project will be documented in this file.
 
 ### New Features
 
-* Add `Identifiable` protocol for easy `Identifier` phantom types.
+* Core: add `Identifiable` protocol for easy `Identifier` phantom types.
+* Core: add `PushNotificationType` protocol for parsing incoming pushes.
 
 ### Bug Fixes
 
