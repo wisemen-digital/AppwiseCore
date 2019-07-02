@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 * Removed SugarRecord as a dependency.
 * DB: rewritten to use `NSPersistentContainer`.
 * Core: renamed `ViewModel` to `ViewModelType` (so we can have a `ViewModel` namespace).
+* Upgraded to Swift 5.0.
 
 ### New Features
 

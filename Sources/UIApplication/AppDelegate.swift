@@ -181,8 +181,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completion: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification, completionHandler: completion)
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, for: notification, completionHandler: { completion(completionHandler) })
 		}, then: { _ in
 			completionHandler()
 		})
@@ -199,8 +199,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: { completion(completionHandler) })
 		}, then: { _ in
 			completionHandler()
 		})
@@ -208,8 +208,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo, completionHandler: completionHandler)
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo, completionHandler: { completion(completionHandler) })
 		}, then: { _ in
 			completionHandler()
 		})
@@ -244,8 +244,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	public func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleEventsForBackgroundURLSession: identifier, completionHandler: completionHandler)
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleEventsForBackgroundURLSession: identifier, completionHandler: { completion(completionHandler) })
 		}, then: { _ in
 			completionHandler()
 		})
