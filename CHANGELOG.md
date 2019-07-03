@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.0.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.0.0)
+
 ### Breaking
 
 * Dropped support for iOS 9.0.
