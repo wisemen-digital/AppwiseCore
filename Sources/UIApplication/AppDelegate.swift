@@ -16,6 +16,7 @@ import UIKit
 /// Expects a generic parameter for the type of `Config` you'll be using.
 open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The shared application delegate
+	@available(iOSApplicationExtension, unavailable)
 	public static var shared: AppDelegate {
 		let result = UIApplication.shared.delegate as? AppDelegate
 		return result.require(hint: "Unable to cast app delegate to correct type")
@@ -181,9 +182,9 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completion: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification, completionHandler: completion)
-		}, completionHandler: { _ in
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, for: notification, completionHandler: { completion(completionHandler) })
+		}, then: { _ in
 			completionHandler()
 		})
 	}
@@ -192,25 +193,25 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
 		allServices.apply({ (service, _: @escaping (()) -> Void) -> Void? in
 			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, withResponseInfo: responseInfo, completionHandler: completionHandler)
-		}, completionHandler: { _ in
+		}, then: { _ in
 			completionHandler()
 		})
 	}
 
 	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
-		}, completionHandler: { _ in
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: { completion(completionHandler) })
+		}, then: { _ in
 			completionHandler()
 		})
 	}
 
 	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
 	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo, completionHandler: completionHandler)
-		}, completionHandler: { _ in
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo, completionHandler: { completion(completionHandler) })
+		}, then: { _ in
 			completionHandler()
 		})
 	}
@@ -218,7 +219,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
 		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
-		}, completionHandler: { results in
+		}, then: { results in
 			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
 			completionHandler(result)
 		})
@@ -227,7 +228,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
 		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, performFetchWithCompletionHandler: completionHandler)
-		}, completionHandler: { results in
+		}, then: { results in
 			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
 			completionHandler(result)
 		})
@@ -236,7 +237,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Swift.Void) {
 		allServices.apply({ service, completionHandler -> Void? in
 			service.application?(application, performActionFor: shortcutItem, completionHandler: completionHandler)
-		}, completionHandler: { results in
+		}, then: { results in
 			// if any service handled the shortcut, return true
 			let result = results.reduce(false) { $0 || $1 }
 			completionHandler(result)
@@ -244,9 +245,9 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	}
 
 	public func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, completionHandler: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleEventsForBackgroundURLSession: identifier, completionHandler: completionHandler)
-		}, completionHandler: { _ in
+		allServices.apply({ (service, completion) -> Void? in
+			service.application?(application, handleEventsForBackgroundURLSession: identifier, completionHandler: { completion(completionHandler) })
+		}, then: { _ in
 			completionHandler()
 		})
 	}
@@ -257,7 +258,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 		allServices.apply({ service, reply -> Void? in
 			service.application?(application, handleWatchKitExtensionRequest: userInfo, reply: reply)
-		}, completionHandler: { results in
+		}, then: { results in
 			let result = results.reduce([:]) { initial, next in
 				var initial = initial
 				for (key, value) in next ?? [:] {
@@ -376,7 +377,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Swift.Void) -> Bool {
 		let returns = allServices.apply({ service, restorationHandler -> Bool? in
 			service.application?(application, continue: userActivity, restorationHandler: restorationHandler)
-		}, completionHandler: { results in
+		}, then: { results in
 			let result = results.reduce([]) { $0 + ($1 ?? []) }
 			restorationHandler(result)
 		})

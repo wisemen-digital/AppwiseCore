@@ -115,7 +115,7 @@ public extension DataRequest {
 	/// - parameter jsonSerializer:    The response JSON serializer
 	/// - parameter type:              The `Insertable` type that will be used in the serialization
 	/// - parameter contextObject:     The object to pass along to an import operation (see `ImportContext.object`)
-	/// - parameter completionHandler: The code to be executed once the request has finished.
+	/// - parameter handler: The code to be executed once the request has finished.
 	///
 	/// - returns: the request
 	@discardableResult
@@ -125,13 +125,20 @@ public extension DataRequest {
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		contextObject: Any? = nil,
-		completionHandler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void
+		then handler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void
 	) -> Self {
-		let context = db.newSave()
+		let context = db.newBackgroundContext()
 		let save: DB.SaveBlockWitCallback = { completion in
-			db.saveToPersistentStore(context) { error in
-				(queue ?? DispatchQueue.main).async {
-					completion(error)
+			context.perform {
+				do {
+					try context.save()
+					(queue ?? DispatchQueue.main).async {
+						completion(nil)
+					}
+				} catch {
+					(queue ?? DispatchQueue.main).async {
+						completion(error)
+					}
 				}
 			}
 		}
@@ -144,7 +151,7 @@ public extension DataRequest {
 		)
 
 		return response(queue: queue, responseSerializer: serializer) { response in
-			completionHandler(response, save)
+			handler(response, save)
 		}
 	}
 }

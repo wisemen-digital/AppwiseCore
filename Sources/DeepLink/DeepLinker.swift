@@ -50,6 +50,22 @@ public final class DeepLinker {
 	@discardableResult
 	public func open(path: String, animated: Bool) -> Bool {
 		let route = path.split(separator: "/").map { String($0) }
+		return open(route: route, animated: animated)
+	}
+
+	/// Try to open a deep link (a path)
+	///
+	/// - parameter path: The path to open, for example: ["root", "some", "thing", "here"]
+	/// - parameter animated: Whether this should be animated or not.
+	///
+	/// - returns: True if successful. Otherwise, the link will be kept and the system will
+	/// try to open it at a later time (unless you try to open a new link).
+	@discardableResult
+	public func open(_ route: String..., animated: Bool) -> Bool {
+		return open(route: route, animated: animated)
+	}
+
+	private func open(route: [String], animated: Bool) -> Bool {
 		guard !route.isEmpty else { return false }
 
 		if navigate(to: route, animated: animated) {

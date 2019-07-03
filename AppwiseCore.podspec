@@ -14,8 +14,8 @@ Pod::Spec.new do |s|
 		:type => 'MIT',
 		:file => 'LICENSE'
 	}
-	s.ios.deployment_target = '9.0'
-	s.swift_version = '4.2'
+	s.ios.deployment_target = '10.0'
+	s.swift_version = '5.0'
 
 	# files
 	s.source = {
@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 		:tag => s.version,
 		:submodules => true
 	}
-	s.preserve_paths = ['Scripts/*', 'Sourcery/*']
+	s.preserve_paths = ['Scripts/*', 'Sourcery/*', 'SwiftGen/*']
 	s.default_subspec = 'Core', 'Behaviours', 'UI', 'UIApplication'
 
 	# VC behaviours
@@ -67,7 +67,6 @@ Pod::Spec.new do |s|
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'Groot', '~> 3.0'
-		ss.dependency 'SugarRecord/CoreData', '~> 3.1'
 	end
 
 	# deeplinking

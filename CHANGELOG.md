@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* Dropped support for iOS 9.0.
+* Removed SugarRecord as a dependency.
+* DB: rewritten to use `NSPersistentContainer`.
+* Core: renamed `ViewModel` to `ViewModelType` (so we can have a `ViewModel` namespace).
+* Upgraded to Swift 5.0.
+
+### New Features
+
+* Core: add `Identifiable` protocol for easy `Identifier` phantom types.
+* Core: add `PushNotificationType` protocol for parsing incoming pushes.
+* Deeplink: add shortcut method for opening a list of path elements.
+* UIApplication: make spec compatible with app extensions.
+* New SwiftGen templates for CoreData code generation: `CoreData.stencil` (similar to built-in template) and `CoreData (KeyPaths).stencil` (for `#keyPath` use).
+
 ### Bug Fixes
 
 * Deeplink: fix issue with VCs with child deeplink matchables (for example a segmented tabcontroller).
