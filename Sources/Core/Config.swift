@@ -100,7 +100,8 @@ public extension Config {
 // MARK: - Other
 
 private enum InfoKeys {
-	static let displayName = "CFBundleDisplayName"
+	static let bundleDisplayName = "CFBundleDisplayName"
+	static let bundleName = "CFBundleName"
 	static let shortVersion = "CFBundleShortVersionString"
 	static let version = "CFBundleVersion"
 }
@@ -108,8 +109,13 @@ private enum InfoKeys {
 public extension Config {
 	/// The name of the application, taken from the info dictionary.
 	var appName: String {
-		guard let value = Bundle.main.infoDictionary?[InfoKeys.displayName] as? String else { return "" }
-		return value
+		if let value = Bundle.main.infoDictionary?[InfoKeys.bundleDisplayName] as? String {
+			return value
+		} else if let value = Bundle.main.infoDictionary?[InfoKeys.bundleName] as? String {
+			return value
+		} else {
+			return ""
+		}
 	}
 
 	/// The version of the application, taken from the info dictionary.

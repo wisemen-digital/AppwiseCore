@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
-* Rename `ViewModel.Model` to `ViewModel.ModelType` to avoid conflicts with `Model` namespace. This shouldn't impact anyone unless you were directly referencing the associated type.
+* Core: rename `ViewModel.Model` to `ViewModel.ModelType` to avoid conflicts with `Model` namespace. This shouldn't impact anyone unless you were directly referencing the associated type.
+* Core: fallback to CFBundleName if CFBundleDisplayName is empty.
 
 ## [1.0.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.0.0)
 
