@@ -156,7 +156,7 @@ extension DeepLinker {
 	}
 
 	private func findFirstDifferentIndex(stack: Stack, route: [String]) -> Array<String>.Index? {
-		if let index = Array(zip(route, stack)).index(where: { $0 != $1.path }),
+		if let index = Array(zip(route, stack)).firstIndex(where: { $0 != $1.path }),
 			index > stack.startIndex {
 			return index
 		} else {

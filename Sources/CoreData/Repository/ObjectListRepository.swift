@@ -7,7 +7,6 @@
 //
 
 import Alamofire
-import AppwiseCore
 import CoreData
 
 public protocol ObjectListRepository {

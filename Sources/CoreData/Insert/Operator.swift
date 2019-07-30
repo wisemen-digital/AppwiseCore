@@ -26,7 +26,7 @@ public extension Optional where Wrapped == MapValue {
 
 	static func <- <T: Insertable>(left: inout T?, right: MapValue?) {
 		if let mapValue = right,
-			let value: T? = try? mapValue.serialize() {
+			let value = try? mapValue.serialize() as T? {
 			left = value
 		}
 	}

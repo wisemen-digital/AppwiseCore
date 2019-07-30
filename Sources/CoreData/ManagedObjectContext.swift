@@ -9,7 +9,7 @@
 import CoreData
 
 public extension NSManagedObjectContext {
-	public enum Error: Swift.Error {
+	enum Error: Swift.Error {
 		case entityNotFound
 		case unsupportedIdentityAttributes
 		case unableToCastObjectTo(type: NSManagedObject.Type)
@@ -20,7 +20,7 @@ public extension NSManagedObjectContext {
 	/// - parameter value: The value to match.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: NSManagedObject>(value: Any) throws -> T? {
+	func first<T: NSManagedObject>(value: Any) throws -> T? {
 		let keys = T.entity().keysForUniquing
 		guard keys.count == 1, let key = keys.first else {
 			throw Error.unsupportedIdentityAttributes
@@ -35,7 +35,7 @@ public extension NSManagedObjectContext {
 	/// - parameter value: The value to match.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: NSManagedObject>(key: PartialKeyPath<T>, value: Any) -> T? {
+	func first<T: NSManagedObject>(key: PartialKeyPath<T>, value: Any) -> T? {
 		guard let keyPath = key._kvcKeyPathString else { return nil }
 		return first(key: keyPath, value: value)
 	}
@@ -51,7 +51,7 @@ public extension NSManagedObjectContext {
 	/// - parameter predicate: The predicate to search with.
 	///
 	/// - returns: The found object or nil.
-	public func first<T: NSManagedObject>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
+	func first<T: NSManagedObject>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
 		T.fetchRequest()
 		let request = T.fetchRequest(
 			predicate: predicate,
@@ -68,12 +68,12 @@ public extension NSManagedObjectContext {
 	/// - parameter item: The object to convert.
 	///
 	/// - returns: The converted object or nil.
-	public func inContext<T: NSManagedObject>(_ item: T) throws -> T {
+	func inContext<T: NSManagedObject>(_ item: T) throws -> T {
 		if item.objectID.isTemporaryID {
 			try item.managedObjectContext?.obtainPermanentIDs(for: [item])
 		}
 
-		guard let result = try object(with: item.objectID) as? T else {
+		guard let result = object(with: item.objectID) as? T else {
 			throw Error.unableToCastObjectTo(type: T.self)
 		}
 		return result
@@ -84,7 +84,7 @@ public extension NSManagedObjectContext {
 	/// - parameter filter: The predicate to match against.
 	///
 	/// - returns: A list of old objects.
-	public func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) -> [T] {
+	func findOldItems<T: NSManagedObject>(filter: NSPredicate? = nil) -> [T] {
 		let request = T.fetchRequest(predicate: filter).then {
 			$0.returnsObjectsAsFaults = true
 			$0.includesPropertyValues = false
@@ -120,7 +120,7 @@ public extension NSManagedObjectContext {
 	///            `NSManagedObjectContext.reset()` or use the result of the batch
 	///            request by setting the result type to `.resultTypeObjectIDs`.
 	@discardableResult
-	public func removeAll<T: NSManagedObject>(of entity: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
+	func removeAll<T: NSManagedObject>(of entity: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
 		let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
 		let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
 		deleteRequest.resultType = resultType
