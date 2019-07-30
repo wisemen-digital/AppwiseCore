@@ -8,8 +8,8 @@
 import Foundation
 
 // Based on the Version type from SPM, which can be found here:
-// https://github.com/apple/swift-package-manager/blob/master/Sources/Utility/Version.swift
-// Last check on 12/01/2019
+// https://github.com/apple/swift-package-manager/blob/master/Sources/SPMUtility/Version.swift
+// Last check on 30/07/2019
 
 /// A struct representing a semver version.
 public struct Version: Hashable {
@@ -155,8 +155,7 @@ extension Version: ExpressibleByStringLiteral {
 	}
 }
 
-// MARK: - Range operations
-
+// MARK:- Range operations
 extension ClosedRange where Bound == Version {
 	/// Marked as unavailable because we have custom rules for contains.
 	public func contains(_ element: Version) -> Bool {
@@ -164,6 +163,17 @@ extension ClosedRange where Bound == Version {
 		fatalError("contains(_:) is unavailable, use contains(version:)")
 	}
 }
+
+// Disabled because compiler hits an assertion https://bugs.swift.org/browse/SR-5014
+#if false
+extension CountableRange where Bound == Version {
+	/// Marked as unavailable because we have custom rules for contains.
+	public func contains(_ element: Version) -> Bool {
+		// Unfortunately, we can't use unavailable here.
+		fatalError("contains(_:) is unavailable, use contains(version:)")
+	}
+}
+#endif
 
 extension Range where Bound == Version {
 	/// Marked as unavailable because we have custom rules for contains.
