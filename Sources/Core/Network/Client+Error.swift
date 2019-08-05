@@ -61,7 +61,9 @@ public extension Client {
 		} else if let json = json as? [String: Any],
 			let message = json[Keys.message] as? String {
 			return ClientError.message(message, underlyingError: error)
-		} else if let message = String(data: data, encoding: .utf8), !message.isEmpty {
+		} else if let message = String(data: data, encoding: .utf8),
+			!message.lowercased().contains("<html"),
+			!message.isEmpty {
 			return ClientError.message(message, underlyingError: error)
 		} else {
 			return error

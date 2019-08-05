@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### New Features
+
+* The default `Client` error parser tries to ignore HTML errors.
+
 ## [1.0.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.0.1)
 
 ### Bug Fixes
