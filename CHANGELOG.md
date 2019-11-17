@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.1.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.1.0)
+
 ### New Features
 
 * AutoViewModel template now supports adding extra imports using the `extraImports` variable.
