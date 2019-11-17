@@ -15,7 +15,7 @@ import {{ module }}
 	{% endif %}
 {% endfilter %}{% endmacro %}
 {% macro listProperties modelType viewModelType %}
-	{% for var in modelType.instanceVariables %}
+	{% for var in modelType.instanceVariables where var.readAccess != "private" and var.readAccess != "fileprivate" %}
 	{% set exists %}{% if viewModelType %}{% call propertyAlreadyExists var viewModelType %}{% endif %}{% endset %}
 	{% if not exists %}
 	{% set vmTypeName %}{% call viewModelFor var.type %}{% endset %}

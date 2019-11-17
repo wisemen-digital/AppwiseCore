@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 
 * AutoViewModel template now supports adding extra imports using the `extraImports` variable.
 
+### Bug Fixes
+
+* AutoViewModel won't generate getters for `private` properties.
+
 ## [1.0.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.0.2)
 
 ### New Features
