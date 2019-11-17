@@ -1,4 +1,7 @@
 import AppwiseCore
+{% for module in argument.extraImports %}
+import {{ module }}
+{% endfor %}
 {% macro associatedTypeFor vmType %}{% filter removeNewlines:"all" %}
 	{% for var in vmType.variables where var.name == "data" %}
 		{{ var.typeName }}
