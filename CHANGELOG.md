@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 
 * Core: improved the network error parser, it now supports sub-errors.
 
+### Bug Fixes
+
+* CoreData: fixed a bug for data models when used inside frameworks.
+
 ## [1.1.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.1.0)
 
 ### New Features

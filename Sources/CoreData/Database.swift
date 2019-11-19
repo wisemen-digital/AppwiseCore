@@ -89,7 +89,7 @@ extension DB {
 	}
 
 	private static func createContainer(bundle: Bundle, storeName: String) -> NSPersistentContainer {
-		if let model = NSManagedObjectModel.mergedModel(from: [Bundle.main]) {
+		if let model = NSManagedObjectModel.mergedModel(from: [bundle]) {
 			return NSPersistentContainer(name: storeName, managedObjectModel: model)
 		} else {
 			fatalError("Unable to load merged core data model.")
