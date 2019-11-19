@@ -8,11 +8,14 @@
 import Foundation
 
 // Based on the Version type from SPM, which can be found here:
-// https://github.com/apple/swift-package-manager/blob/master/Sources/SPMUtility/Version.swift
-// Last check on 30/07/2019
+// https://github.com/apple/swift-package-manager/blob/master/Sources/TSCUtility/Version.swift
+// Last check on 19 November 2019
+
+// swiftlint:disable all
 
 /// A struct representing a semver version.
 public struct Version: Hashable {
+
 	/// The major version.
 	public let major: Int
 
@@ -46,6 +49,7 @@ public struct Version: Hashable {
 }
 
 extension Version: Comparable {
+
 	func isEqualWithoutPrerelease(_ other: Version) -> Bool {
 		return major == other.major && minor == other.minor && patch == other.patch
 	}
@@ -76,10 +80,10 @@ extension Version: Comparable {
 			let typedRhsIdentifier: Any = Int(rhsPrereleaseIdentifier) ?? rhsPrereleaseIdentifier
 
 			switch (typedLhsIdentifier, typedRhsIdentifier) {
-			case let (int1 as Int, int2 as Int): return int1 < int2
-			case let (string1 as String, string2 as String): return string1 < string2
-			case (is Int, is String): return true // Int prereleases < String prereleases
-			case (is String, is Int): return false
+				case let (int1 as Int, int2 as Int): return int1 < int2
+				case let (string1 as String, string2 as String): return string1 < string2
+				case (is Int, is String): return true // Int prereleases < String prereleases
+				case (is String, is Int): return false
 			default:
 				return false
 			}
@@ -103,13 +107,14 @@ extension Version: CustomStringConvertible {
 }
 
 public extension Version {
+
 	/// Create a version object from string.
 	///
 	/// - Parameters:
 	///   - string: The string to parse.
 	init?(string: String) {
-		let prereleaseStartIndex = string.index(of: "-")
-		let metadataStartIndex = string.index(of: "+")
+		let prereleaseStartIndex = string.firstIndex(of: "-")
+		let metadataStartIndex = string.firstIndex(of: "+")
 
 		let requiredEndIndex = prereleaseStartIndex ?? metadataStartIndex ?? string.endIndex
 		let requiredCharacters = string.prefix(upTo: requiredEndIndex)
@@ -139,6 +144,7 @@ public extension Version {
 }
 
 extension Version: ExpressibleByStringLiteral {
+
 	public init(stringLiteral value: String) {
 		guard let version = Version(string: value) else {
 			fatalError("\(value) is not a valid version")
@@ -184,6 +190,7 @@ extension Range where Bound == Version {
 }
 
 extension Range where Bound == Version {
+
 	public func contains(version: Version) -> Bool {
 		// Special cases if version contains prerelease identifiers.
 		if !version.prereleaseIdentifiers.isEmpty {
@@ -198,6 +205,10 @@ extension Range where Bound == Version {
 			if upperBound.prereleaseIdentifiers.isEmpty && upperBound.isEqualWithoutPrerelease(version) {
 				return false
 			}
+		}
+
+		if lowerBound == version {
+			return true
 		}
 
 		// Otherwise, apply normal contains rules.

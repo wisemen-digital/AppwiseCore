@@ -10,7 +10,7 @@ import Foundation
 
 // Credit to John Sundell for the original implementation:
 // https://github.com/JohnSundell/Require
-// Last sync on 5 November 2017
+// Last sync on 19 November 2017
 
 public extension Optional {
 	/// Require this optional to contain a non-nil value

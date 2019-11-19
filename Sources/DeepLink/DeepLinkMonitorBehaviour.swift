@@ -68,7 +68,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 	}
 
 	// collect child VCs that are DeeplinkMatchable
-	private func collectControllers(in parent: UIViewController)-> [DeepLinkMatchable] {
+	private func collectControllers(in parent: UIViewController) -> [DeepLinkMatchable] {
 		return parent.children
 			.flatMap { [$0] + collectControllers(in: $0) }
 			.compactMap { $0 as? DeepLinkMatchable }

@@ -38,7 +38,7 @@ public protocol Router: URLRequestConvertible, URLConvertible {
 	var updateInterval: TimeInterval { get }
 }
 
-/// MARK: - URLConvertible
+// MARK: - URLConvertible
 
 public extension Router {
 	func asURL() throws -> URL {
@@ -51,7 +51,7 @@ public extension Router {
 	}
 }
 
-/// MARK: - URLRequestConvertible
+// MARK: - URLRequestConvertible
 
 public extension Router {
 	func asURLRequest() throws -> URLRequest {
@@ -97,7 +97,7 @@ public extension Router {
 	}
 }
 
-/// MARK: - Default implementation
+// MARK: - Default implementation
 
 public extension Router {
 	var method: HTTPMethod {

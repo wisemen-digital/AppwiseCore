@@ -9,12 +9,12 @@
 import CocoaLumberjack
 import CoreData
 
-extension DB {
+public extension DB {
 	/// Create a new temporary save context. Call `saveToPersistentStore(_:)` with it
 	/// when done.
 	///
 	/// - returns: The new context.
-	public func newBackgroundContext() -> NSManagedObjectContext {
+	func newBackgroundContext() -> NSManagedObjectContext {
 		return container.newBackgroundContext().then {
 			$0.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
 		}
@@ -24,7 +24,7 @@ extension DB {
 	///
 	/// - parameter moc: The managed object context.
 	/// - parameter handler: The callback after saving.
-	public func saveToPersistentStore(_ moc: NSManagedObjectContext, then handler: @escaping (Error?) -> Void) {
+	func saveToPersistentStore(_ moc: NSManagedObjectContext, then handler: @escaping (Error?) -> Void) {
 		moc.perform {
 			do {
 				try moc.save()

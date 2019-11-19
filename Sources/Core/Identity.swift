@@ -10,7 +10,7 @@ import Foundation
 
 // Credit to John Sundell for the original implementation:
 // https://github.com/JohnSundell/Identity
-// Last sync on 2 July 2019
+// Last sync on 19 November 2019
 
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
