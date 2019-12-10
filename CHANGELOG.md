@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.1.1)
+
 ### New Features
 
 * Core: improved the network error parser, it now supports sub-errors.
