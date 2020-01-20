@@ -51,7 +51,7 @@ import {{ import }}
   {% if attribute.userInfo.RawType %}
   {% set rawType attribute.userInfo.RawType %}
   {% set unwrapOptional attribute.userInfo.unwrapOptional %}
-  {{ accessModifier }} var {{ attribute.name }}: {{ rawType }}{% if not unwrapOptional %}?{% endif %} {
+  {{ accessModifier }} dynamic var {{ attribute.name }}: {{ rawType }}{% if not unwrapOptional %}?{% endif %} {
     get {
       let key = "{{ attribute.name }}"
       willAccessValue(forKey: key)
@@ -79,7 +79,7 @@ import {{ import }}
     }
   }
   {% elif attribute.usesScalarValueType and attribute.isOptional %}
-  {{ accessModifier }} var {{ attribute.name }}: {{ attribute.typeName }}? {
+  {{ accessModifier }} dynamic var {{ attribute.name }}: {{ attribute.typeName }}? {
     get {
       let key = "{{ attribute.name }}"
       willAccessValue(forKey: key)
@@ -96,18 +96,18 @@ import {{ import }}
     }
   }
   {% else %}
-  @NSManaged {{ accessModifier }} var {{ attribute.name }}: {{ attribute.typeName }}{% if attribute.isOptional %}?{% endif %}
+  @NSManaged {{ accessModifier }} dynamic var {{ attribute.name }}: {{ attribute.typeName }}{% if attribute.isOptional %}?{% endif %}
   {% endif %}
   {% endfor %}
   {% for relationship in entity.relationships %}
   {% if relationship.isToMany %}
-  @NSManaged {{ accessModifier }} var {{ relationship.name }}: {% if relationship.isOrdered %}NSOrderedSet{% else %}Set<{{ model.entities[relationship.destinationEntity].className|default:"NSManagedObject" }}>{% endif %}{% if relationship.isOptional %}?{% endif %}
+  @NSManaged {{ accessModifier }} dynamic var {{ relationship.name }}: {% if relationship.isOrdered %}NSOrderedSet{% else %}Set<{{ model.entities[relationship.destinationEntity].className|default:"NSManagedObject" }}>{% endif %}{% if relationship.isOptional %}?{% endif %}
   {% else %}
-  @NSManaged {{ accessModifier }} var {{ relationship.name }}: {{ model.entities[relationship.destinationEntity].className|default:"NSManagedObject" }}{% if relationship.isOptional %}?{% endif %}
+  @NSManaged {{ accessModifier }} dynamic var {{ relationship.name }}: {{ model.entities[relationship.destinationEntity].className|default:"NSManagedObject" }}{% if relationship.isOptional %}?{% endif %}
   {% endif %}
   {% endfor %}
   {% for fetchedProperty in entity.fetchedProperties %}
-  @NSManaged {{ accessModifier }} var {{ fetchedProperty.name }}: [{{ fetchedProperty.fetchRequest.entity }}]
+  @NSManaged {{ accessModifier }} dynamic var {{ fetchedProperty.name }}: [{{ fetchedProperty.fetchRequest.entity }}]
   {% endfor %}
   // swiftlint:enable discouraged_optional_boolean discouraged_optional_collection
 }

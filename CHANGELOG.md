@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* DB: `var` declarations must be `dynamic` as well as `@NSManaged`.
+
 ## [1.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.1.1)
 
 ### New Features
