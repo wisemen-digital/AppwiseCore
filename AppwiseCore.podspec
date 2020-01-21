@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
 		ss.dependency 'Alamofire', '~> 4.8'
 		ss.dependency 'CocoaLumberjack/Swift', '~> 3.5'
 		ss.dependency 'CodableAlamofire', '~> 1.1'
-		ss.dependency 'CrashlyticsRecorder', '~> 2.3'
+		ss.dependency 'Sentry'
 		ss.dependency 'Then', '~> 2.4'
 	end
 

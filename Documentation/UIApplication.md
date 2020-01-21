@@ -12,7 +12,7 @@ Why?
 
 - `AddSkipBackupAttributeApplicationService`: Disables iCloud backup for every file/folder in the "Application Support" folder.
 - `ConfigureMainQueueApplicationService`: Ensure you can check which dispatch queue is the main queue.
-- `LoggingApplicationService`: Configures CocoaLumberjack and adds a Crashlytics logger.
+- `LoggingApplicationService`: Configures CocoaLumberjack and adds a Sentry logger.
 - `ConfigurationApplicationService`: Triggers `Config` initialization, see [Config](Core.md#config).
 
 ## Your own application services

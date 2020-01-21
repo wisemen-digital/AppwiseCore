@@ -7,7 +7,6 @@
 //
 
 import CocoaLumberjack
-import CrashlyticsRecorder
 
 /// Internal class for initializing the logging framework
 final class LoggingApplicationService: NSObject, ApplicationService {
@@ -18,24 +17,7 @@ final class LoggingApplicationService: NSObject, ApplicationService {
 			DDLog.add(tty)
 		}
 
-		if CrashlyticsRecorder.sharedInstance != nil {
-			DDLog.add(CrashlyticsLogger.shared)
-		}
-
-		return true
-	}
-
-	func applicationDidFinishLaunching(_ application: UIApplication) {
-		if CrashlyticsRecorder.sharedInstance == nil {
-			DDLogError("CrashlyticsRecorder instance is missing!")
-		}
-	}
-
-	// swiftlint:disable:next discouraged_optional_collection
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-		if CrashlyticsRecorder.sharedInstance == nil {
-			DDLogError("CrashlyticsRecorder instance is missing!")
-		}
+		DDLog.add(SentryLogger.shared)
 
 		return true
 	}

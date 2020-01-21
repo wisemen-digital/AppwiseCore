@@ -160,4 +160,4 @@ final class MyController: UIViewController {
 
 - `FileManager.default.documentsDirectory` and `.supportDirectory` getters.
 - Don't know if you're in the main queue? `DispatchQueue.isMain` to the rescue.
-- `CrashlyticsLogger`
+- `SentryLogger`
