@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### New Features
+
+* Script: Add more scripts for the common build steps, and improve them to check for tool availability & whether it is running on CI or during an archive.
+
 ### Bug Fixes
 
 * DB: `var` declarations must be `dynamic` as well as `@NSManaged`.
