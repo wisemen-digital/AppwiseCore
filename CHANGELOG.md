@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Script: Add more scripts for the common build steps, and improve them to check for tool availability & whether it is running on CI or during an archive.
+* Script: Added script & template for project generation using XcodeGen.
 
 ### Bug Fixes
 
