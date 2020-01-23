@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 		:tag => s.version,
 		:submodules => true
 	}
-	s.preserve_paths = ['Scripts/*', 'Sourcery/*', 'SwiftGen/*']
+	s.preserve_paths = ['Scripts/*', 'Sourcery/*', 'SwiftGen/*', 'XcodeGen/*']
 	s.default_subspec = 'Core', 'Behaviours', 'UI', 'UIApplication'
 
 	# VC behaviours

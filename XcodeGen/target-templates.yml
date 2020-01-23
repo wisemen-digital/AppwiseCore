@@ -1,0 +1,27 @@
+targetTemplates:
+  iOS App:
+    type: application
+    platform: iOS
+    preBuildScripts:
+      - name: Check Strings
+        path: ../Scripts/check_strings.sh
+        showEnvVars: false
+      - name: SwiftGen
+        path: ../Scripts/swiftgen.sh
+        showEnvVars: false
+      - name: Sourcery
+        path: ../Scripts/sourcery.sh
+        showEnvVars: false
+      - name: SwiftFormat
+        path: ../Scripts/swiftformat.sh
+        showEnvVars: false
+      - name: SwiftLint
+        path: ../Scripts/swiftlint.sh
+        showEnvVars: false
+    postBuildScripts:
+      - name: Strip Architectures
+        path: ../Scripts/strip_architectures.sh
+        showEnvVars: false
+      - name: Update Version Number
+        path: ../Scripts/update_build_number.sh
+        showEnvVars: false
