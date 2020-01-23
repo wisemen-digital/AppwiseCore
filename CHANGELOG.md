@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.2.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.0)
+
 ### New Features
 
 * Script: Add more scripts for the common build steps, and improve them to check for tool availability & whether it is running on CI or during an archive.

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '1.1.1'
+	s.version = '1.2.0'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Then', '~> 2.4'
+		ss.dependency 'Then', '~> 2.6'
 	end
 
 	# Common files
@@ -53,10 +53,10 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'Alamofire', '~> 4.8'
-		ss.dependency 'CocoaLumberjack/Swift', '~> 3.5'
+		ss.dependency 'CocoaLumberjack/Swift', '~> 3.6'
 		ss.dependency 'CodableAlamofire', '~> 1.1'
 		ss.dependency 'Sentry'
-		ss.dependency 'Then', '~> 2.4'
+		ss.dependency 'Then', '~> 2.6'
 	end
 
 	# coredata
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'AppwiseCore/Behaviours'
-		ss.dependency 'IBAnimatable', '~> 5.2'
+		ss.dependency 'IBAnimatable', '~> 6.0'
 	end
 
 	# UIApplication
