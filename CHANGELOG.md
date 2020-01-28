@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### New Features
+
+* Script: add script for fastlane translations steps (import/export).
+
 ## [1.2.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.0)
 
 ### New Features
