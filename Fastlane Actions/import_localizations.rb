@@ -18,6 +18,13 @@ module Fastlane
         Dir["#{source_path}/*.xliff"].each { |xliff|
           sh "xcodebuild -importLocalizations -localizationPath #{xliff} -project #{project}"
         }
+
+        # trigger BartyCrouch to keep diffs minimal
+        bartycrouch = './Pods/BartyCrouch/bartycrouch'
+        if File.file?(bartycrouch)
+          puts 'Normalize strings files...'
+          system('./Pods/BartyCrouch/bartycrouch update -x')
+        end
       end
 
       #####################################################

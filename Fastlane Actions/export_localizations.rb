@@ -25,7 +25,6 @@ module Fastlane
           .join(' ')
 
         puts "Exporting localizations from #{project} to #{destination_path} folder"
-        puts Dir.pwd
         sh "xcodebuild -exportLocalizations -localizationPath \"#{destination_path}\" -project \"#{project}\" #{languages}"
 
         # Move all xliffs up
@@ -51,7 +50,8 @@ module Fastlane
           doc.context[:attribute_quote] = :quote
 
           File.open(xliff, 'w') { |file|
-            doc.write(:output => file)
+            formatter = OrderedAttributesFormatter.new
+            formatter.write(doc, file)
           }
         }
       end
@@ -114,5 +114,40 @@ module Fastlane
         true
       end
     end
+  end
+end
+
+class OrderedAttributesFormatter < REXML::Formatters::Default
+  def write_element(node, output)
+    if node.expanded_name == 'xliff'
+      write_xliff_element(node, output)
+    else
+      super(node, output)
+    end
+  end
+
+  # override so we can sort xliff node attributes like weblate
+  def write_xliff_element(node, output)
+    output << "<#{node.expanded_name}"
+
+    weblate_order = ['xmlns', 'xsi', 'schemaLocation', 'version']
+
+    node.attributes.to_a.map { |a|
+      Hash === a ? a.values : a
+    }.flatten.sort_by {|attr| weblate_order.index(attr.name) }.each do |attr|
+      output << " "
+      attr.write( output )
+    end unless node.attributes.empty?
+
+    if node.children.empty?
+      output << "/"
+    else
+      output << ">"
+      node.children.each { |child|
+        write( child, output )
+      }
+      output << "</#{node.expanded_name}"
+    end
+    output << ">"
   end
 end
