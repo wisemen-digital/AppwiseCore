@@ -1,14 +1,19 @@
 #!/usr/bin/env ruby
 
 def export_translations_and_strip_ignored
-  # This exports translations into xcloc folders inside the Localisations folder
-  export_localizations(
-    destination_path: 'Localizations',
-    project: Dir['*.xcodeproj', base: '..'].first
-  )
-
-  # Move all xliffs up
   Dir.chdir('..') do
+    # This exports translations into xcloc folders inside the Localisations folder
+    languages = Dir['Application/Resources/*.lproj']
+      .map { |lproj| File.basename(lproj, '.lproj') }
+      .delete_if { |lang| lang == 'Base' }
+      .map { |lang| "-exportLanguage #{lang}"}
+      .join(' ')
+    project = Dir['*.xcodeproj'].first
+
+    puts "Exporting localizations from #{project} to Localizations folder"
+    sh "xcodebuild -exportLocalizations -localizationPath Localizations -project #{project} #{languages}"
+
+    # Move all xliffs up
     Dir['Localizations/*.xcloc/**/*.xliff'].each { |xliff|
       target = "Localizations/#{File.basename(xliff)}"
       File.delete(target) if File.exists?(target)
@@ -17,10 +22,8 @@ def export_translations_and_strip_ignored
     Dir['Localizations/*.xcloc'].each { |xcloc|
        FileUtils.remove_dir(xcloc)
     }
-  end
 
-  # remove ignored strings
-  Dir.chdir('..') do
+    # remove ignored strings
     Dir['Localizations/*.xliff'].each { |xliff|
       puts "Cleaning up '#{xliff}'"
 
@@ -38,12 +41,13 @@ def export_translations_and_strip_ignored
 end
 
 def import_translations
-  Dir['Localizations/*.xliff', base: '..'].each { |xliff|
-    import_localizations(
-      source_path: xliff,
-      project: Dir['*.xcodeproj', base: '..'].first
-    )
-  }
+  Dir.chdir('..') do
+    project = Dir['*.xcodeproj'].first
+
+    Dir['Localizations/*.xliff'].each { |xliff|
+      sh "xcodebuild -importLocalizations -localizationPath #{xliff} -project #{project}"
+    }
+  end
 end
 
 # work around empty lines issue (REXML bug)
