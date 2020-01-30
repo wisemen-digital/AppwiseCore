@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### New Features
 
 * Fastlane: add actions for translations steps: `export_localizations` and `import_localizations`.
+* Fastlane: add action for automatically linking commits to a sentry release: `sentry_auto_set_commits`.
 
 ## [1.2.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.0)
 
