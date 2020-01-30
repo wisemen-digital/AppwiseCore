@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.2.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.1)
+
 ### New Features
 
 * Fastlane: add actions for translations steps: `export_localizations` and `import_localizations`.
