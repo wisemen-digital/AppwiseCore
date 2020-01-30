@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### New Features
 
-* Script: add script for fastlane translations steps (import/export).
+* Fastlane: add actions for translations steps: `export_localizations` and `import_localizations`.
 
 ## [1.2.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.0)
 
