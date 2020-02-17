@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.2.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.2)
+
 * Script: Renamed the podfile script (`generate_project.rb`) to `cocoapods_rome.rb` & add some common steps:
   * Use the `interface_builder_integration` function in `pre_compile` to fix interface builder integration with pre-compiled frameworks (missing public headers).
   * Use the `force_bitcode` function in `pre_compile` to ensure frameworks are pre-compiled with Bitcode.
