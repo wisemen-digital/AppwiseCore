@@ -1,15 +1,18 @@
 #!/usr/bin/env ruby
 
+# Generate the project using xcodegen (and take into account pre-compiled Rome frameworks)
 def generate_project(installer)
   generate_dependencies(installer)
 
-  # # Try to generate project
+  # Try to generate project
   unless system('which xcodegen > /dev/null')
     abort 'XcodeGen is not installed. Visit https://github.com/yonaskolb/XcodeGen to learn more.'
   end
 
   system('xcodegen')
 end
+
+############ Private methods ############
 
 # Generate the project dependencies file, adding frameworks to the right targets
 # and also checking if they are linked dynamically or not.

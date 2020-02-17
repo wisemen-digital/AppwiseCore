@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+* Script: Renamed the podfile script (`generate_project.rb`) to `cocoapods_rome.rb`.
+
 ## [1.2.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.1)
 
 ### New Features
