@@ -1,5 +1,34 @@
 #!/usr/bin/env ruby
 
+# To fix integration of interface builder with pre-compiled pods,
+# we need to add all swift files to the public headers
+def interface_builder_integration(installer)
+  installer.pods_project.targets.each do |target|
+    next unless target.respond_to?(:product_type)
+    next unless target.product_type == 'com.apple.product-type.framework'
+
+    target.source_build_phase.files_references.each do |file|
+      next unless File.extname(file.path) == '.swift'
+
+      buildFile = target.headers_build_phase.add_file_reference(file)
+      buildFile.settings = { 'ATTRIBUTES' => ['Public']}
+    end
+  end
+
+  installer.pods_project.save
+end
+
+# Force enable bitcode for projects
+def force_bitcode(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['BITCODE_GENERATION_MODE'] = 'bitcode'
+    end
+  end
+
+  installer.pods_project.save
+end
+
 # Generate the project using xcodegen (and take into account pre-compiled Rome frameworks)
 def generate_project(installer)
   generate_dependencies(installer)
