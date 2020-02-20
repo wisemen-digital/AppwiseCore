@@ -77,7 +77,10 @@ public struct DynamicHeaderFooterBehaviour: ViewControllerLifeCycleBehaviour {
 	}
 
 	public func afterLayingOutSubviews(viewController: UIViewController) {
-		tableView?.updateHeaderViewHeight()
-		tableView?.updateFooterViewHeight()
+		// Delay this a bit, to avoid layout issues (header shrinking and such...)
+		DispatchQueue.main.async {
+			self.tableView?.updateHeaderViewHeight()
+			self.tableView?.updateFooterViewHeight()
+		}
 	}
 }

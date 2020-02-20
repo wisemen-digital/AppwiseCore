@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* UI: fix some cases where resizable UITableView headers/footers weren't sizing correctly.
+
 ## [1.2.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.2)
+
+### New Features
 
 * Script: Renamed the podfile script (`generate_project.rb`) to `cocoapods_rome.rb` & add some common steps:
   * Use the `interface_builder_integration` function in `pre_compile` to fix interface builder integration with pre-compiled frameworks (missing public headers).
