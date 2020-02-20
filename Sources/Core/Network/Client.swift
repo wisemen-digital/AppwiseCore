@@ -40,7 +40,7 @@ public extension Client {
 		group.enter()
 		request.asURLRequest(with: sessionManager) { result in
 			group.leave()
-			dataRequest = result.value
+			dataRequest = try? result.get()
 		}
 
 		group.wait()
@@ -55,7 +55,7 @@ public extension Client {
 	/// - parameter request: The router request type
 	/// - parameter completion: The closure to call when finished
 	/// - parameter result: The resulting data request (or an error)
-	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Result<DataRequest>) -> Void) {
+	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Swift.Result<DataRequest, Error>) -> Void) {
 		request.asURLRequest(with: sessionManager) { result in
 			switch result {
 			case .success(let request):

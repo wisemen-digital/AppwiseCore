@@ -16,15 +16,15 @@ public extension Client {
 	func requestData(
 		_ request: RouterType,
 		queue: DispatchQueue? = nil,
-		then handler: @escaping (Alamofire.Result<Data>) -> Void
+		then handler: @escaping (Swift.Result<Data, Error>) -> Void
 	) {
 		buildRequest(request) { result in
 			switch result {
 			case .success(let request):
 				request.responseData(queue: queue) { response in
 					switch response.result {
-					case .success:
-						handler(response.result)
+					case .success(let data):
+						handler(.success(data))
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
 						DDLogInfo(error.localizedDescription)
@@ -48,15 +48,15 @@ public extension Client {
 		_ request: RouterType,
 		queue: DispatchQueue? = nil,
 		options: JSONSerialization.ReadingOptions = .allowFragments,
-		then handler: @escaping (Alamofire.Result<Any>) -> Void
+		then handler: @escaping (Swift.Result<Any, Error>) -> Void
 	) {
 		buildRequest(request) { result in
 			switch result {
 			case .success(let request):
 				request.responseJSON(queue: queue, options: options) { response in
 					switch response.result {
-					case .success:
-						handler(response.result)
+					case .success(let data):
+						handler(.success(data))
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
 						DDLogInfo(error.localizedDescription)
@@ -80,15 +80,15 @@ public extension Client {
 		_ request: RouterType,
 		queue: DispatchQueue? = nil,
 		keyPath: String? = nil,
-		then handler: @escaping (Alamofire.Result<T>) -> Void
+		then handler: @escaping (Swift.Result<T, Error>) -> Void
 	) {
 		buildRequest(request) { result in
 			switch result {
 			case .success(let request):
 				request.responseDecodableObject(queue: queue, keyPath: keyPath) { (response: DataResponse<T>) in
 					switch response.result {
-					case .success:
-						handler(response.result)
+					case .success(let data):
+						handler(.success(data))
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
 						DDLogInfo(error.localizedDescription)
@@ -114,15 +114,15 @@ public extension Client {
 		_ request: RouterType,
 		queue: DispatchQueue? = nil,
 		encoding: String.Encoding? = nil,
-		then handler: @escaping (Alamofire.Result<String>) -> Void
+		then handler: @escaping (Swift.Result<String, Error>) -> Void
 	) {
 		buildRequest(request) { result in
 			switch result {
 			case .success(let request):
 				request.responseString(queue: queue, encoding: encoding) { response in
 					switch response.result {
-					case .success:
-						handler(response.result)
+					case .success(let data):
+						handler(.success(data))
 					case .failure(let error):
 						let error = Self.extract(from: response, error: error)
 						DDLogInfo(error.localizedDescription)

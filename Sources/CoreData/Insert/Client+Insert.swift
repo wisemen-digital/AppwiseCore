@@ -24,7 +24,7 @@ public extension Client {
 		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
 		type: T.Type,
 		contextObject: Any? = nil,
-		then handler: @escaping (Alamofire.Result<T>) -> Void
+		then handler: @escaping (Swift.Result<T, Error>) -> Void
 	) {
 		let responseHandler = { (response: DataResponse<T>, save: @escaping DB.SaveBlockWitCallback) in
 			switch response.result {

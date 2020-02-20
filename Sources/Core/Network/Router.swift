@@ -66,7 +66,7 @@ public extension Router {
 	/// - parameter sessionManager: The session manager used to construct the data request
 	/// - parameter completion: The completion closure to call when finished
 	/// - parameter result: The resulting data request (or an error)
-	func asURLRequest(with sessionManager: SessionManager, completion: @escaping (_ result: Result<DataRequest>) -> Void) {
+	func asURLRequest(with sessionManager: SessionManager, completion: @escaping (_ result: Swift.Result<DataRequest, Error>) -> Void) {
 		let request: URLRequest
 		do {
 			request = try buildURLRequest()
