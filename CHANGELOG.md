@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * UI: fix some cases where resizable UITableView headers/footers weren't sizing correctly.
+* AppDelegate: replace TTY logger by OS logger (as we only support iOS 10+).
 
 ## [1.2.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.2.2)
 
