@@ -55,6 +55,7 @@ import {{ module }}
 	{% endif %}
 {% endfilter %}{% endmacro %}
 
+// swiftlint:disable all
 {% for viewModelType in types.based.ViewModelType %}
 // MARK: - {{ viewModelType.name }}
 
@@ -74,3 +75,4 @@ extension {{ viewModelType.name }} {
 }
 
 {% endfor %}
+// swiftlint:enable all

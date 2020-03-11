@@ -1,7 +1,9 @@
 import AppwiseCore
 
+// swiftlint:disable all
 enum Model {
 	{% for modelType in types.based.NSManagedObject %}
 	typealias {{ modelType.name }} = {{ argument.module }}.{{ modelType.name }}
 	{% endfor %}
 }
+// swiftlint:enable all
