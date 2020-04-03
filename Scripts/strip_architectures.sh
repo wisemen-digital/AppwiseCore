@@ -18,6 +18,9 @@ find "$APP_PATH" -name '*.framework' -type d | while read -r FRAMEWORK; do
   FRAMEWORK_EXECUTABLE_PATH="$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME"
   echo "Executable is $FRAMEWORK_EXECUTABLE_PATH"
 
+  # skip if non-fat binary
+  [[ $(lipo -info "$FRAMEWORK_EXECUTABLE_PATH") == *"Non-fat"* ]] && continue;
+
   EXTRACTED_ARCHS=()
 
   for ARCH in $ARCHS; do
