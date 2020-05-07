@@ -6,18 +6,31 @@ targetTemplates:
       - name: Check Strings
         path: ../Scripts/check_strings.sh
         showEnvVars: false
+        inputFileLists:
+          - Application/Supporting Files/FileLists/check_strings_input.xcfilelist
+        outputFileLists:
+          - Application/Supporting Files/FileLists/check_strings_output.xcfilelist
       - name: SwiftGen
         path: ../Scripts/swiftgen.sh
         showEnvVars: false
+        inputFileLists:
+          - Application/Supporting Files/FileLists/swiftgen_input.xcfilelist
+        outputFileLists:
+          - Application/Supporting Files/FileLists/swiftgen_output.xcfilelist
       - name: Sourcery
         path: ../Scripts/sourcery.sh
         showEnvVars: false
-      - name: SwiftFormat
-        path: ../Scripts/swiftformat.sh
-        showEnvVars: false
+        inputFileLists:
+          - Application/Supporting Files/FileLists/sourcery_input.xcfilelist
+        outputFileLists:
+          - Application/Supporting Files/FileLists/sourcery_output.xcfilelist
       - name: SwiftLint
         path: ../Scripts/swiftlint.sh
         showEnvVars: false
+        inputFileLists:
+          - Application/Supporting Files/FileLists/swiftlint_input.xcfilelist
+        outputFileLists:
+          - Application/Supporting Files/FileLists/swiftlint_output.xcfilelist
     postBuildScripts:
       - name: Strip Architectures
         path: ../Scripts/strip_architectures.sh

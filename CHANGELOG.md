@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Breaking
 
 * AppwiseCore now depends on Sentry 5.0, update your client initialisation code accordingly.
+* The built-in build steps depend on filelists that you should provide. Check the example project for a generic set of input/output file lists.
 
 ### Bug Fixes
 
