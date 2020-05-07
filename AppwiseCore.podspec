@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
 		ss.dependency 'Alamofire', '~> 4.8'
 		ss.dependency 'CocoaLumberjack/Swift', '~> 3.6'
 		ss.dependency 'CodableAlamofire', '~> 1.1'
-		ss.dependency 'Sentry'
+		ss.dependency 'Sentry', '~> 5.0'
 		ss.dependency 'Then', '~> 2.6'
 	end
 
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'AppwiseCore/Behaviours'
-		ss.dependency 'IBAnimatable', '~> 6.0'
+		ss.dependency 'IBAnimatable', '~> 6.1'
 	end
 
 	# UIApplication

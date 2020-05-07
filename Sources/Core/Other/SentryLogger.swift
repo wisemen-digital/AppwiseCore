@@ -14,17 +14,16 @@ internal final class SentryLogger: DDAbstractLogger {
 	static let shared = SentryLogger()
 
 	override func log(message logMessage: DDLogMessage) {
-		guard let client = Sentry.Client.shared,
-			let severity = logMessage.level.severity else { return }
+		guard let level = logMessage.level.sentryLevel else { return }
 
-		let event = Event(level: severity)
-		event.message = logFormatter?.format(message: logMessage) ?? logMessage.message
-		client.send(event: event)
+		SentrySDK.capture(message: logFormatter?.format(message: logMessage) ?? logMessage.message) { scope in
+			scope.setLevel(level)
+		}
 	}
 }
 
 private extension DDLogLevel {
-	var severity: SentrySeverity? {
+	var sentryLevel: SentryLevel? {
 		switch self {
 		case .debug: return .debug
 		case .info: return .info

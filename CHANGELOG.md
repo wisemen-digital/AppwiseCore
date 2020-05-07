@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* AppwiseCore now depends on Sentry 5.0, update your client initialisation code accordingly.
+
 ### Bug Fixes
 
 * UI: fix some cases where resizable UITableView headers/footers weren't sizing correctly.
