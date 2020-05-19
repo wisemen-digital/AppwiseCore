@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Improvements
+
+* Rome: Skip project generation step on CI, as it has no purpose. We assume that your project is committed along with other related files.
+
 ## [1.3.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.0)
 
 ### Breaking

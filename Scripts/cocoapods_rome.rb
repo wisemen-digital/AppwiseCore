@@ -31,6 +31,9 @@ end
 
 # Generate the project using xcodegen (and take into account pre-compiled Rome frameworks)
 def generate_project(installer)
+  # exit early in CI environment
+  return if ENV.key?('CI')
+
   generate_dependencies(installer)
 
   # Try to generate project
