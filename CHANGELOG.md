@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Fastlane: fixed Sentry set-commits step for repositories with no tags.
+* Rome: revert skip project generation step on CI, it doesn't belong here.
 
 ## [1.3.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.1)
 
