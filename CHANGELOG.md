@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Fastlane: fixed Sentry set-commits step for repositories with no tags.
+
 ## [1.3.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.1)
 
 ### Improvements

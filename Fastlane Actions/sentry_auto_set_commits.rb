@@ -10,7 +10,10 @@ module Fastlane
         repo = %x{git config --get remote.origin.url}.chomp.split(':')[1].gsub('.git', '')
 
         # check if we need the commits between 2 tags, or just since the last tag
-        if last_commit[:commit_hash] == tag_hash
+        if tag_hash.empty?
+          first_commit = %x{git rev-list --max-parents=0 HEAD}.chomp
+          commits = "#{first_commit}..#{last_commit[:commit_hash]}"
+        elsif last_commit[:commit_hash] == tag_hash
           tags = %x{git show-ref --tags -d | grep "\\^{}" | tail -n 2 | cut -d' ' -f1}.split("\n")
           commits = "#{tags[0]}..#{tags[1]}"
         else
