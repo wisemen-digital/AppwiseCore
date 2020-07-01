@@ -7,7 +7,7 @@ module Fastlane
         tag_hash = Actions::last_git_tag_hash
         tag_name = Actions::last_git_tag_name
         last_commit = Actions::last_git_commit_dict
-        repo = %x{git config --get remote.origin.url}.chomp.split(':')[1].gsub('.git', '')
+        repo = %x{git config --get remote.origin.url}.chomp[/.+@.+?[\/:](.+)\.git/, 1]
 
         # check if we need the commits between 2 tags, or just since the last tag
         if tag_hash.empty?
