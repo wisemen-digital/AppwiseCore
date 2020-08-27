@@ -10,7 +10,26 @@ module Fastlane
           UI.user_error!("Unable to find Xcode project in folder")
         end
 
+        pre_process_xliffs(source_path)
         import_xliffs(project, source_path)
+        post_process_import()
+      end
+
+      # pre-process xliffs
+      def self.pre_process_xliffs(source_path)
+        Dir["#{source_path}/*.xliff"].each { |xliff|
+          puts "Pre-processing '#{xliff}'"
+
+          doc = REXML::Document.new(File.new(xliff))
+
+          set_source_to_en(doc)
+          doc.context[:attribute_quote] = :quote
+
+          File.open(xliff, 'w') { |file|
+            formatter = OrderedAttributesFormatter.new
+            formatter.write(doc, file)
+          }
+        }
       end
 
       # import localizations from project
@@ -18,13 +37,23 @@ module Fastlane
         Dir["#{source_path}/*.xliff"].each { |xliff|
           sh "xcodebuild -importLocalizations -localizationPath #{xliff} -project #{project}"
         }
+      end
 
-        # trigger BartyCrouch to keep diffs minimal
+      # post-process import
+      def self.post_process_import()
         bartycrouch = './Pods/BartyCrouch/bartycrouch'
+
         if File.file?(bartycrouch)
           puts 'Normalize strings files...'
           system('./Pods/BartyCrouch/bartycrouch update -x')
         end
+      end
+
+      # modify source language to `en`
+      def self.set_source_to_devel(doc)
+        REXML::XPath.each(doc, "//file") { |e|
+          e.attributes['source-language'] = 'en'
+        }
       end
 
       #####################################################

@@ -12,7 +12,7 @@ module Fastlane
         end
 
         export_xliffs(project, resources_path, destination_path)
-        remove_ignored_strings(destination_path)
+        post_process_xliffs(destination_path)
       end
 
       # export localizations from project
@@ -38,15 +38,15 @@ module Fastlane
         }
       end
 
-      # remove ignored strings (bartycrouch)
-      def self.remove_ignored_strings(destination_path)
+      # post process files
+      def self.post_process_xliffs(destination_path)
         Dir["#{destination_path}/*.xliff"].each { |xliff|
           puts "Cleaning up '#{xliff}'"
 
           doc = REXML::Document.new(File.new(xliff))
 
-          REXML::XPath.match(doc, "//trans-unit[note[contains(.,'#bc-ignore!')]]").each(&:remove)
-          doc = doc_by_stripping_empty_lines(doc)
+          set_source_to_devel(doc)
+          doc = remove_ignored_strings(doc)
           doc.context[:attribute_quote] = :quote
 
           File.open(xliff, 'w') { |file|
@@ -56,10 +56,20 @@ module Fastlane
         }
       end
 
-      # work around empty lines issue (REXML bug)
-      def self.doc_by_stripping_empty_lines(doc)
-        output = ""
+      # modify source language to `en_devel`
+      def self.set_source_to_devel(doc)
+        REXML::XPath.each(doc, "//file") { |e|
+          e.attributes['source-language'] = 'en_devel'
+        }
+      end
 
+      # remove ignored strings (bartycrouch)
+      def self.remove_ignored_strings(doc)
+        REXML::XPath.match(doc, "//trans-unit[note[contains(.,'#bc-ignore!')]]").each(&:remove)
+
+        # Strip empty lines
+        # work around empty lines issue (REXML bug)
+        output = ""
         doc.write(output)
         doc = REXML::Document.new(output)
         REXML::XPath.match(doc, "//body/text()").each { |body|

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Improvements
+
+* Fastlane: The export/import translations actions now ensure the source language is `en_devel`, to better integrate with Weblate.
+
 ## [1.3.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.3)
 
 ### Bug Fixes
