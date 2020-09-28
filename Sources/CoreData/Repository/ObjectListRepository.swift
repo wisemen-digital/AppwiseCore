@@ -20,6 +20,8 @@ public protocol ObjectListRepository {
 	func findOldItems() -> [ObjectType]
 }
 
+// MARK: - Default implementations
+
 public extension ObjectListRepository {
 	var frc: NSFetchedResultsController<ObjectType> {
 		return NSFetchedResultsController(
@@ -36,5 +38,29 @@ public extension ObjectListRepository {
 
 	func findOldItems() -> [ObjectType] {
 		return context.findOldItems(filter: fetchRequest.predicate)
+	}
+}
+
+// MARK: - Helper properties
+
+public extension ObjectListRepository {
+	var firstObject: ObjectType? {
+		let request = fetchRequest.then {
+			$0.fetchLimit = 1
+		}
+
+		return try? context.fetch(request).first
+	}
+
+	var allObjects: [ObjectType] {
+		(try? context.fetch(fetchRequest)) ?? []
+	}
+
+	var hasResults: Bool {
+		numberOfResults > 0
+	}
+
+	var numberOfResults: Int {
+		(try? context.count(for: fetchRequest)) ?? 0
 	}
 }
