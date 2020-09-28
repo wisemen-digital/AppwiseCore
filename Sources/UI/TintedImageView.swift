@@ -8,8 +8,8 @@
 
 import IBAnimatable
 
-class TintedImageView: AnimatableImageView {
-	override func awakeFromNib() {
+open class TintedImageView: AnimatableImageView {
+	override open func awakeFromNib() {
 		super.awakeFromNib()
 
 		// swiftlint:disable swiftgen_colors

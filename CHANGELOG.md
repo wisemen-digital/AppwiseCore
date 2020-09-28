@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 * Fastlane: The export/import translations actions now ensure the source language is `en_devel`, to better integrate with Weblate.
 * Core Data: Add some helper methods to object list repositories, such as getting all objects, the count of objects, or if there are any results.
+* UI: Add some common classes such as `IntrinsicImageView` (maintains ratio) and `HairLineView` (thinnest line depending on device).
 
 ## [1.3.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.3)
 
