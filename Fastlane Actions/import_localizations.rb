@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'tmpdir'
+require_relative 'lib/OrderedAttributesFormatter'
+
 module Fastlane
   module Actions
     class ImportLocalizationsAction < Action
@@ -7,25 +10,28 @@ module Fastlane
         source_path = params[:source_path]
         project = params[:project] || Dir['*.xcodeproj'].first
         unless project
-          UI.user_error!("Unable to find Xcode project in folder")
+          UI.user_error!('Unable to find Xcode project in folder')
         end
 
-        pre_process_xliffs(source_path)
-        import_xliffs(project, source_path)
-        post_process_import()
+        Dir.mktmpdir do |tmpdir|
+          pre_process_xliffs(source_path, tmpdir)
+          import_xliffs(project, tmpdir)
+          post_process_import()
+        end
       end
 
       # pre-process xliffs
-      def self.pre_process_xliffs(source_path)
-        Dir["#{source_path}/*.xliff"].each { |xliff|
-          puts "Pre-processing '#{xliff}'"
+      def self.pre_process_xliffs(source_path, destination_path)
+        Dir["#{source_path}/*.xliff"].each { |source_xliff|
+          puts "Pre-processing '#{File.basename source_xliff}'"
 
-          doc = REXML::Document.new(File.new(xliff))
+          destination_xliff = "#{destination_path}/#{File.basename source_xliff}"
+          doc = REXML::Document.new(File.new(source_xliff))
 
           set_source_to_en(doc)
           doc.context[:attribute_quote] = :quote
 
-          File.open(xliff, 'w') { |file|
+          File.open(destination_xliff, 'w') { |file|
             formatter = OrderedAttributesFormatter.new
             formatter.write(doc, file)
           }
@@ -35,7 +41,7 @@ module Fastlane
       # import localizations from project
       def self.import_xliffs(project, source_path)
         Dir["#{source_path}/*.xliff"].each { |xliff|
-          sh "xcodebuild -importLocalizations -localizationPath #{xliff} -project #{project}"
+          sh %Q(xcodebuild -importLocalizations -localizationPath "#{xliff}" -project "#{project}")
         }
       end
 
@@ -50,8 +56,8 @@ module Fastlane
       end
 
       # modify source language to `en`
-      def self.set_source_to_devel(doc)
-        REXML::XPath.each(doc, "//file") { |e|
+      def self.set_source_to_en(doc)
+        REXML::XPath.each(doc, '//file') { |e|
           e.attributes['source-language'] = 'en'
         }
       end
@@ -61,23 +67,23 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Set commits of a release"
+        'Import app localizations'
       end
 
       def self.details
-        "Import app localizations with help of xcodebuild -importLocalizations tool"
+        'Import app localizations with help of xcodebuild -importLocalizations tool'
       end
 
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(key: :source_path,
-                               description: "Path where .xliff files are located",
+                               description: 'Path where .xliff files are located',
                              default_value: 'Localizations',
                                   optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :project,
-                                  env_name: "PROJECT",
-                               description: "Project to export localizations from",
+                                  env_name: 'PROJECT',
+                               description: 'Project to export localizations from',
                                   optional: true,
                                       type: String)
         ]
@@ -88,7 +94,7 @@ module Fastlane
       end
 
       def self.authors
-        ["djbe"]
+        ['djbe']
       end
 
       def self.is_supported?(platform)
