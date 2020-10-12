@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Fastlane: The `import_localizations` action avoids needlessly changing the xliffs.
 * Fastlane: The `export_localizations` action now preserves weblate status flags.
 * Fastlane: add `sync_localizations` action that imports and then exports strings in one go.
+* Rome: fix xcodegen issue where it generated invalid projects (for fastlane & CI).
 
 ## [1.3.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.4)
 

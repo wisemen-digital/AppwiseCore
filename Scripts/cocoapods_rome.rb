@@ -39,6 +39,7 @@ def generate_project(installer)
   end
 
   system('xcodegen')
+  fix_project(installer)
 end
 
 ############ Private methods ############
@@ -66,6 +67,18 @@ def generate_dependencies(installer)
           }
       }
   }
+end
+
+# Fix xcodegen issue (duplicate "Supporting Files" definition)
+def fix_project(installer)
+  Dir.glob('*.xcodeproj/project.pbxproj').each do |f|
+    regex = /(children = \(\s+?\w+? \/\* Sources \*\/,\s+?\w+? \/\* Resources \*\/,\n)\s+?\w+? \/\* Supporting Files \*\/,\n(\s+?\))/m
+
+    contents = File.read(f)
+      .gsub(regex, '\1\2')
+
+    File.open(f, "w") { |file| file.puts contents }
+  end
 end
 
 # Convert a pod name to a valid swift module name
