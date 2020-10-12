@@ -51,6 +51,7 @@ module Fastlane
 
           set_source_to_devel(source_doc)
           source_doc = remove_ignored_strings(source_doc)
+          merge_status_fields(source_doc, destination_doc)
           source_doc.context[:attribute_quote] = :quote
 
           File.open(destination_xliff, 'w') { |file|
@@ -82,6 +83,30 @@ module Fastlane
         }
 
         doc
+      end
+
+      # merge status fields
+      def self.merge_status_fields(a, b)
+        REXML::XPath.each(a, '//file') { |file|
+          correspondingFile = REXML::XPath.first(b, "//file[@original='#{file['original']}']/body")
+          next if correspondingFile.nil?
+          mappedUnits = correspondingFile.elements.to_a.to_h { |x| [x['id'], x] }
+
+          file.each_element('//trans-unit') { |unit|
+            correspondingUnit = mappedUnits[unit['id']]
+            next if correspondingUnit.nil?
+
+            unit.add_attribute(
+              'approved',
+              correspondingUnit['approved']
+            ) unless correspondingUnit['approved'].nil?
+
+            unit.elements['target'].add_attribute(
+              'state',
+              correspondingUnit.elements['target']['state']
+            ) unless correspondingUnit.elements['target']['state'].nil?
+          }
+        }
       end
 
       #####################################################

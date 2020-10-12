@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 
 * Fastlane: The import translations action avoids needlessly changing the xliffs.
+* Fastlane: The export translations action now preserves weblate status flags.
 
 ## [1.3.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.4)
 
