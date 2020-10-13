@@ -88,23 +88,24 @@ module Fastlane
       # merge status fields
       def self.merge_status_fields(a, b)
         REXML::XPath.each(a, '//file') { |file|
-          correspondingFile = REXML::XPath.first(b, "//file[@original='#{file['original']}']/body")
+          correspondingFile = REXML::XPath.first(b, "//file[@original='#{file.attributes['original']}']/body")
           next if correspondingFile.nil?
-          mappedUnits = correspondingFile.elements.to_a.to_h { |x| [x['id'], x] }
+          mappedUnits = correspondingFile.elements.to_a.map { |x| [x.attributes['id'], x] }.to_h
 
           file.each_element('//trans-unit') { |unit|
-            correspondingUnit = mappedUnits[unit['id']]
+            correspondingUnit = mappedUnits[unit.attributes['id']]
             next if correspondingUnit.nil?
 
             unit.add_attribute(
               'approved',
-              correspondingUnit['approved']
-            ) unless correspondingUnit['approved'].nil?
+              correspondingUnit.attributes['approved']
+            ) unless correspondingUnit.attributes['approved'].nil?
 
+            next if correspondingUnit.elements['target'].nil?
             unit.elements['target'].add_attribute(
               'state',
-              correspondingUnit.elements['target']['state']
-            ) unless correspondingUnit.elements['target']['state'].nil?
+              correspondingUnit.elements['target'].attributes['state']
+            ) unless correspondingUnit.elements['target'].attributes['state'].nil?
           }
         }
       end

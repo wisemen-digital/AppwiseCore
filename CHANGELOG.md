@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Fastlane: fix some special cases in `export_localizations` (units with no translations, etc...).
+
 ## [1.3.5](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.5)
 
 ### Improvements
