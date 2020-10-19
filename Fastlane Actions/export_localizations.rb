@@ -45,13 +45,16 @@ module Fastlane
         Dir["#{source_path}/*.xliff"].each { |source_xliff|
           puts "Post-processing '#{File.basename source_xliff}'"
 
-          destination_xliff = "#{destination_path}/#{File.basename source_xliff}"
           source_doc = REXML::Document.new(File.new(source_xliff))
-          destination_doc = REXML::Document.new(File.new(destination_xliff))
-
           set_source_to_devel(source_doc)
           source_doc = remove_ignored_strings(source_doc)
-          merge_status_fields(source_doc, destination_doc)
+
+          destination_xliff = "#{destination_path}/#{File.basename source_xliff}"
+          if File.file?(destination_xliff)
+            destination_doc = REXML::Document.new(File.new(destination_xliff))
+            merge_status_fields(source_doc, destination_doc)
+          end
+
           source_doc.context[:attribute_quote] = :quote
 
           File.open(destination_xliff, 'w') { |file|

@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Fastlane: fix some special cases in `export_localizations` (units with no translations, etc...).
+* Fastlane: do not try to merge localization xliff that does not exist (in `export_translations`).
 
 ## [1.3.5](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.5)
 
