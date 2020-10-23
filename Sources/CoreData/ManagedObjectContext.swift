@@ -52,7 +52,6 @@ public extension NSManagedObjectContext {
 	///
 	/// - returns: The found object or nil.
 	func first<T: NSManagedObject>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
-		T.fetchRequest()
 		let request = T.fetchRequest(
 			predicate: predicate,
 			sortDescriptors: [sortDescriptor].compactMap { $0 },
