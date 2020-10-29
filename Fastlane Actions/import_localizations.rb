@@ -40,7 +40,7 @@ module Fastlane
 
       # import localizations from project
       def self.import_xliffs(project, source_path)
-        Dir["#{source_path}/*.xliff"].each { |xliff|
+        Dir["#{source_path}/*.xliff"].sort.each { |xliff|
           sh %Q(xcodebuild -importLocalizations -localizationPath "#{xliff}" -project "#{project}")
         }
       end

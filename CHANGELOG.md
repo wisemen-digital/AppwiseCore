@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+* Fastlane: import localization files sorted by name
+
 ## [1.3.6](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.6)
 
 ### Bug Fixes
