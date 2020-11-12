@@ -25,8 +25,11 @@ public protocol Router: URLRequestConvertible, URLConvertible {
 	/// The request headers (dictionary). Optional, default: empty dictionary
 	var headers: [String: String] { get }
 
-	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: empty list
+	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: nil
 	var params: Parameters? { get }
+	
+	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: nil
+	var anyParams: Any? { get }
 
 	/// The encoding to apply to the parameters. Optional, default: `JSONEncoding`
 	var encoding: ParameterEncoding { get }
@@ -90,8 +93,16 @@ public extension Router {
 	}
 
 	private func buildURLRequest() throws -> URLRequest {
+		let params = self.params ?? self.anyParams
+
 		var request = try URLRequest(url: self, method: method, headers: headers)
-		request = try encoding.encode(request, with: params)
+		if let encoding = encoding as? JSONEncoding {
+			request = try encoding.encode(request, withJSONObject: params)
+		} else if let params = params as? Parameters {
+			request = try encoding.encode(request, with: params)
+		} else if params != nil {
+			preconditionFailure("Cannot encode non-dictionary when Router encoding is not JSON")
+		}
 
 		return request
 	}
@@ -109,6 +120,10 @@ public extension Router {
 	}
 
 	var params: Parameters? {
+		return nil
+	}
+	
+	var anyParams: Any? {
 		return nil
 	}
 
