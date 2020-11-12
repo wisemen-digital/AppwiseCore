@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.3.7](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.7)
+
 ### Improvements
 
 * Core: `Router` now supports an `anyParams` property which you can use with `JSONEncoding` to send (for example) an `Array` instead of a `Dictionary`.
