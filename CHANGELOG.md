@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.3.8](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.8)
+
 ### Bug Fixes
 
 * Fastlane: fix importing of english changes (Xcode issue).
