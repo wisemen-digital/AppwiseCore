@@ -26,15 +26,7 @@ module Fastlane
           puts "Pre-processing '#{File.basename source_xliff}'"
 
           destination_xliff = "#{destination_path}/#{File.basename source_xliff}"
-          doc = REXML::Document.new(File.new(source_xliff))
-
-          set_source_to_en(doc)
-          doc.context[:attribute_quote] = :quote
-
-          File.open(destination_xliff, 'w') { |file|
-            formatter = OrderedAttributesFormatter.new
-            formatter.write(doc, file)
-          }
+          FileUtils.cp(source_xliff, destination_xliff)
         }
       end
 
