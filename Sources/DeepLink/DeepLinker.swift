@@ -29,7 +29,7 @@ public final class DeepLinker {
 	/// - parameter matchable: The view controller to register and keep track of.
 	/// - parameter path: The path component this view controller represents.
 	public func register(_ matchable: DeepLinkMatchable & UIViewController, for path: String) {
-		if matchable is UITabBarController {
+		if matchable is UITabBarController || matchable is UINavigationController {
 			addToStack(matchable: matchable, for: path)
 		} else {
 			addToStack(matchable: matchable, for: path)
