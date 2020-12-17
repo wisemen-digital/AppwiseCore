@@ -88,14 +88,25 @@ end
 
 # Path to the framework (when using rome)
 def framework_path(spec)
-  "Rome/#{module_name(spec)}.framework"
+  ['framework', 'xcframework'].map { |extension|
+    "Rome/#{module_name(spec)}.#{extension}" 
+  }.select { |path|
+    File.directory? path
+  }.first
 end
 
 def framework_exists?(spec)
-  File.directory? framework_path(spec)
+  framework_path(spec) != nil
 end
 
 def framework_dynamic?(spec)
-  binary = "#{framework_path(spec)}/#{module_name(spec)}"
-  !%x(file #{binary} | grep universal | grep dynamic).to_s.strip.empty?
+  path = framework_path(spec)
+  if path.end_with? 'xcframework'
+    any_arch = Dir["#{path}/*/*.framework"].first
+    binary = "#{any_arch}/#{module_name(spec)}"
+    !%x(file #{binary} | grep dynamic).to_s.strip.empty?
+  else
+    binary = "#{path}/#{module_name(spec)}"
+    !%x(file #{binary} | grep universal | grep dynamic).to_s.strip.empty?
+  end
 end

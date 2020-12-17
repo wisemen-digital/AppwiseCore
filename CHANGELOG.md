@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Improvements
+
+* XcodeGen: add support for xcframeworks, so you don't have to add them manually anymore.
+
 ## [1.3.9](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.9)
 
 ### Bug Fixes
