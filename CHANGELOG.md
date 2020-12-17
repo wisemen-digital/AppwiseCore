@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 
 * XcodeGen: add support for xcframeworks, so you don't have to add them manually anymore.
+* XcodeGen: add small "iOS Extension" template.
 
 ## [1.3.9](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.3.9)
 

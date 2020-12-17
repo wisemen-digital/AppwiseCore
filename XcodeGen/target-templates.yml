@@ -1,5 +1,12 @@
 targetTemplates:
+  iOS Common:
+    settings:
+      base:
+        INFOPLIST_FILE: ${target_dir}/Resources/Info.plist
+        PRODUCT_NAME: $(TARGET_NAME)
   iOS App:
+    templates:
+      - iOS Common
     type: application
     platform: iOS
     preBuildScripts:
@@ -38,3 +45,9 @@ targetTemplates:
       - name: Update Version Number
         path: ../Scripts/update_build_number.sh
         showEnvVars: false
+  iOS Extension:
+    templates:
+      - iOS Common
+    type: app-extension
+    platform: iOS
+    onlyCopyFilesOnInstall: true
