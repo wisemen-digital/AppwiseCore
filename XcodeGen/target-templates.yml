@@ -39,9 +39,6 @@ targetTemplates:
         outputFileLists:
           - Application/Supporting Files/FileLists/swiftlint_output.xcfilelist
     postBuildScripts:
-      - name: Strip Architectures
-        path: ../Scripts/strip_architectures.sh
-        showEnvVars: false
       - name: Update Version Number
         path: ../Scripts/update_build_number.sh
         showEnvVars: false
