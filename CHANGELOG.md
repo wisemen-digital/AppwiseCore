@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.4.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.0)
+
 ### Breaking
 
 * Removed support for CocoaPods Rome. Switch to Alexandria with the migration script: `bash <(curl -Ls "https://raw.githubusercontent.com/appwise-labs/Alexandria/convert-script/convert-to-alexandria.sh")`.
