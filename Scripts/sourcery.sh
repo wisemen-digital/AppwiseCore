@@ -19,5 +19,6 @@ fi
 
 # Only execute during normal builds (not archives)
 if [ "$ACTION" != "install" ]; then
-  "$SOURCERY"
+  # Silence warnings about unknown types
+  "$SOURCERY" | grep -v 'of type for which there is no original type declaration information.'
 fi
