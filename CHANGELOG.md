@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* CoreData: operation & save callbacks are now on the main queue by default (you can provide your own queue).
+
 ## [1.4.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.0)
 
 ### Breaking

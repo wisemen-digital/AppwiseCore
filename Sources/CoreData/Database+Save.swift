@@ -23,18 +23,15 @@ public extension DB {
 	/// Save the changes in the given context to the persistent store.
 	///
 	/// - parameter moc: The managed object context.
+	/// - parameter queue: The queue on which your completion handler is dispatched.
 	/// - parameter handler: The callback after saving.
-	func saveToPersistentStore(_ moc: NSManagedObjectContext, then handler: @escaping (Error?) -> Void) {
+	func saveToPersistentStore(_ moc: NSManagedObjectContext, queue: DispatchQueue = .main, then handler: @escaping (Error?) -> Void) {
 		moc.perform {
 			do {
 				try moc.save()
-				DispatchQueue.main.async {
-					handler(nil)
-				}
+				queue.async { handler(nil) }
 			} catch {
-				DispatchQueue.main.async {
-					handler(error)
-				}
+				queue.async { handler(error) }
 			}
 		}
 	}
