@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * CoreData: operation & save callbacks are now on the main queue by default (you can provide your own queue).
+* Scripts: restore "strip architectures" build step, seems it is still needed when using certain (fat) libraries.
 
 ## [1.4.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.0)
 
