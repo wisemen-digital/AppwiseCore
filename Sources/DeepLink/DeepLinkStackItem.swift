@@ -1,9 +1,6 @@
 //
-//  DeepLinker.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 03/11/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -29,7 +26,7 @@ extension Array where Element == DeepLinkStackItem {
 	}
 
 	func removingWeakReferences() -> [DeepLinkStackItem] {
-		return self.filter { item in
+		filter { item in
 			item.matchable != nil
 		}
 	}

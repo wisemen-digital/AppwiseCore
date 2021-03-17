@@ -1,9 +1,6 @@
 //
-//  HairLineView.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 29/09/2020.
-//  Copyright © 2020 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import IBAnimatable

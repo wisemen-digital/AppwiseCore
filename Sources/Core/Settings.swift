@@ -1,9 +1,6 @@
 //
-//  Settings.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CocoaLumberjack
@@ -36,17 +33,17 @@ public struct Settings {
 
 		// try to load settings bundle
 		guard let bundle = Bundle.main.path(forResource: "Settings", ofType: "bundle") as NSString?,
-			let settings = NSDictionary(contentsOfFile: bundle.appendingPathComponent("Root.plist")),
-			let preferences = settings["PreferenceSpecifiers"] as? [[String: Any]] else {
-				DDLogError("Could not find Settings.bundle")
-				return
+		      let settings = NSDictionary(contentsOfFile: bundle.appendingPathComponent("Root.plist")),
+		      let preferences = settings["PreferenceSpecifiers"] as? [[String: Any]] else {
+			DDLogError("Could not find Settings.bundle")
+			return
 		}
 
 		// load defaults from settings bundle
 		var data = [String: Any]()
 		for specification in preferences {
 			guard let key = specification["Key"] as? String,
-				defaults.object(forKey: key) == nil else { continue }
+			      defaults.object(forKey: key) == nil else { continue }
 			data[key] = specification["DefaultValue"]
 		}
 		defaults.register(defaults: data)
@@ -59,7 +56,7 @@ public struct Settings {
 
 	internal var shouldReset: Bool {
 		get {
-			return defaults.bool(forKey: DefaultsKey.reset.rawValue)
+			defaults.bool(forKey: DefaultsKey.reset.rawValue)
 		}
 		set {
 			defaults.set(newValue, forKey: DefaultsKey.reset.rawValue)
@@ -68,7 +65,7 @@ public struct Settings {
 
 	private var version: String? {
 		get {
-			return defaults.string(forKey: DefaultsKey.version.rawValue)
+			defaults.string(forKey: DefaultsKey.version.rawValue)
 		}
 		set {
 			defaults.set(newValue, forKey: DefaultsKey.version.rawValue)
@@ -90,7 +87,7 @@ public struct Settings {
 
 extension Settings {
 	func key<R: Router>(router: R) -> String {
-		return "\(router.method)|\(R.baseURLString)|\(router.path)"
+		"\(router.method)|\(R.baseURLString)|\(router.path)"
 	}
 
 	func timestamp<R: Router>(router: R) -> TimeInterval {

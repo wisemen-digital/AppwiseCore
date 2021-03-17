@@ -1,8 +1,6 @@
 //
-//  Client+Request.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 24/07/2018.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -22,7 +20,7 @@ public extension Client {
 	) {
 		buildRequest(request) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				request.responseData(queue: queue) { response in
 					switch response.result {
 					case .success:
@@ -54,7 +52,7 @@ public extension Client {
 	) {
 		buildRequest(request) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				request.responseJSON(queue: queue, options: options) { response in
 					switch response.result {
 					case .success:
@@ -86,7 +84,7 @@ public extension Client {
 	) {
 		buildRequest(request) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				request.responseDecodableObject(queue: queue, keyPath: keyPath) { (response: DataResponse<T>) in
 					switch response.result {
 					case .success:
@@ -120,7 +118,7 @@ public extension Client {
 	) {
 		buildRequest(request) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				request.responseString(queue: queue, encoding: encoding) { response in
 					switch response.result {
 					case .success:

@@ -1,9 +1,6 @@
 //
-//  ViewModel.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 29/03/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -50,7 +47,7 @@ public extension ViewModelType where ModelType: NSObject {
 		switch data[keyPath: key] {
 		case let value as String:
 			return !value.isEmpty
-		case  let value as [Any]:
+		case let value as [Any]:
 			return !value.isEmpty
 		case let value as [AnyHashable: Any]:
 			return !value.isEmpty
@@ -66,7 +63,7 @@ public extension ViewModelType where ModelType: NSObject {
 ///
 /// - returns: A view model wrapping the data
 public func vm<T: ViewModelType>(_ model: T.ModelType) -> T {
-	return T(model)
+	T(model)
 }
 
 /// Wrap the specified data instance in a view model (handles optionals)
@@ -75,5 +72,5 @@ public func vm<T: ViewModelType>(_ model: T.ModelType) -> T {
 ///
 /// - returns: A view model wrapping the data (or nil)
 public func vm<T: ViewModelType>(_ model: T.ModelType?) -> T? {
-	return T(model)
+	T(model)
 }

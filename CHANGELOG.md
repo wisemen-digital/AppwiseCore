@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Internal
+
+* Lint & format code, and add commit hooks to trigger these.
+
 ## [1.4.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.1)
 
 ### Improvements

@@ -1,4 +1,4 @@
-swiftlint_version: 0.38.0
+swiftlint_version: 0.43.1
 
 disabled_rules:
   - line_length
@@ -7,15 +7,18 @@ opt_in_rules:
   - anyobject_protocol
   - array_init
   - attributes
+  - balanced_xctest_lifecycle
   - closure_body_length
   - closure_end_indentation
   - closure_spacing
   - collection_alignment
+  - computed_accessors_order
   - contains_over_filter_count
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
   - contains_over_range_nil_comparison
   - convenience_type
+  - discouraged_assert
   - discouraged_optional_boolean
   - discouraged_optional_collection
   - duplicate_enum_cases
@@ -26,6 +29,7 @@ opt_in_rules:
   - extension_access_modifier
   - fallthrough
   - fatal_error_message
+  - file_header
   - first_where
   - flatmap_over_map_reduce
   - force_unwrapping
@@ -51,10 +55,14 @@ opt_in_rules:
   - number_separator
   - object_literal
   - operator_usage_whitespace
+  - optional_enum_case_matching
   - overridden_super_call
   - override_in_extension
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
   - private_action
   - private_outlet
+  - private_subject
   - prohibited_super_call
   - raw_value_for_camel_cased_codable_enum
   - reduce_boolean
@@ -81,9 +89,9 @@ opt_in_rules:
   - yoda_condition
 
 excluded:
-  - Example/Pods
-  - Example/Application/Sources/Generated
-  - Example/fastlane
+  - .build
+  - Package.swift
+  - Example
 
 identifier_name:
   excluded:
@@ -93,6 +101,13 @@ identifier_name:
 
 nesting:
   type_level: 2
+
+file_header:
+  required_pattern: |
+                    \/\/
+                    \/\/ AppwiseCore
+                    \/\/ Copyright © 2021 Appwise
+                    \/\/
 
 custom_rules:
   swiftgen_assets:

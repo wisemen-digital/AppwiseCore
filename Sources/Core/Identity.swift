@@ -1,9 +1,6 @@
 //
-//  Identity.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 20/02/2019.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -98,13 +95,13 @@ extension Identifier: ExpressibleByStringLiteral where Value.RawIdentifier: Expr
 
 extension Identifier: CustomStringConvertible {
 	public var description: String {
-		return String(describing: rawValue)
+		String(describing: rawValue)
 	}
 }
 
 extension Identifier: CustomDebugStringConvertible {
 	public var debugDescription: String {
-		return "Identifier<\(Value.self)>(\(rawValue))"
+		"Identifier<\(Value.self)>(\(rawValue))"
 	}
 }
 
@@ -116,7 +113,7 @@ extension Identifier: Hashable where Value.RawIdentifier: Hashable {}
 
 extension Identifier: Comparable where Value.RawIdentifier: Comparable {
 	public static func < (lhs: Identifier<Value>, rhs: Identifier<Value>) -> Bool {
-		return lhs.rawValue < rhs.rawValue
+		lhs.rawValue < rhs.rawValue
 	}
 }
 

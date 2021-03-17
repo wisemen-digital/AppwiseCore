@@ -1,9 +1,6 @@
 //
-//  Importable.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 05/03/2018.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CoreData

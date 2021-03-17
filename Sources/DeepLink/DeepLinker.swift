@@ -1,9 +1,6 @@
 //
-//  DeepLinker.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 03/11/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -62,7 +59,7 @@ public final class DeepLinker {
 	/// try to open it at a later time (unless you try to open a new link).
 	@discardableResult
 	public func open(_ route: String..., animated: Bool) -> Bool {
-		return open(route: route, animated: animated)
+		open(route: route, animated: animated)
 	}
 
 	private func open(route: [String], animated: Bool) -> Bool {
@@ -147,7 +144,7 @@ extension DeepLinker {
 		// if common > stack -> build stack up
 		let lastCommon = stack.index(before: firstDifferent)
 		guard lastCommon >= 0,
-			let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon, animated: animated) else {
+		      let builtStack = buildUpStack(existing: destroyedStack, for: route, lastCommon: lastCommon, animated: animated) else {
 			return false
 		}
 
@@ -157,7 +154,7 @@ extension DeepLinker {
 
 	private func findFirstDifferentIndex(stack: Stack, route: [String]) -> Array<String>.Index? {
 		if let index = Array(zip(route, stack)).firstIndex(where: { $0 != $1.path }),
-			index > stack.startIndex {
+		   index > stack.startIndex {
 			return index
 		} else {
 			return min(route.endIndex, stack.endIndex)

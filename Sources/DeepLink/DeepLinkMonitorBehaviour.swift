@@ -1,9 +1,6 @@
 //
-//  DeepLinkMonitorBehaviour.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 10/11/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import UIKit
@@ -16,7 +13,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 
 	init(_ matchable: DeepLinkMatchable, for path: String) {
 		self.matchable = matchable
-		self.stackToRestore = [
+		stackToRestore = [
 			DeepLinkStackItem(path: path, matchable: matchable)
 		]
 	}
@@ -28,8 +25,8 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 
 	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
 		if let tbc = viewController.tabBarController,
-			let selected = tbc.selectedViewController,
-			viewController == selected || viewController.navigationController == selected {
+		   let selected = tbc.selectedViewController,
+		   viewController == selected || viewController.navigationController == selected {
 			wasTabBarVisible = true
 		} else {
 			wasTabBarVisible = false
@@ -40,9 +37,9 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		guard let matchable = matchable else { return }
 
 		if wasTabBarVisible,
-			let tbc = viewController.tabBarController,
-			let selected = tbc.selectedViewController,
-			viewController != selected && viewController.navigationController != selected {
+		   let tbc = viewController.tabBarController,
+		   let selected = tbc.selectedViewController,
+		   viewController != selected && viewController.navigationController != selected {
 			if let nvc = viewController.navigationController {
 				// switching tabs, have a NVC (need to remove all VCs in NVC)
 				let controllers = collectControllers(in: nvc)
@@ -52,7 +49,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 				stackToRestore = DeepLinker.shared.removeFromStack(items: [matchable])
 			}
 		} else if !wasTabBarVisible,
-			viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParent {
+		          viewController.isBeingDismissed || rootParent(for: viewController).isMovingFromParent {
 			// dismissing modal
 			stackToRestore = DeepLinker.shared.removeFromStack(items: [matchable])
 		}
@@ -69,7 +66,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 
 	// collect child VCs that are DeeplinkMatchable
 	private func collectControllers(in parent: UIViewController) -> [DeepLinkMatchable] {
-		return parent.children
+		parent.children
 			.flatMap { [$0] + collectControllers(in: $0) }
 			.compactMap { $0 as? DeepLinkMatchable }
 	}

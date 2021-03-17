@@ -1,9 +1,6 @@
 //
-//  TintedImageView.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 15/11/2016.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import IBAnimatable

@@ -1,9 +1,6 @@
 //
-//  AppDelegate.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CloudKit
@@ -26,7 +23,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public var window: UIWindow?
 
 	/// The list of application services, empty by default
-	open var services: [ApplicationService] { return [] }
+	open var services: [ApplicationService] { [] }
 	private lazy var internalServices: [ApplicationService] = [
 		LoggingApplicationService(),
 		AddSkipBackupAttributeApplicationService(),
@@ -40,13 +37,13 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The document directory of your application
 	@available(*, deprecated, message: "Please use FileManager.default.documentsDirectory instead")
 	public var documentsDirectory: URL {
-		return FileManager.default.documentsDirectory.require(hint: "Application requires a documents directory")
+		FileManager.default.documentsDirectory.require(hint: "Application requires a documents directory")
 	}
 
 	// The support directory of your application
 	@available(*, deprecated, message: "Please use FileManager.default.supportDirectory instead")
 	public var supportDirectory: URL {
-		return FileManager.default.supportDirectory.require(hint: "Application requires an application support directory")
+		FileManager.default.supportDirectory.require(hint: "Application requires an application support directory")
 	}
 
 	// MARK: UIApplicationDelegate

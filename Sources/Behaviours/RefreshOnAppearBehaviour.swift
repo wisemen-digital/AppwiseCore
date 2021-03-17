@@ -1,9 +1,6 @@
 //
-//  RefreshOnAppearBehavior.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 13/11/2018.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import UIKit
@@ -39,9 +36,9 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 	///
 	/// - returns: The new behaviour instance.
 	public init(delegate: RefreshOnAppearBehaviorDelegate, mode: Mode = .excludingPopNavigation) {
-		self.simpleDelegate = delegate
-		self.withControlDelegate = nil
-		self.refreshControl = nil
+		simpleDelegate = delegate
+		withControlDelegate = nil
+		refreshControl = nil
 		self.mode = mode
 	}
 
@@ -53,15 +50,15 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 	///
 	/// - returns: The new behaviour instance.
 	public init(delegate: RefreshOnAppearBehaviorDelegateWithControl, refreshControl: UIRefreshControl, mode: Mode = .excludingPopNavigation) {
-		self.simpleDelegate = nil
-		self.withControlDelegate = delegate
+		simpleDelegate = nil
+		withControlDelegate = delegate
 		self.refreshControl = refreshControl
 		self.mode = mode
 	}
 
 	public func beforeDisappearing(viewController: UIViewController, animated: Bool) {
 		if let nvc = viewController.navigationController,
-			let nvcChild = viewController.navigationControllerChild {
+		   let nvcChild = viewController.navigationControllerChild {
 			nextAppearIsPopNavigation = (nvc.topViewController != nvcChild)
 		} else {
 			nextAppearIsPopNavigation = false

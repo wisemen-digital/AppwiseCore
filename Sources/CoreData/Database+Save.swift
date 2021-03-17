@@ -1,9 +1,6 @@
 //
-//  Database+Save.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 06/03/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CocoaLumberjack
@@ -15,7 +12,7 @@ public extension DB {
 	///
 	/// - returns: The new context.
 	func newBackgroundContext() -> NSManagedObjectContext {
-		return container.newBackgroundContext().then {
+		container.newBackgroundContext().then {
 			$0.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
 		}
 	}

@@ -1,9 +1,6 @@
 //
-//  AppDelegate.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CocoaLumberjack
@@ -32,7 +29,7 @@ final class AddSkipBackupAttributeApplicationService: NSObject, ApplicationServi
 
 			// add skip attribute
 			try (supportDirectory as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
-		} catch let error {
+		} catch {
 			DDLogError("Error excluding support directory from backup: \(error)")
 		}
 	}

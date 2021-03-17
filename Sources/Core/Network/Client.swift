@@ -1,9 +1,6 @@
 //
-//  Client.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -61,7 +58,7 @@ public extension Client {
 	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Result<DataRequest>) -> Void) {
 		request.asURLRequest(with: sessionManager) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				completion(.success(request.validate()))
 			default:
 				completion(result)

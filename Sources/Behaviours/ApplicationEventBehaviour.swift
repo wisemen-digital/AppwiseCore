@@ -1,9 +1,6 @@
 //
-//  ApplicationEventBehavior.swift
-//  AppwiseCore
-//
-//  Created by Tom Knapen on 23/12/2016.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation

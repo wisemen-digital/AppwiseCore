@@ -1,9 +1,6 @@
 //
-//  Repository.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 09/03/2019.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -24,7 +21,7 @@ public protocol ObjectListRepository {
 
 public extension ObjectListRepository {
 	var frc: NSFetchedResultsController<ObjectType> {
-		return NSFetchedResultsController(
+		NSFetchedResultsController(
 			fetchRequest: fetchRequest,
 			managedObjectContext: context,
 			sectionNameKeyPath: nil,
@@ -37,7 +34,7 @@ public extension ObjectListRepository {
 	}
 
 	func findOldItems() -> [ObjectType] {
-		return context.findOldItems(filter: fetchRequest.predicate)
+		context.findOldItems(filter: fetchRequest.predicate)
 	}
 }
 

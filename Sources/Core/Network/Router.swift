@@ -1,9 +1,6 @@
 //
-//  Router.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -27,7 +24,7 @@ public protocol Router: URLRequestConvertible, URLConvertible {
 
 	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: nil
 	var params: Parameters? { get }
-	
+
 	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: nil
 	var anyParams: Any? { get }
 
@@ -80,9 +77,9 @@ public extension Router {
 		if let multipart = multipart {
 			sessionManager.upload(multipartFormData: multipart, with: request) { result in
 				switch result {
-				case let .success(request, _, _):
+				case .success(let request, _, _):
 					completion(.success(request))
-				case let .failure(error):
+				case .failure(let error):
 					completion(.failure(error))
 				}
 			}
@@ -93,7 +90,7 @@ public extension Router {
 	}
 
 	private func buildURLRequest() throws -> URLRequest {
-		let params = self.params ?? self.anyParams
+		let params = self.params ?? anyParams
 
 		var request = try URLRequest(url: self, method: method, headers: headers)
 		if let encoding = encoding as? JSONEncoding {
@@ -112,39 +109,39 @@ public extension Router {
 
 public extension Router {
 	var method: HTTPMethod {
-		return .get
+		.get
 	}
 
 	var headers: [String: String] {
-		return [:]
+		[:]
 	}
 
 	var params: Parameters? {
-		return nil
+		nil
 	}
-	
+
 	var anyParams: Any? {
-		return nil
+		nil
 	}
 
 	var encoding: ParameterEncoding {
-		return JSONEncoding.default
+		JSONEncoding.default
 	}
 
 	var multipart: MultipartBuilder? {
-		return nil
+		nil
 	}
 }
 
 public extension Router {
 	/// Default update interval is 1 day
 	var updateInterval: TimeInterval {
-		return 24 * 3_600
+		24 * 3_600
 	}
 
 	/// When the request was last performed (defaults to timestamp 0)
 	var lastUpdated: TimeInterval {
-		return Settings.shared.timestamp(router: self)
+		Settings.shared.timestamp(router: self)
 	}
 
 	/// Checks wether a resource should be updated
@@ -152,7 +149,7 @@ public extension Router {
 	/// - parameter completion: The completion block to call when you have the update related information
 	/// - parameter resource: The router item to check for information
 	/// - parameter shouldUpdate: True if the resource should be updated or not
-	func shouldUpdate(completion: ((_ resource: Self, _ shouldUpdate: Bool) -> Void)) {
+	func shouldUpdate(completion: (_ resource: Self, _ shouldUpdate: Bool) -> Void) {
 		let now = Date().timeIntervalSince1970
 
 		// should update if more than 1 day ago

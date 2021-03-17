@@ -1,9 +1,6 @@
 //
-//  TabBarController.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 25/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import UIKit
@@ -12,32 +9,32 @@ import UIKit
 /// view controller.
 open class TabBarController: UITabBarController {
 	override open var shouldAutorotate: Bool {
-		return selectedViewController?.shouldAutorotate ?? super.shouldAutorotate
+		selectedViewController?.shouldAutorotate ?? super.shouldAutorotate
 	}
 
 	override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-		return selectedViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+		selectedViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
 	}
 
 	override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-		return selectedViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
+		selectedViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
 	#if swift(>=4.2)
 	override open var childForStatusBarStyle: UIViewController? {
-		return selectedViewController
+		selectedViewController
 	}
 
 	override open var childForStatusBarHidden: UIViewController? {
-		return selectedViewController
+		selectedViewController
 	}
 	#else
 	override open var childViewControllerForStatusBarStyle: UIViewController? {
-		return selectedViewController
+		selectedViewController
 	}
 
 	override open var childViewControllerForStatusBarHidden: UIViewController? {
-		return selectedViewController
+		selectedViewController
 	}
 	#endif
 }

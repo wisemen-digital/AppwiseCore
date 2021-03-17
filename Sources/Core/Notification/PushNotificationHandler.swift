@@ -1,9 +1,6 @@
 //
-//  PushNotificationHandler.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 31/03/2019.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 public protocol PushNotificationType {
@@ -21,7 +18,7 @@ public extension PushNotificationType {
 	}
 
 	var canShow: Bool {
-		return true
+		true
 	}
 
 	func open() {

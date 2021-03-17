@@ -1,9 +1,6 @@
 //
-//  TypedNotification.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 19/12/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -61,7 +58,7 @@ extension TypedNotification {
 	/// - parameter object: The sending object.
 	/// - returns: A new `Notification` instance.
 	public func generateNotification(object: Any? = nil) -> Notification {
-		return Notification(name: Self.notificationName, object: object)
+		Notification(name: Self.notificationName, object: object)
 	}
 
 	internal static var notificationName: Notification.Name {

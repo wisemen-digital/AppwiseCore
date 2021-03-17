@@ -1,8 +1,6 @@
 //
-//  NSFetchRequestResult.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 05/03/2019.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CoreData
@@ -17,7 +15,7 @@ public extension NSFetchRequestResult where Self: NSManagedObject {
 		batchSize: Int? = nil,
 		relationshipKeyPathsForPrefetching: [String] = []
 	) -> NSFetchRequest<Self> {
-		return NSFetchRequest<Self>(entityName: self.entity().name ?? "").then {
+		NSFetchRequest<Self>(entityName: entity().name ?? "").then {
 			$0.predicate = predicate
 			$0.sortDescriptors = sortDescriptors
 			$0.fetchLimit = limit ?? $0.fetchLimit
@@ -28,6 +26,6 @@ public extension NSFetchRequestResult where Self: NSManagedObject {
 	}
 
 	func inContext(_ context: NSManagedObjectContext) throws -> Self {
-		return try context.inContext(self)
+		try context.inContext(self)
 	}
 }

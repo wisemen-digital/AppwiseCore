@@ -1,9 +1,6 @@
 //
-//  Operator.swift
-//  Alamofire+CoreData
-//
-//  Created by Manu on 15/2/16.
-//  Copyright © 2016 manuege. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -26,7 +23,7 @@ public extension Optional where Wrapped == MapValue {
 
 	static func <- <T: Insertable>(left: inout T?, right: MapValue?) {
 		if let mapValue = right,
-			let value = try? mapValue.serialize() as T? {
+		   let value = try? mapValue.serialize() as T? {
 			left = value
 		}
 	}
@@ -37,7 +34,7 @@ public extension Optional where Wrapped == MapValue {
 		try left <- (right, { $0 })
 	}
 
-	static func <- <T: ExpressibleByNilLiteral> (left: inout T, right: MapValue?) {
+	static func <- <T: ExpressibleByNilLiteral>(left: inout T, right: MapValue?) {
 		left <- (right, { $0 })
 	}
 }
@@ -46,28 +43,28 @@ public extension Optional where Wrapped == MapValue {
 
 // swiftlint:disable:next static_operator
 public func <- <T, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) throws {
-    guard let mapValue = right.mapValue else {
-        return
-    }
+	guard let mapValue = right.mapValue else {
+		return
+	}
 
-    guard let originalValue = mapValue.originalValue as? R else {
-    	throw InsertError.invalidValue(key: mapValue.keyPath, type: R.self)
-    }
-    let transformedValue = right.transformer(originalValue)
-    left = transformedValue as T
+	guard let originalValue = mapValue.originalValue as? R else {
+		throw InsertError.invalidValue(key: mapValue.keyPath, type: R.self)
+	}
+	let transformedValue = right.transformer(originalValue)
+	left = transformedValue as T
 }
 
 // swiftlint:disable:next static_operator
 public func <- <T: ExpressibleByNilLiteral, R>(left: inout T, right: (mapValue: MapValue?, transformer: (R) -> T)) {
-    guard let mapValue = right.mapValue else {
-        return
-    }
+	guard let mapValue = right.mapValue else {
+		return
+	}
 
-    guard let originalValue = mapValue.originalValue else {
-        left = nil
-        return
-    }
+	guard let originalValue = mapValue.originalValue else {
+		left = nil
+		return
+	}
 
-    let transformedValue = right.transformer((originalValue as? R).require(hint: "Value is not of type \(R.self)"))
-    left = transformedValue as T
+	let transformedValue = right.transformer((originalValue as? R).require(hint: "Value is not of type \(R.self)"))
+	left = transformedValue as T
 }

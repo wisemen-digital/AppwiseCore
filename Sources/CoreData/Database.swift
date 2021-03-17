@@ -1,9 +1,6 @@
 //
-//  Database.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 06/03/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CocoaLumberjack
@@ -26,12 +23,12 @@ public final class DB: NSObject {
 
 	@available(*, renamed: "view")
 	public var main: NSManagedObjectContext {
-		return view
+		view
 	}
 
 	/// The main context. All UI related operations should use this context.
 	public var view: NSManagedObjectContext {
-		return container.viewContext
+		container.viewContext
 	}
 
 	/// Creates a new DB instance with the specified bundle.
@@ -42,7 +39,7 @@ public final class DB: NSObject {
 	public required init(bundle: Bundle, storeName: String) {
 		self.bundle = bundle
 		self.storeName = storeName
-		self.container = DB.createContainer(bundle: bundle, storeName: storeName)
+		container = DB.createContainer(bundle: bundle, storeName: storeName)
 		super.init()
 	}
 
@@ -56,10 +53,10 @@ public final class DB: NSObject {
 
 // MARK: Accessed from Config
 
-extension DB {
+public extension DB {
 	/// Initialize the data store.  It will merge all data models in the DB's bundle.
 	@objc
-	public func initialize() {
+	func initialize() {
 		container.loadPersistentStores { [weak self] storeDescription, error in
 			DDLogInfo("Store URL: \(String(describing: storeDescription.url ?? URL(string: "")))")
 
@@ -76,14 +73,14 @@ extension DB {
 
 	/// Reset the data store (effectively deletes it).
 	@objc
-	public func reset() {
+	func reset() {
 		container.viewContext.reset()
 		container = DB.createContainer(bundle: bundle, storeName: storeName)
 
 		do {
 			guard let url = container.persistentStoreDescriptions.first?.url else { return }
 			try container.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType)
-		} catch let error {
+		} catch {
 			DDLogError("Error deleting DB store: \(error)")
 		}
 	}

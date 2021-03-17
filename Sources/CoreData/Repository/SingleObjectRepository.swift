@@ -1,9 +1,6 @@
 //
-//  Repository.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 09/03/2019.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -26,7 +23,7 @@ public extension SingleObjectRepository {
 	}
 
 	var object: ObjectType? {
-		return try? context.first(value: objectID.rawValue)
+		try? context.first(value: objectID.rawValue)
 	}
 
 	func refresh(then handler: @escaping (Result<ObjectType>) -> Void) {

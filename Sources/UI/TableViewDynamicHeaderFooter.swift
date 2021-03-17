@@ -1,9 +1,6 @@
 //
-//  TableViewDynamicHeaderFooter.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 01/12/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import UIKit
@@ -18,7 +15,7 @@ open class ResizableTableHeaderFooterView: UIView {
 
 	fileprivate func resizeToMatchContent(completion: @escaping (() -> Void)) {
 		guard let contentView = contentView,
-			contentView.bounds.height != bounds.height else { return }
+		      contentView.bounds.height != bounds.height else { return }
 
 		// Set the height to be the content's height,
 		// dynamically calculated using constraints
@@ -34,7 +31,7 @@ public extension UITableView {
 	/// Update the height of the header view to match its content's height, if it is
 	/// a `ResizableTableHeaderFooterView`.
 	func updateHeaderViewHeight() {
-		guard let view = self.tableHeaderView as? ResizableTableHeaderFooterView else { return }
+		guard let view = tableHeaderView as? ResizableTableHeaderFooterView else { return }
 
 		view.resizeToMatchContent { [weak self] in
 			self?.tableHeaderView = view
@@ -44,7 +41,7 @@ public extension UITableView {
 	/// Update the height of the footer view to match its content's height, if it is
 	/// a `ResizableTableHeaderFooterView`.
 	func updateFooterViewHeight() {
-		guard let view = self.tableFooterView as? ResizableTableHeaderFooterView else { return }
+		guard let view = tableFooterView as? ResizableTableHeaderFooterView else { return }
 
 		view.resizeToMatchContent { [weak self] in
 			self?.tableFooterView = view

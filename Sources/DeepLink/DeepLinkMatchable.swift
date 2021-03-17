@@ -1,9 +1,6 @@
 //
-//  DeepLinker.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 03/11/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -37,12 +34,12 @@ public protocol DeepLinkMatchable: AnyObject, NSObjectProtocol {
 public extension DeepLinkMatchable {
 	/// Default implementation, just returns false.
 	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
-		return false
+		false
 	}
 }
 
 public extension DeepLinkMatchable where Self: UIViewController {
 	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
-		return false // TODO
+		false // TODO: default dismiss of presented or pop nav
 	}
 }

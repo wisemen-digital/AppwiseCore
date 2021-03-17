@@ -1,9 +1,6 @@
 //
-//  Repository.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 09/03/2019.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 /// Put all your repositories in this namespace

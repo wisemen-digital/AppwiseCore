@@ -1,9 +1,6 @@
 //
-//  ManagedObjectContext.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 06/03/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CoreData
@@ -91,10 +88,10 @@ public extension NSManagedObjectContext {
 
 		let newIDs = Set<NSManagedObjectID>(
 			updatedObjects.compactMap { ($0 as? T)?.objectID } +
-			insertedObjects.compactMap { ($0 as? T)?.objectID }
+				insertedObjects.compactMap { ($0 as? T)?.objectID }
 		)
 
-		let fetched: [T] = (try? self.fetch(request)) ?? []
+		let fetched: [T] = (try? fetch(request)) ?? []
 		return fetched.filter { !newIDs.contains($0.objectID) }
 	}
 
@@ -131,7 +128,7 @@ public extension NSManagedObjectContext {
 	}
 }
 
-fileprivate extension NSEntityDescription {
+private extension NSEntityDescription {
 	var keysForUniquing: Set<String> {
 		var keys = Set<String>()
 		var entity: NSEntityDescription? = self

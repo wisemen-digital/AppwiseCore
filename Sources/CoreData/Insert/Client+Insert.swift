@@ -1,8 +1,6 @@
 //
-//  Client+Insert.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 24/07/2018.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -40,7 +38,7 @@ public extension Client {
 							let mainValue = try value.inContext(db.main)
 							handler(.success(mainValue))
 						}
-					} catch let error {
+					} catch {
 						DDLogInfo("Error saving result: \(error.localizedDescription)")
 						handler(.failure(error))
 					}
@@ -54,7 +52,7 @@ public extension Client {
 
 		buildRequest(request) { result in
 			switch result {
-			case let .success(request):
+			case .success(let request):
 				request.responseInsert(
 					db: db,
 					queue: queue,

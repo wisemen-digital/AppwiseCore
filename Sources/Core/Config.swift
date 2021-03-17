@@ -1,9 +1,6 @@
 //
-//  Config.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 17/09/16.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CocoaLumberjack
@@ -92,7 +89,7 @@ public extension Config {
 	}
 
 	private var db: NSObject? {
-		guard let type = DBProxy.`class` as? NSObject.Type else { return nil }
+		guard let type = DBProxy.class as? NSObject.Type else { return nil }
 		return type.perform(DBProxy.shared).takeUnretainedValue() as? NSObject
 	}
 }
@@ -120,7 +117,7 @@ public extension Config {
 
 	/// The version of the application, taken from the info dictionary.
 	var appVersion: Version {
-		return Bundle.main.infoDictionary?[InfoKeys.shortVersion]
+		Bundle.main.infoDictionary?[InfoKeys.shortVersion]
 			.flatMap { $0 as? String }
 			.flatMap(Version.init(string:)) ?? Version(0, 0, 0)
 	}

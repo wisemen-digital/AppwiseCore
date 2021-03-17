@@ -1,8 +1,6 @@
 //
-//  Client+Error.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 24/07/2018.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Alamofire
@@ -76,8 +74,8 @@ public extension Client {
 			} else if let item = try? JSONDecoder().decode(ClientStructuredError.self, from: data) {
 				return ClientError.errors([item], underlyingError: error)
 			} else if let message = String(data: data, encoding: .utf8),
-				!message.lowercased().contains("<html"),
-				!message.isEmpty {
+			          !message.lowercased().contains("<html"),
+			          !message.isEmpty {
 				return ClientError.message(message, underlyingError: error)
 			}
 		}

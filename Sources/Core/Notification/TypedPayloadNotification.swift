@@ -1,9 +1,6 @@
 //
-//  TypedNotification.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 19/12/17.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import Foundation
@@ -36,6 +33,6 @@ public extension Notification {
 	/// - Parameter notificationType: The notificationType to retrieve the payload from.
 	/// - Returns: The payload from the `TypedNotification`.
 	func getPayload<T: TypedPayloadNotification>(for notificationType: T.Type) -> T.Payload? {
-		return userInfo?[UserInfoKey.payload] as? T.Payload
+		userInfo?[UserInfoKey.payload] as? T.Payload
 	}
 }

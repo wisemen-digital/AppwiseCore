@@ -1,8 +1,6 @@
 //
-//  Array
-//  AppwiseCore
-//
-//  Created by David Jennes on 24/07/2018.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import CoreData
@@ -19,7 +17,7 @@ extension Array: Insertable where Element: ManyInsertable & Insertable {
 	}
 
 	public func inContext(_ context: NSManagedObjectContext) throws -> [Element] {
-		return try compactMap { try $0.inContext(context) }
+		try compactMap { try $0.inContext(context) }
 	}
 }
 
@@ -30,7 +28,7 @@ extension Array: Importable {
 
 		// if many importable, iterate over each item, and call the general function with all items
 		if let array = self as? [ManyImportable],
-			let type = Element.self as? ManyImportable.Type {
+		   let type = Element.self as? ManyImportable.Type {
 			for (importedData, importedItem) in zip(data, array) {
 				try type.didImport(item: importedItem, from: importedData, in: context)
 			}

@@ -1,9 +1,6 @@
 //
-//  DismissKeyboardBehaviour.swift
-//  AppwiseCore
-//
-//  Created by David Jennes on 01/12/2017.
-//  Copyright © 2019 Appwise. All rights reserved.
+// AppwiseCore
+// Copyright © 2021 Appwise
 //
 
 import UIKit
