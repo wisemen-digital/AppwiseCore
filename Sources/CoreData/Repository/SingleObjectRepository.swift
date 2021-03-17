@@ -30,6 +30,6 @@ public extension SingleObjectRepository {
 	}
 
 	func refresh(then handler: @escaping (Result<ObjectType>) -> Void) {
-		// empty implementation
+		handler(.cancelled)
 	}
 }

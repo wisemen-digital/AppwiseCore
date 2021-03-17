@@ -33,7 +33,7 @@ public extension ObjectListRepository {
 	}
 
 	func refresh(then handler: @escaping (Result<[ObjectType]>) -> Void) {
-		// empty implementation
+		handler(.cancelled)
 	}
 
 	func findOldItems() -> [ObjectType] {

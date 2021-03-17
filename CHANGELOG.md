@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Improvements
+
+* CoreData: repository refresh handlers now result in a "cancelled" error by default (until you override them).
+
 ### Bug Fixes
 
 * CoreData: operation & save callbacks are now on the main queue by default (you can provide your own queue).
