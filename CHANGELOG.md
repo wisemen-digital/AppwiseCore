@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.4.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.1)
+
 ### Improvements
 
 * CoreData: repository refresh handlers now result in a "cancelled" error by default (until you override them).
