@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Internal
 
 * Lint & format code, and add commit hooks to trigger these.
+* Bump SentrySDK version from 5 to 6. This should NOT be a breaking change, but if needed, check [their migration docs](https://github.com/getsentry/sentry-cocoa/blob/6.0.0/MIGRATION.md#upgrading-from-5x-to-6x).
 
 ## [1.4.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.1)
 
