@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+* Bump SentrySDK version from 6 to 7. Make sure you configure a trace sample rate! This should NOT be a breaking change, but if needed, check [their migration docs](https://docs.sentry.io/platforms/apple/migration/#migrating-from-6x-to-7x).
+
 ## [1.4.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.2)
 
 ### Internal
