@@ -15,8 +15,8 @@ public protocol Client {
 	/// A client is a singleton
 	static var shared: Self { get }
 
-	/// The AlamoFire session manager for this client
-	var sessionManager: SessionManager { get }
+	/// The Alamofire session for this client
+	var session: Session { get }
 
 	/// Extract a readable error from the response in case of an error.
 	///
@@ -24,7 +24,7 @@ public protocol Client {
 	/// - parameter error: The existing error
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
-	static func extract<T>(from response: DataResponse<T>, error: Error) -> Error
+	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error
 }
 
 public extension Client {
@@ -34,35 +34,12 @@ public extension Client {
 	///
 	/// - returns: The data request object
 	func request(_ request: RouterType) -> DataRequest {
-		let group = DispatchGroup()
-		var dataRequest: DataRequest?
-
-		group.enter()
-		request.asURLRequest(with: sessionManager) { result in
-			group.leave()
-			dataRequest = try? result.get()
-		}
-
-		group.wait()
-		guard let result = dataRequest else {
-			fatalError("Unable to create data request")
-		}
-		return result.validate()
+		request.makeDataRequest(session: session)
+			.validate()
 	}
 
-	/// Shortcut method for creating a request
-	///
-	/// - parameter request: The router request type
-	/// - parameter completion: The closure to call when finished
-	/// - parameter result: The resulting data request (or an error)
-	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Swift.Result<DataRequest, Error>) -> Void) {
-		request.asURLRequest(with: sessionManager) { result in
-			switch result {
-			case .success(let request):
-				completion(.success(request.validate()))
-			default:
-				completion(result)
-			}
-		}
+	@available(*, unavailable, renamed: "request(_:)")
+	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
+		fatalError("unavailable")
 	}
 }

@@ -19,8 +19,8 @@ public protocol Router: URLRequestConvertible, URLConvertible {
 	/// The path relative to the base URL. Required
 	var path: String { get }
 
-	/// The request headers (dictionary). Optional, default: empty dictionary
-	var headers: [String: String] { get }
+	/// The request headers (dictionary). Optional, default: nil
+	var headers: HTTPHeaders? { get }
 
 	/// The parameters for a request, will be encoded using the `encoding`. Optional, default: nil
 	var params: Parameters? { get }
@@ -55,53 +55,27 @@ public extension Router {
 
 public extension Router {
 	func asURLRequest() throws -> URLRequest {
-		precondition(multipart == nil, "Cannot build request, it has a multipart constructor. Please use `asURLRequest(with:completion:)`")
-
-		return try buildURLRequest()
-	}
-
-	/// Asynchronously build a data request for this route. This is recommended in case you
-	/// have a large amount of multipart data that gets added in the `multipart` closure.
-	///
-	/// - parameter sessionManager: The session manager used to construct the data request
-	/// - parameter completion: The completion closure to call when finished
-	/// - parameter result: The resulting data request (or an error)
-	func asURLRequest(with sessionManager: SessionManager, completion: @escaping (_ result: Swift.Result<DataRequest, Error>) -> Void) {
-		let request: URLRequest
-		do {
-			request = try buildURLRequest()
-		} catch {
-			return completion(.failure(error))
-		}
-
-		if let multipart = multipart {
-			sessionManager.upload(multipartFormData: multipart, with: request) { result in
-				switch result {
-				case .success(let request, _, _):
-					completion(.success(request))
-				case .failure(let error):
-					completion(.failure(error))
-				}
-			}
-		} else {
-			let dataRequest = sessionManager.request(request)
-			completion(.success(dataRequest))
-		}
-	}
-
-	private func buildURLRequest() throws -> URLRequest {
-		let params = self.params ?? anyParams
-
 		var request = try URLRequest(url: self, method: method, headers: headers)
-		if let encoding = encoding as? JSONEncoding {
-			request = try encoding.encode(request, withJSONObject: params)
-		} else if let params = params as? Parameters {
-			request = try encoding.encode(request, with: params)
-		} else if params != nil {
-			preconditionFailure("Cannot encode non-dictionary when Router encoding is not JSON")
-		}
-
+		request = try encoding.encode(request, with: params)
 		return request
+	}
+
+	/// Build a data request for this route.
+	///
+	/// Warning: this starts the request!
+	///
+	/// - parameter session: The session used to construct the data request
+	func makeDataRequest(session: Session) -> DataRequest {
+		if let multipart = multipart {
+			return session.upload(multipartFormData: multipart, to: self, method: method, headers: headers)
+		} else {
+			return session.request(self, method: method, parameters: params, encoding: encoding, headers: headers)
+		}
+	}
+
+	@available(*, unavailable, renamed: "makeDataRequest(session:)")
+	func asURLRequest(with sessionManager: Session, completion: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
+		fatalError("unavailable")
 	}
 }
 
@@ -112,8 +86,8 @@ public extension Router {
 		.get
 	}
 
-	var headers: [String: String] {
-		[:]
+	var headers: HTTPHeaders? {
+		nil
 	}
 
 	var params: Parameters? {

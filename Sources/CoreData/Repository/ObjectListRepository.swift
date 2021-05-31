@@ -12,7 +12,7 @@ public protocol ObjectListRepository {
 	var fetchRequest: NSFetchRequest<ObjectType> { get }
 
 	var frc: NSFetchedResultsController<ObjectType> { get }
-	func refresh(then handler: @escaping (Swift.Result<[ObjectType], Error>) -> Void)
+	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void)
 	func findOldItems() -> [ObjectType]
 }
 
@@ -28,7 +28,7 @@ public extension ObjectListRepository {
 		)
 	}
 
-	func refresh(then handler: @escaping (Swift.Result<[ObjectType], Error>) -> Void) {
+	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
 		handler(.cancelled)
 	}
 

@@ -5,7 +5,6 @@
 
 import Alamofire
 import CocoaLumberjack
-import CodableAlamofire
 
 public extension Client {
 	/// Shortcut method for building the request and loading the data.
@@ -15,24 +14,16 @@ public extension Client {
 	/// - parameter handler: The code to be executed once the request has finished.
 	func requestData(
 		_ request: RouterType,
-		queue: DispatchQueue? = nil,
-		then handler: @escaping (Swift.Result<Data, Error>) -> Void
+		queue: DispatchQueue = .main,
+		then handler: @escaping (Result<Data, Error>) -> Void
 	) {
-		buildRequest(request) { result in
-			switch result {
-			case .success(let request):
-				request.responseData(queue: queue) { response in
-					switch response.result {
-					case .success(let data):
-						handler(.success(data))
-					case .failure(let error):
-						let error = Self.extract(from: response, error: error)
-						DDLogInfo(error.localizedDescription)
-						handler(.failure(error))
-					}
-				}
+		self.request(request).responseData(queue: queue) { response in
+			switch response.result {
+			case .success(let data):
+				handler(.success(data))
 			case .failure(let error):
-				DDLogInfo("Error creating request: \(error.localizedDescription)")
+				let error = Self.extract(from: response, error: error)
+				DDLogInfo(error.localizedDescription)
 				handler(.failure(error))
 			}
 		}
@@ -46,25 +37,17 @@ public extension Client {
 	/// - parameter handler: The code to be executed once the request has finished.
 	func requestJSON(
 		_ request: RouterType,
-		queue: DispatchQueue? = nil,
+		queue: DispatchQueue = .main,
 		options: JSONSerialization.ReadingOptions = .allowFragments,
-		then handler: @escaping (Swift.Result<Any, Error>) -> Void
+		then handler: @escaping (Result<Any, Error>) -> Void
 	) {
-		buildRequest(request) { result in
-			switch result {
-			case .success(let request):
-				request.responseJSON(queue: queue, options: options) { response in
-					switch response.result {
-					case .success(let data):
-						handler(.success(data))
-					case .failure(let error):
-						let error = Self.extract(from: response, error: error)
-						DDLogInfo(error.localizedDescription)
-						handler(.failure(error))
-					}
-				}
+		self.request(request).responseJSON(queue: queue, options: options) { response in
+			switch response.result {
+			case .success(let data):
+				handler(.success(data))
 			case .failure(let error):
-				DDLogInfo("Error creating request: \(error.localizedDescription)")
+				let error = Self.extract(from: response, error: error)
+				DDLogInfo(error.localizedDescription)
 				handler(.failure(error))
 			}
 		}
@@ -72,31 +55,23 @@ public extension Client {
 
 	/// Shortcut method for building the request, parsing the JSON and decoding it into an object.
 	///
+	/// - parameter type: The type to decode
 	/// - parameter request: The router request type
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
-	/// - parameter keyPath: The keyPath where object decoding should be performed. Default: `nil`.
 	/// - parameter handler: The code to be executed once the request has finished.
-	func requestJSONDecodable<T: Decodable>(
+	func requestDecodable<T: Decodable>(
 		_ request: RouterType,
-		queue: DispatchQueue? = nil,
-		keyPath: String? = nil,
-		then handler: @escaping (Swift.Result<T, Error>) -> Void
+		of type: T.Type = T.self,
+		queue: DispatchQueue = .main,
+		then handler: @escaping (Result<T, Error>) -> Void
 	) {
-		buildRequest(request) { result in
-			switch result {
-			case .success(let request):
-				request.responseDecodableObject(queue: queue, keyPath: keyPath) { (response: DataResponse<T>) in
-					switch response.result {
-					case .success(let data):
-						handler(.success(data))
-					case .failure(let error):
-						let error = Self.extract(from: response, error: error)
-						DDLogInfo(error.localizedDescription)
-						handler(.failure(error))
-					}
-				}
+		self.request(request).responseDecodable(of: type, queue: queue) { response in
+			switch response.result {
+			case .success(let data):
+				handler(.success(data))
 			case .failure(let error):
-				DDLogInfo("Error creating request: \(error.localizedDescription)")
+				let error = Self.extract(from: response, error: error)
+				DDLogInfo(error.localizedDescription)
 				handler(.failure(error))
 			}
 		}
@@ -112,25 +87,17 @@ public extension Client {
 	/// - parameter handler:  The code to be executed once the request has finished.
 	func requestString(
 		_ request: RouterType,
-		queue: DispatchQueue? = nil,
+		queue: DispatchQueue = .main,
 		encoding: String.Encoding? = nil,
-		then handler: @escaping (Swift.Result<String, Error>) -> Void
+		then handler: @escaping (Result<String, Error>) -> Void
 	) {
-		buildRequest(request) { result in
-			switch result {
-			case .success(let request):
-				request.responseString(queue: queue, encoding: encoding) { response in
-					switch response.result {
-					case .success(let data):
-						handler(.success(data))
-					case .failure(let error):
-						let error = Self.extract(from: response, error: error)
-						DDLogInfo(error.localizedDescription)
-						handler(.failure(error))
-					}
-				}
+		self.request(request).responseString(queue: queue, encoding: encoding) { response in
+			switch response.result {
+			case .success(let data):
+				handler(.success(data))
 			case .failure(let error):
-				DDLogInfo("Error creating request: \(error.localizedDescription)")
+				let error = Self.extract(from: response, error: error)
+				DDLogInfo(error.localizedDescription)
 				handler(.failure(error))
 			}
 		}
