@@ -81,7 +81,7 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 
 			if let value = value as? Importable {
 				let importContext = ImportContext(moc: context, object: contextObject)
-				try handleImport(value: value, data: data, context: importContext)
+				try handleImport(value: value, data: jsonData, context: importContext)
 			}
 
 			return value
