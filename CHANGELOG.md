@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Result.isCancelled would return false after mapping to another result type.
+
 ## [1.4.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.3)
 
 * Bump SentrySDK version from 6 to 7. Make sure you configure a trace sample rate! This should NOT be a breaking change, but if needed, check [their migration docs](https://docs.sentry.io/platforms/apple/migration/#migrating-from-6x-to-7x).

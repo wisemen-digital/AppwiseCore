@@ -5,6 +5,8 @@
 
 import Alamofire
 
+public struct Cancelled: Error {}
+
 public extension Result {
 	func asVoid() -> Result<Void> {
 		map { _ in }
@@ -19,6 +21,4 @@ public extension Result {
 	var isCancelled: Bool {
 		error is Cancelled
 	}
-
-	struct Cancelled: Error {}
 }
