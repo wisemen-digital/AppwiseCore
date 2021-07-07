@@ -58,14 +58,16 @@ public extension Client {
 	/// - parameter type: The type to decode
 	/// - parameter request: The router request type
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
+	/// - parameter decoder: `DataDecoder` to use to decode the response. `JSONDecoder()` by default.
 	/// - parameter handler: The code to be executed once the request has finished.
 	func requestDecodable<T: Decodable>(
 		_ request: RouterType,
 		of type: T.Type = T.self,
 		queue: DispatchQueue = .main,
+		decoder: DataDecoder = JSONDecoder(),
 		then handler: @escaping (Result<T, Error>) -> Void
 	) {
-		self.request(request).responseDecodable(of: type, queue: queue) { response in
+		self.request(request).responseDecodable(of: type, queue: queue, decoder: decoder) { response in
 			switch response.result {
 			case .success(let data):
 				handler(.success(data))
