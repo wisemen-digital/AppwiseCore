@@ -54,10 +54,10 @@ public extension Router {
 // MARK: - URLRequestConvertible
 
 public extension Router {
+	/// Shortcut for creating an URLRequest as it would be used in a `DataRequest`
 	func asURLRequest() throws -> URLRequest {
-		var request = try URLRequest(url: self, method: method, headers: headers)
-		request = try encoding.encode(request, with: params)
-		return request
+		precondition(multipart == nil, "Cannot build request, it has a multipart constructor.")
+		return try buildURLRequest()
 	}
 
 	/// Build a data request for this route.
@@ -66,16 +66,42 @@ public extension Router {
 	///
 	/// - parameter session: The session used to construct the data request
 	func makeDataRequest(session: Session) -> DataRequest {
+		let request: URLRequest
+		do {
+			request = try buildURLRequest()
+		} catch {
+			fatalError("Error building request: \(error)")
+		}
+
 		if let multipart = multipart {
-			return session.upload(multipartFormData: multipart, to: self, method: method, headers: headers)
+			return session.upload(multipartFormData: multipart, with: request)
 		} else {
-			return session.request(self, method: method, parameters: params, encoding: encoding, headers: headers)
+			return session.request(request)
 		}
 	}
 
 	@available(*, unavailable, renamed: "makeDataRequest(session:)")
 	func asURLRequest(with sessionManager: Session, completion: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
 		fatalError("unavailable")
+	}
+
+	private func buildURLRequest() throws -> URLRequest {
+		let params = self.params ?? anyParams
+
+		var request = try URLRequest(url: self, method: method, headers: headers)
+		if let encoding = encoding as? JSONEncoding {
+			if let params = params as? Encodable {
+				request = try JSONParameterEncoder().encode(AnyEncodable(params), into: request)
+			} else {
+				request = try encoding.encode(request, withJSONObject: params)
+			}
+		} else if let params = params as? Parameters {
+			request = try encoding.encode(request, with: params)
+		} else if params != nil {
+			preconditionFailure("Cannot encode non-dictionary when Router encoding is not JSON")
+		}
+
+		return request
 	}
 }
 
