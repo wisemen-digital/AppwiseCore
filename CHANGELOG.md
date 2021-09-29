@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* Updated to Alamofire 5.0, causing some breaking changes for Network clients and related types.
+* Switched to Swift's built-in `Result` type, which requires an `Error` generic parameter.
+* It is recommended to use the migration script when possible, it will convert most common breaking changes.
+
 ## [1.4.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.4)
 
 ### Bug Fixes

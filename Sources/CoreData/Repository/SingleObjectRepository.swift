@@ -3,7 +3,6 @@
 // Copyright © 2021 Appwise
 //
 
-import Alamofire
 import CoreData
 
 public protocol SingleObjectRepository {
@@ -14,7 +13,7 @@ public protocol SingleObjectRepository {
 	init(objectID: Identifier<ObjectType>, context: NSManagedObjectContext)
 
 	var object: ObjectType? { get }
-	func refresh(then handler: @escaping (Result<ObjectType>) -> Void)
+	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void)
 }
 
 public extension SingleObjectRepository {
@@ -26,7 +25,7 @@ public extension SingleObjectRepository {
 		try? context.first(value: objectID.rawValue)
 	}
 
-	func refresh(then handler: @escaping (Result<ObjectType>) -> Void) {
+	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {
 		handler(.cancelled)
 	}
 }

@@ -14,82 +14,84 @@ public struct ResponseInfo {
 	public let error: Error?
 }
 
-public extension DataResponseSerializer {
-	/// Create a new `DataResponseSerializer` which serialize the response in two steps:
-	/// - first, it serialize the response using the serializer sent in the parent parameter
-	/// - second, take the `Result` returned by the parent and process it using the given transformer
-	/// - parameter parent:             The serializer used in the first serialization
-	/// - parameter transformer:        The block used for the second serialization
-	///
-	/// - returns: a new instance of the serializer
-	init<ParentValue>(
-		parent: DataResponseSerializer<ParentValue>,
-		transformer: @escaping (ResponseInfo, Result<ParentValue>) -> Result<Value>
-	) {
-		self.init { request, response, data, error -> Result<Value> in
-			let initialResponse = parent.serializeResponse(request, response, data, error)
-			return transformer(
-				ResponseInfo(request: request, response: response, data: data, error: error),
-				initialResponse
-			)
-		}
-	}
-}
+/// A `ResponseSerializer` that decodes the response data using `JSONSerialization` and then imports
+/// it into Core Data using `Groot`. By default, a request returning `nil` or no data is considered an error.
+/// However, if the request has an `HTTPMethod` or the response has an HTTP status code valid for empty
+/// responses, then an `NSNull` value is returned.
+public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
+	public let dataPreprocessor: DataPreprocessor
+	public let emptyResponseCodes: Set<Int>
+	public let emptyRequestMethods: Set<HTTPMethod>
+	/// `JSONSerialization.ReadingOptions` used when serializing a response.
+	public let jsonOptions: JSONSerialization.ReadingOptions
+	/// Closure to modify the decoded JSON object
+	public let jsonTransformer: (Any) throws -> Any
+	/// The Core Data context to work with
+	public let context: NSManagedObjectContext
+	/// The context object to pass along during import
+	public let contextObject: Any?
 
-public extension DataRequest {
-	/// Initialize a serializer built in two steps:
-	/// - The first step serializes the response to get a `JSON`.
-	/// - The second step transform the previous `JSON` using the given transformer
+	/// Creates an instance with the provided values.
 	///
-	/// - parameter options:     The JSON serialization reading options. Default is `.allowFragments`
-	/// - parameter transformer: The transformer used to proccess the default `JSON`
-	///
-	/// - returns: the new serializer
-	static func jsonTransformerSerializer(
-		options: JSONSerialization.ReadingOptions = .allowFragments,
-		transformer: @escaping ((ResponseInfo, Result<Any>) -> Result<Any>)
-	) -> DataResponseSerializer<Any> {
-		let parentSerializer = DataRequest.jsonResponseSerializer(options: options)
-		return DataResponseSerializer(parent: parentSerializer, transformer: transformer)
-	}
-
-	/// Creates a response serializer that returns a `Insertable` object result type constructed from the response data using.
-	/// The `Insertable` will be inserted in the given context before being returned.
-	///
-	/// - parameter context:        The `NSManagedObjectContext` where the `Insertable` will be inserted
-	/// - parameter type:           The `Insertable` type that will be used in the serialization
-	/// - parameter jsonSerializer: A `DataResultSerializer` which must return the JSON which will be used to perform the insert. Default is a `DataRequest.jsonResponseSerializer()`
-	/// - parameter contextObject:  The object to pass along to an import operation (see `ImportContext.object`)
-	///
-	/// - returns: An `Insertable` object response serializer.
-	class func responseInsertSerializer<T: Insertable>(
-		context moc: NSManagedObjectContext,
-		type: T.Type,
-		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
+	/// - Parameters:
+	///   - dataPreprocessor:    `DataPreprocessor` used to prepare the received `Data` for serialization.
+	///   - emptyResponseCodes:  The HTTP response codes for which empty responses are allowed. `[204, 205]` by default.
+	///   - emptyRequestMethods: The HTTP request methods for which empty responses are allowed. `[.head]` by default.
+	///   - jsonOptions:         The options to use. `.allowFragments` by default.
+	public init(
+		dataPreprocessor: DataPreprocessor = InsertResponseSerializer.defaultDataPreprocessor,
+		emptyResponseCodes: Set<Int> = InsertResponseSerializer.defaultEmptyResponseCodes,
+		emptyRequestMethods: Set<HTTPMethod> = InsertResponseSerializer.defaultEmptyRequestMethods,
+		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
+		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
+		context: NSManagedObjectContext,
+		type: T.Type = T.self,
 		contextObject: Any? = nil
-	) -> DataResponseSerializer<T> {
-		DataResponseSerializer(parent: jsonSerializer) { _, result -> Result<T> in
-			guard result.isSuccess else {
-				return .failure(result.error.require(hint: "Result is failure, but has no error"))
+	) {
+		self.dataPreprocessor = dataPreprocessor
+		self.emptyResponseCodes = emptyResponseCodes
+		self.emptyRequestMethods = emptyRequestMethods
+		self.jsonOptions = jsonOptions
+		self.jsonTransformer = jsonTransformer
+		self.context = context
+		self.contextObject = contextObject
+	}
+
+	public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {
+		guard error == nil else { throw error! }
+
+		// process data
+		guard var data = data, !data.isEmpty || emptyResponseAllowed(forRequest: request, response: response) else {
+			throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)
+		}
+		data = try dataPreprocessor.preprocess(data)
+
+		// decode into JSON
+		var jsonData: Any
+		do {
+			jsonData = try JSONSerialization.jsonObject(with: data, options: jsonOptions)
+			jsonData = try jsonTransformer(jsonData)
+		} catch {
+			throw AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: error))
+		}
+
+		// import into core data
+		do {
+			let value: T = try T.insert(from: jsonData, in: context)
+
+			if let value = value as? Importable {
+				let importContext = ImportContext(moc: context, object: contextObject)
+				try handleImport(value: value, data: jsonData, context: importContext)
 			}
 
-			do {
-				let data = result.value ?? [:]
-				let value: T = try T.insert(from: data, in: moc)
-
-				if let value = value as? Importable {
-					let importContext = ImportContext(moc: moc, object: contextObject)
-					try handleImport(value: value, data: data, context: importContext)
-				}
-				return .success(value)
-			} catch {
-				return .failure(error)
-			}
+			return value
+		} catch {
+			throw AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))
 		}
 	}
 
 	/// Helper method to perform handleImport on context queue, and catch any resulting error.
-	fileprivate static func handleImport(value: Importable, data: Any, context: ImportContext) throws {
+	private func handleImport(value: Importable, data: Any, context: ImportContext) throws {
 		var importError: Error?
 
 		context.moc.performAndWait {
@@ -104,47 +106,52 @@ public extension DataRequest {
 			throw error
 		}
 	}
+}
 
+public extension DataRequest {
 	// swiftlint:disable function_default_parameter_at_end
 	/// Adds a handler to be called once the request has finished.
 	///
+	/// - parameter type:              The `Insertable` type that will be used in the serialization
 	/// - parameter db:                The database to work in
 	/// - parameter queue:             The queue on which the deserializer (and your completion handler) is dispatched.
-	/// - parameter jsonSerializer:    The response JSON serializer
-	/// - parameter type:              The `Insertable` type that will be used in the serialization
+	/// - parameter jsonOptions:       JSON decoder options
+	/// - parameter jsonTransformer:   The response JSON transformer
 	/// - parameter contextObject:     The object to pass along to an import operation (see `ImportContext.object`)
-	/// - parameter handler: The code to be executed once the request has finished.
+	/// - parameter handler:           The code to be executed once the request has finished.
 	///
 	/// - returns: the request
 	@discardableResult
 	func responseInsert<T: Insertable>(
+		of type: T.Type = T.self,
 		db: DB = DB.shared,
-		queue: DispatchQueue? = nil,
-		jsonSerializer: DataResponseSerializer<Any> = DataRequest.jsonResponseSerializer(),
-		type: T.Type,
+		queue: DispatchQueue = .main,
+		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
+		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
 		contextObject: Any? = nil,
-		then handler: @escaping (DataResponse<T>, @escaping DB.SaveBlockWitCallback) -> Void
+		then handler: @escaping (DataResponse<T, AFError>, @escaping DB.SaveBlockWitCallback) -> Void
 	) -> Self {
 		let context = db.newBackgroundContext()
 		let save: DB.SaveBlockWitCallback = { completion in
 			context.perform {
 				do {
 					try context.save()
-					(queue ?? DispatchQueue.main).async {
+					queue.async {
 						completion(nil)
 					}
 				} catch {
-					(queue ?? DispatchQueue.main).async {
+					queue.async {
 						completion(error)
 					}
 				}
 			}
 		}
 
-		let serializer = DataRequest.responseInsertSerializer(
+		let serializer = InsertResponseSerializer(
+			jsonOptions: jsonOptions,
+			jsonTransformer: jsonTransformer,
 			context: context,
-			type: T.self,
-			jsonSerializer: jsonSerializer,
+			type: type,
 			contextObject: contextObject
 		)
 
