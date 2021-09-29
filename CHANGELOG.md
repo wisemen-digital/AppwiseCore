@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [1.4.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.4)
+
 ### Bug Fixes
 
 * Result.isCancelled would return false after mapping to another result type.
