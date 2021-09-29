@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Result.isCancelled would return false after mapping to another result type.
+* XcodeGen: ensure the "iOS Extension" template can locate it's dependencies.
 
 ## [1.4.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/1.4.3)
 
