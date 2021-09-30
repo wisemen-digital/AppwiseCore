@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [2.0.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.0)
+
 ### Breaking
 
 * Updated to Alamofire 5.0, causing some breaking changes for Network clients and related types.
