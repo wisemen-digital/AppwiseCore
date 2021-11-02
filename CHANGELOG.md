@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Fixed a compilation issue with Xcode 13.
+
 ## [2.0.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.0)
 
 ### Breaking
