@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2021 Appwise
+// Copyright © 2022 Appwise
 //
 
 import Alamofire

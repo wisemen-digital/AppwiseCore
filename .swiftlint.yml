@@ -106,7 +106,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/ AppwiseCore
-                    \/\/ Copyright © 2021 Appwise
+                    \/\/ Copyright © 2022 Appwise
                     \/\/
 
 custom_rules:
