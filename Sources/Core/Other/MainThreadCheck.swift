@@ -21,6 +21,6 @@ public extension DispatchQueue {
 
 	/// Easy and safe way of checking if the current queue is the main queue
 	var isMain: Bool {
-		getSpecific(key: DispatchQueue.mainQueueKey) != nil
+		getSpecific(key: Self.mainQueueKey) != nil
 	}
 }

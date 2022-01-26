@@ -6,7 +6,7 @@
 import CloudKit
 import UIKit
 
-// swiftlint:disable type_body_length file_length
+// swiftlint:disable type_body_length
 
 /// An implementation of the application delegate, that automatically integrates with application services and the `Config` you provide.
 ///
@@ -30,9 +30,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		ConfigureMainQueueApplicationService(),
 		ConfigurationApplicationService<ConfigType>()
 	]
-	private lazy var allServices: [ApplicationService] = {
-		self.services + self.internalServices
-	}()
+	private lazy var allServices: [ApplicationService] = self.services + self.internalServices
 
 	/// The document directory of your application
 	@available(*, deprecated, message: "Please use FileManager.default.documentsDirectory instead")

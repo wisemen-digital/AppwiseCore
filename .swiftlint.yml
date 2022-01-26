@@ -1,4 +1,4 @@
-swiftlint_version: 0.43.1
+swiftlint_version: 0.46.1
 
 disabled_rules:
   - line_length
@@ -19,6 +19,7 @@ opt_in_rules:
   - contains_over_range_nil_comparison
   - convenience_type
   - discouraged_assert
+  - discouraged_none_name
   - discouraged_optional_boolean
   - discouraged_optional_collection
   - duplicate_enum_cases
@@ -59,6 +60,7 @@ opt_in_rules:
   - overridden_super_call
   - override_in_extension
   - prefer_self_type_over_type_of_self
+  - prefer_self_in_static_references
   - prefer_zero_over_explicit_init
   - private_action
   - private_outlet

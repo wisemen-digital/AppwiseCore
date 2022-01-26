@@ -39,7 +39,7 @@ public final class DB: NSObject {
 	public required init(bundle: Bundle, storeName: String) {
 		self.bundle = bundle
 		self.storeName = storeName
-		container = DB.createContainer(bundle: bundle, storeName: storeName)
+		container = Self.createContainer(bundle: bundle, storeName: storeName)
 		super.init()
 	}
 
@@ -75,7 +75,7 @@ public extension DB {
 	@objc
 	func reset() {
 		container.viewContext.reset()
-		container = DB.createContainer(bundle: bundle, storeName: storeName)
+		container = Self.createContainer(bundle: bundle, storeName: storeName)
 
 		do {
 			guard let url = container.persistentStoreDescriptions.first?.url else { return }

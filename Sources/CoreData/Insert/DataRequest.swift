@@ -31,6 +31,7 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 	/// The context object to pass along during import
 	public let contextObject: Any?
 
+	// swiftlint:disable function_default_parameter_at_end
 	/// Creates an instance with the provided values.
 	///
 	/// - Parameters:
@@ -109,7 +110,6 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 }
 
 public extension DataRequest {
-	// swiftlint:disable function_default_parameter_at_end
 	/// Adds a handler to be called once the request has finished.
 	///
 	/// - parameter type:              The `Insertable` type that will be used in the serialization
