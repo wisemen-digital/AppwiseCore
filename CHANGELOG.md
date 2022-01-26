@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Fastlane: `sentry_auto_set_commits` better handles issues with Sentry API.
+
 ### Internal
 
 * Bump internal dependencies.

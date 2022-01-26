@@ -21,8 +21,12 @@ module Fastlane
         end
 
         # clear then set commits
-        params[:clear] = true
-        Actions::SentrySetCommitsAction.run(params)
+        begin
+          params[:clear] = true
+          Actions::SentrySetCommitsAction.run(params)
+        rescue
+          UI.message "Failed to clear commits"
+        end
 
         params[:clear] = false
         params[:commit] = "#{repo}@#{commits}"
