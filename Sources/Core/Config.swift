@@ -106,9 +106,9 @@ private enum InfoKeys {
 public extension Config {
 	/// The name of the application, taken from the info dictionary.
 	var appName: String {
-		if let value = Bundle.main.infoDictionary?[InfoKeys.bundleDisplayName] as? String {
+		if let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.bundleDisplayName) as? String {
 			return value
-		} else if let value = Bundle.main.infoDictionary?[InfoKeys.bundleName] as? String {
+		} else if let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.bundleName) as? String {
 			return value
 		} else {
 			return ""
@@ -117,14 +117,14 @@ public extension Config {
 
 	/// The version of the application, taken from the info dictionary.
 	var appVersion: Version {
-		Bundle.main.infoDictionary?[InfoKeys.shortVersion]
+		Bundle.main.object(forInfoDictionaryKey: InfoKeys.shortVersion)
 			.flatMap { $0 as? String }
 			.flatMap(Version.init(string:)) ?? Version(0, 0, 0)
 	}
 
 	/// The build version of the application, taken from the info dictionary.
 	var appBuild: String {
-		guard let value = Bundle.main.infoDictionary?[InfoKeys.version] as? String else { return "" }
+		guard let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.version) as? String else { return "" }
 		return value
 	}
 }
