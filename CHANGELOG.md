@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Core: ensure we use localised info.plist values where possible.
+
 ## [2.0.2](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.2)
 
 ### Bug Fixes
