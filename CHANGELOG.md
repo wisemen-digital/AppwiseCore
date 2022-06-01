@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+## [2.0.4](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.4)
+
+### Bug Fixes
+
+* Add combine support for Core and CoreData
+
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 
 ### Bug Fixes
