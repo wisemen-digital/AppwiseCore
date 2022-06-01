@@ -35,6 +35,7 @@ public extension Client {
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
 	/// - parameter handler: The code to be executed once the request has finished.
+	@available(*, deprecated, message: "Will be removed in Alamofire 6. Use decodable instead.")
 	func requestJSON(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,

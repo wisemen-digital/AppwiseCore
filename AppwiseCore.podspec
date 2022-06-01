@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'AppwiseCore'
-	s.version = '2.0.3'
+	s.version = '2.0.4'
 	s.summary = 'Just a library of some stuff we use internally.'
 	s.description = <<-DESC
 	Contains a few generic types (appdelegate, config, router, client) and some helper methods.
@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
 	# core spec
 	s.subspec 'Core' do |ss|
 		ss.source_files = 'Sources/Core/**/*.swift'
+		ss.exclude_files = 'Sources/Core/Combine/**'
 		ss.resource_bundles = {
 			'AppwiseCore-Core' => ['Resources/Core/*.lproj']
 		}
@@ -58,14 +59,27 @@ Pod::Spec.new do |s|
 		ss.dependency 'Then', '~> 2.6'
 	end
 
+	# core combine spec
+	s.subspec 'CoreCombine' do |ss|
+		ss.source_files = 'Sources/Core/Combine/*.swift'
+		ss.dependency 'AppwiseCore/Core'
+	end
+
 	# coredata
 	s.subspec 'CoreData' do |ss|
 		ss.source_files = 'Sources/CoreData/**/*.swift'
+		ss.exclude_files = 'Sources/CoreData/Combine/**'
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
 		ss.dependency 'AppwiseCore/Core'
 		ss.dependency 'Groot', '~> 3.0'
+	end
+
+	# coredata combine spec
+	s.subspec 'CoreDataCombine' do |ss|
+		ss.source_files = 'Sources/CoreData/Combine/*.swift'
+		ss.dependency 'AppwiseCore/CoreData'
 	end
 
 	# deeplinking
