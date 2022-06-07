@@ -6,7 +6,7 @@
 import CoreData
 
 public protocol SingleObjectRepository {
-	associatedtype ObjectType: NSManagedObject & Identifiable
+	associatedtype ObjectType: NSManagedObject & _Identifiable
 
 	var objectID: Identifier<ObjectType> { get }
 	var context: NSManagedObjectContext { get }

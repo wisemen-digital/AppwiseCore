@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Improvements
+
+* CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
+
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 
 ### Bug Fixes
