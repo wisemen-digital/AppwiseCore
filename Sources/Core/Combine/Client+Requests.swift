@@ -7,11 +7,6 @@ import Alamofire
 import Combine
 
 @available(iOS 13.0, *)
-public enum Return {
-	public typealias Response<T> = AnyPublisher<Result<T, Error>, Never>
-}
-
-@available(iOS 13.0, *)
 public extension Client {
 	/// Shortcut method for building the request, parsing the JSON and decoding it into an object.
 	///
@@ -24,7 +19,7 @@ public extension Client {
 		of type: T.Type = T.self,
 		queue: DispatchQueue = .main,
 		decoder: DataDecoder = JSONDecoder()
-	) -> Return.Response<T> {
+	) -> AnyPublisher<Result<T, Error>, Never> {
 		self.request(request)
 			.publishDecodable(type: type, queue: queue, decoder: decoder)
 			.map { response in response.mapError { Self.extract(from: response, error: $0) }.result }
@@ -39,7 +34,7 @@ public extension Client {
 	func requestData(
 		_ request: RouterType,
 		queue: DispatchQueue = .main
-	) -> Return.Response<Data> {
+	) -> AnyPublisher<Result<Data, Error>, Never> {
 		self.request(request)
 			.publishData()
 			.map { response in response.mapError { Self.extract(from: response, error: $0) }.result }
@@ -60,7 +55,7 @@ public extension Client {
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		options: JSONSerialization.ReadingOptions = .allowFragments
-	) -> Return.Response<Any> {
+	) -> AnyPublisher<Result<Any, Error>, Never> {
 		self.request(request)
 			.publishResponse(using: JSONResponseSerializer(options: options), on: queue)
 			.map { response in response.mapError { Self.extract(from: response, error: $0) }.result }
@@ -79,7 +74,7 @@ public extension Client {
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		encoding: String.Encoding? = nil
-	) -> Return.Response<String> {
+	) -> AnyPublisher<Result<String, Error>, Never> {
 		self.request(request)
 			.publishString()
 			.map { response in response.mapError { Self.extract(from: response, error: $0) }.result }

@@ -9,7 +9,6 @@ import Combine
 
 @available(iOS 13.0, *)
 public extension Client {
-	// swiftlint:disable function_default_parameter_at_end
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
 	/// - parameter request:        The router request type
@@ -26,42 +25,44 @@ public extension Client {
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
 		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
 		contextObject: Any? = nil
-	) -> Return.Response<T> {
-		self.request(request)
-			.responseInsert(
+	) -> AnyPublisher<Result<T, Error>, Never> {
+		var dataRequest: DataRequest?
+		return Future { promise in
+			let responseHandler = { (response: DataResponse<T, AFError>, save: @escaping DB.SaveBlockWitCallback) in
+				switch response.result {
+				case .success(let value):
+					save { error in
+						// cast the value to the main context
+						do {
+							if let error = error {
+								throw error
+							} else {
+								let mainValue = try value.inContext(db.main)
+								promise(.success(.success(mainValue)))
+							}
+						} catch {
+							DDLogInfo("Error saving result: \(error.localizedDescription)")
+							promise(.success(.failure(error)))
+						}
+					}
+				case .failure(let error):
+					let error = Self.extract(from: response, error: error)
+					DDLogInfo(error.localizedDescription)
+					promise(.success(.failure(error)))
+				}
+			}
+
+			dataRequest = self.request(request).responseInsert(
 				of: type,
 				db: db,
 				queue: queue,
 				jsonOptions: jsonOptions,
 				jsonTransformer: jsonTransformer,
-				contextObject: contextObject
+				contextObject: contextObject,
+				then: responseHandler
 			)
-			.map { response in
-				switch response.result {
-				case .success(let value):
-					let context = DB.shared.view
-					var result: Result<T, Error>!
-
-					context.performAndWait {
-						do {
-							let mainValue = try value.inContext(context)
-							result = .success(mainValue)
-						} catch {
-							result = .failure(error)
-						}
-					}
-
-					return result
-				case .failure(let error):
-					if let afError = error as? AFError {
-						let newResponse = response.transform(result: Result<T, AFError>.failure(afError))
-						let newError = Self.extract(from: newResponse, error: afError)
-						return Result<T, Error>.failure(newError)
-					} else {
-						return Result<T, Error>.failure(error)
-					}
-				}
-			}
-			.eraseToAnyPublisher()
+		}
+		.handleEvents(receiveCancel: { dataRequest?.cancel() })
+		.eraseToAnyPublisher()
 	}
 }
