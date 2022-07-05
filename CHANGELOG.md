@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 
 * CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
+* Core: add `requestVoid` method to network client.
 
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 

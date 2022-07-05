@@ -7,6 +7,28 @@ import Alamofire
 import CocoaLumberjack
 
 public extension Client {
+	/// Shortcut method for building the request and loading the response (ignoring data).
+	///
+	/// - parameter request: The router request type
+	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
+	/// - parameter handler: The code to be executed once the request has finished.
+	func requestVoid(
+		_ request: RouterType,
+		queue: DispatchQueue = .main,
+		then handler: @escaping (Result<Void, Error>) -> Void
+	) {
+		self.request(request).response(queue: queue) { response in
+			switch response.result {
+			case .success:
+				handler(.success(()))
+			case .failure(let error):
+				let error = Self.extract(from: response, error: error)
+				DDLogError(error.localizedDescription)
+				handler(.failure(error))
+			}
+		}
+	}
+
 	/// Shortcut method for building the request and loading the data.
 	///
 	/// - parameter request: The router request type
@@ -35,6 +57,7 @@ public extension Client {
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
 	/// - parameter handler: The code to be executed once the request has finished.
+	@available(*, deprecated, message: "Will be removed in Alamofire 6. Use `Decodable` instead.")
 	func requestJSON(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
