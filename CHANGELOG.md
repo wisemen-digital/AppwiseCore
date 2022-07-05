@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 
 * CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
+* CoreData: lower the requirement of repositories to `NSFetchRequestResult` where possible.
 * Core: add `requestVoid` method to network client.
 * Behaviours: add keyboard avoiding behaviour (using the system provided layout guide).
 * XcodeGen: added a template for shared frameworks.

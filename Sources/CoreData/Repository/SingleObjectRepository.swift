@@ -6,7 +6,7 @@
 import CoreData
 
 public protocol SingleObjectRepository {
-	associatedtype ObjectType: NSManagedObject, _Identifiable
+	associatedtype ObjectType: NSFetchRequestResult, _Identifiable
 
 	var objectID: Identifier<ObjectType> { get }
 	var context: NSManagedObjectContext { get }
@@ -16,16 +16,22 @@ public protocol SingleObjectRepository {
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void)
 }
 
+// MARK: - Default implementations
+
 public extension SingleObjectRepository {
 	init(objectID: Identifier<ObjectType>) {
 		self.init(objectID: objectID, context: DB.shared.view)
 	}
 
-	var object: ObjectType? {
-		try? context.first(value: objectID.rawValue)
-	}
-
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {
 		handler(.cancelled)
+	}
+}
+
+// MARK: - Helper properties
+
+public extension SingleObjectRepository where ObjectType: NSManagedObject {
+	var object: ObjectType? {
+		try? context.first(value: objectID.rawValue)
 	}
 }
