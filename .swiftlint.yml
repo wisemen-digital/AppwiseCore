@@ -1,9 +1,10 @@
-swiftlint_version: 0.46.1
+swiftlint_version: 0.47.1
 
 disabled_rules:
   - line_length
 
 opt_in_rules:
+  - accessibility_label_for_image
   - anyobject_protocol
   - array_init
   - attributes
@@ -71,6 +72,7 @@ opt_in_rules:
   - reduce_into
   - redundant_nil_coalescing
   - redundant_objc_attribute
+  - return_value_from_void_function
   - sorted_first_last
   - sorted_imports
   - static_operator

@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Then', '~> 2.6'
+		ss.dependency 'Then', '~> 3.0'
 	end
 
 	# Common files
@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
 		ss.dependency 'Alamofire', '> 5.2'
 		ss.dependency 'CocoaLumberjack/Swift', '~> 3.6'
 		ss.dependency 'Sentry', '~> 7.0'
-		ss.dependency 'Then', '~> 2.6'
+		ss.dependency 'Then', '~> 3.0'
 	end
 
 	# coredata
