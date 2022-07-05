@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 * CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
 * Core: add `requestVoid` method to network client.
+* Behaviours: add keyboard avoiding behaviour (using the system provided layout guide).
 
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 
