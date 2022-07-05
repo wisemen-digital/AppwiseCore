@@ -12,11 +12,14 @@ public extension Client {
 	/// - parameter request: The router request type
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter handler: The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	func requestVoid(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		then handler: @escaping (Result<Void, Error>) -> Void
-	) {
+	) -> DataRequest {
 		self.request(request).response(queue: queue) { response in
 			switch response.result {
 			case .success:
@@ -34,11 +37,14 @@ public extension Client {
 	/// - parameter request: The router request type
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter handler: The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	func requestData(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		then handler: @escaping (Result<Data, Error>) -> Void
-	) {
+	) -> DataRequest {
 		self.request(request).responseData(queue: queue) { response in
 			switch response.result {
 			case .success(let data):
@@ -57,13 +63,16 @@ public extension Client {
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
 	/// - parameter handler: The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	@available(*, deprecated, message: "Will be removed in Alamofire 6. Use `Decodable` instead.")
 	func requestJSON(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		options: JSONSerialization.ReadingOptions = .allowFragments,
 		then handler: @escaping (Result<Any, Error>) -> Void
-	) {
+	) -> DataRequest {
 		self.request(request).responseJSON(queue: queue, options: options) { response in
 			switch response.result {
 			case .success(let data):
@@ -83,13 +92,16 @@ public extension Client {
 	/// - parameter queue:   The queue on which the deserializer (and your completion handler) is dispatched.
 	/// - parameter decoder: `DataDecoder` to use to decode the response. `JSONDecoder()` by default.
 	/// - parameter handler: The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	func requestDecodable<T: Decodable>(
 		_ request: RouterType,
 		of type: T.Type = T.self,
 		queue: DispatchQueue = .main,
 		decoder: DataDecoder = JSONDecoder(),
 		then handler: @escaping (Result<T, Error>) -> Void
-	) {
+	) -> DataRequest {
 		self.request(request).responseDecodable(of: type, queue: queue, decoder: decoder) { response in
 			switch response.result {
 			case .success(let data):
@@ -110,12 +122,15 @@ public extension Client {
 	///                       server response, falling back to the default HTTP default character set,
 	///                       ISO-8859-1.
 	/// - parameter handler:  The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	func requestString(
 		_ request: RouterType,
 		queue: DispatchQueue = .main,
 		encoding: String.Encoding? = nil,
 		then handler: @escaping (Result<String, Error>) -> Void
-	) {
+	) -> DataRequest {
 		self.request(request).responseString(queue: queue, encoding: encoding) { response in
 			switch response.result {
 			case .success(let data):

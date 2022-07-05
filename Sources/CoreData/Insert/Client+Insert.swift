@@ -17,6 +17,9 @@ public extension Client {
 	/// - parameter jsonSerializer: The response JSON serializer
 	/// - parameter contextObject:  The object to pass along to an import operation (see `ImportContext.object`)
 	/// - parameter handler:        The code to be executed once the request has finished.
+	///
+	/// - returns: The request.
+	@discardableResult
 	func requestInsert<T: Insertable>(
 		_ request: RouterType,
 		of type: T.Type = T.self,
@@ -26,7 +29,7 @@ public extension Client {
 		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
 		contextObject: Any? = nil,
 		then handler: @escaping (Result<T, Error>) -> Void
-	) {
+	) -> DataRequest {
 		let responseHandler = { (response: DataResponse<T, AFError>, save: @escaping DB.SaveBlockWitCallback) in
 			switch response.result {
 			case .success(let value):
@@ -51,7 +54,7 @@ public extension Client {
 			}
 		}
 
-		self.request(request).responseInsert(
+		return self.request(request).responseInsert(
 			of: type,
 			db: db,
 			queue: queue,
