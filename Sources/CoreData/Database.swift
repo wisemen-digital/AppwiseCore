@@ -23,6 +23,8 @@ public final class DB: NSObject {
 	/// Reference to storage definition
 	internal let storage: Storage
 
+	internal var trackers: [PersistentHistoryTracker] = []
+
 	/// The persistent container (based on storage definition)
 	internal lazy var container: NSPersistentContainer = storage.createContainer()
 
@@ -87,6 +89,9 @@ public extension DB {
 	/// Reset the data store (effectively deletes it).
 	@objc
 	func reset() {
+		trackers.forEach { $0.reset() }
+		trackers.removeAll()
+
 		container.viewContext.reset()
 		container = storage.createContainer()
 		container.persistentStoreDescriptions.forEach { delete(store: $0) }

@@ -16,7 +16,7 @@ public struct InMemoryStorage: Storage {
 
 	public var storeConfigurations: [StoreConfiguration] {
 		[
-			StoreConfiguration(description: buildStoreDescription())
+			StoreConfiguration(description: buildStoreDescription(), historySettings: nil)
 		]
 	}
 }

@@ -22,6 +22,11 @@ public extension DB {
 		container.performBackgroundTask { context in
 			context.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
 
+			if #available(iOS 11.0, *) {
+				context.name = ContextAuthor.background.name
+				context.transactionAuthor = self.storage.author?.name
+			}
+
 			operation(context) { callback in
 				do {
 					try context.save()

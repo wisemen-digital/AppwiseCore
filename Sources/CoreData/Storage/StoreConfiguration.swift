@@ -16,9 +16,11 @@ public struct StoreConfiguration {
 
 	public let description: NSPersistentStoreDescription
 	public let migration: Migration?
+	public let historySettings: PersistentHistorySettings?
 
-	public init(description: NSPersistentStoreDescription, migration: Migration? = nil) {
+	public init(description: NSPersistentStoreDescription, migration: Migration? = nil, historySettings: PersistentHistorySettings? = nil) {
 		self.description = description
 		self.migration = migration
+		self.historySettings = historySettings
 	}
 }

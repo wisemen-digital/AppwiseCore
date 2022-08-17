@@ -14,6 +14,11 @@ public extension DB {
 	func newBackgroundContext() -> NSManagedObjectContext {
 		container.newBackgroundContext().then {
 			$0.mergePolicy = NSMergePolicy(merge: self.mergePolicy)
+
+			if #available(iOS 11.0, *) {
+				$0.name = ContextAuthor.background.name
+				$0.transactionAuthor = self.storage.author?.name
+			}
 		}
 	}
 

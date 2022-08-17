@@ -8,7 +8,9 @@ import CoreData
 public struct SQLiteStorage: Storage {
 	public let fileURL: URL
 	public let configuration: ModelConfiguration
+	public let author: Author?
 	public let migration: StoreConfiguration.Migration?
+	public let historySettings: PersistentHistorySettings?
 
 	public var migrateStoreAutomatically = true
 	public var inferMappingModelAutomatically = true
@@ -23,15 +25,17 @@ public struct SQLiteStorage: Storage {
 
 	public var configurationName: String?
 
-	public init(fileURL: URL, configuration: ModelConfiguration, migration: StoreConfiguration.Migration? = nil) {
+	public init(fileURL: URL, configuration: ModelConfiguration, author: Author? = nil, migration: StoreConfiguration.Migration? = nil, historySettings: PersistentHistorySettings? = nil) {
 		self.fileURL = fileURL
 		self.configuration = configuration
+		self.author = author
 		self.migration = migration
+		self.historySettings = historySettings
 	}
 
 	public var storeConfigurations: [StoreConfiguration] {
 		[
-			StoreConfiguration(description: buildStoreDescription(), migration: migration)
+			StoreConfiguration(description: buildStoreDescription(), migration: migration, historySettings: historySettings)
 		]
 	}
 }
@@ -50,17 +54,17 @@ public extension SQLiteStorage {
 		}
 	}
 
-	static func `default`(bundle: Bundle = .main) -> SQLiteStorage {
+	static func `default`(bundle: Bundle = .main, author: Author? = nil, historySettings: PersistentHistorySettings? = nil) -> SQLiteStorage {
 		if let url = defaultFileURL(name: Constants.defaultName), let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle) {
-			return SQLiteStorage(fileURL: url, configuration: configuration)
+			return SQLiteStorage(fileURL: url, configuration: configuration, author: author, historySettings: historySettings)
 		} else {
 			fatalError("Unable to load store")
 		}
 	}
 
-	static func group(identifier: String, bundle: Bundle = .main) -> SQLiteStorage {
+	static func group(identifier: String, bundle: Bundle = .main, author: Author? = nil, historySettings: PersistentHistorySettings? = nil) -> SQLiteStorage {
 		if let url = groupFileURL(name: Constants.defaultName, groupIdentifier: identifier), let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle) {
-			return SQLiteStorage(fileURL: url, configuration: configuration)
+			return SQLiteStorage(fileURL: url, configuration: configuration, author: author, historySettings: historySettings)
 		} else {
 			fatalError("Unable to load store")
 		}
