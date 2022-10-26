@@ -14,7 +14,7 @@ public struct ClientStructuredError: Decodable, LocalizedError {
 	public var errorDescription: String? {
 		let subItems: [String] = errors?
 			.sorted { $0.key < $1.key }
-			.flatMap { $0.value }
+			.flatMap(\.value)
 			.map { " • \($0)" } ?? []
 
 		return ([message] + subItems).joined(separator: "\n")
@@ -34,7 +34,7 @@ public enum ClientError: Error, LocalizedError {
 		switch self {
 		case .errors(let errors, _):
 			return errors
-				.compactMap { $0.errorDescription }
+				.compactMap(\.errorDescription)
 				.joined(separator: "\n")
 		case .message(let message, _):
 			return message
