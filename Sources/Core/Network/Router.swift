@@ -86,7 +86,7 @@ public extension Router {
 	}
 
 	private func buildURLRequest() throws -> URLRequest {
-		let params = self.params ?? anyParams
+		let params = params ?? anyParams
 
 		var request = try URLRequest(url: self, method: method, headers: headers)
 		if let encoding = encoding as? JSONEncoding {

@@ -6,7 +6,7 @@
 import CoreData
 
 public protocol ObjectListRepository {
-	associatedtype ObjectType: NSManagedObject
+	associatedtype ObjectType: NSFetchRequestResult
 
 	var context: NSManagedObjectContext { get }
 	var fetchRequest: NSFetchRequest<ObjectType> { get }
@@ -19,6 +19,12 @@ public protocol ObjectListRepository {
 // MARK: - Default implementations
 
 public extension ObjectListRepository {
+	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
+		handler(.cancelled)
+	}
+}
+
+public extension ObjectListRepository where ObjectType: NSManagedObject {
 	var frc: NSFetchedResultsController<ObjectType> {
 		NSFetchedResultsController(
 			fetchRequest: fetchRequest,
@@ -28,10 +34,6 @@ public extension ObjectListRepository {
 		)
 	}
 
-	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
-		handler(.cancelled)
-	}
-
 	func findOldItems() -> [ObjectType] {
 		context.findOldItems(filter: fetchRequest.predicate)
 	}
@@ -39,7 +41,7 @@ public extension ObjectListRepository {
 
 // MARK: - Helper properties
 
-public extension ObjectListRepository {
+public extension ObjectListRepository where ObjectType: NSManagedObject {
 	var firstObject: ObjectType? {
 		let request = fetchRequest.then {
 			$0.fetchLimit = 1

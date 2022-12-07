@@ -24,7 +24,7 @@ public extension Optional {
 		file: StaticString = #file,
 		line: UInt = #line
 	) -> Wrapped {
-		guard let unwrapped = self else {
+		guard let self = self else {
 			var message = "Required value was nil in \(file), at line \(line)"
 
 			if let hint = hintExpression() {
@@ -41,6 +41,6 @@ public extension Optional {
 			preconditionFailure(message)
 		}
 
-		return unwrapped
+		return self
 	}
 }

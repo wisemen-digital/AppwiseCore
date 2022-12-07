@@ -1,11 +1,10 @@
-swiftlint_version: 0.47.1
+swiftlint_version: 0.49.1
 
 disabled_rules:
   - line_length
 
 opt_in_rules:
   - accessibility_label_for_image
-  - anyobject_protocol
   - array_init
   - attributes
   - balanced_xctest_lifecycle
@@ -60,8 +59,8 @@ opt_in_rules:
   - optional_enum_case_matching
   - overridden_super_call
   - override_in_extension
-  - prefer_self_type_over_type_of_self
   - prefer_self_in_static_references
+  - prefer_self_type_over_type_of_self
   - prefer_zero_over_explicit_init
   - private_action
   - private_outlet
@@ -73,6 +72,7 @@ opt_in_rules:
   - redundant_nil_coalescing
   - redundant_objc_attribute
   - return_value_from_void_function
+  - self_binding
   - sorted_first_last
   - sorted_imports
   - static_operator
@@ -89,6 +89,8 @@ opt_in_rules:
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
+  - void_function_in_ternary
+  - weak_delegate
   - xct_specific_matcher
   - yoda_condition
 

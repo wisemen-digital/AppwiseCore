@@ -98,7 +98,7 @@ extension DeepLinker {
 	}
 
 	private func addToStack(matchable: DeepLinkMatchable, for path: String, skipNavigation: Bool) {
-		guard !stack.compactMap({ $0.matchable }).contains(where: { $0.isEqual(matchable) }) else { return }
+		guard !stack.compactMap(\.matchable).contains(where: { $0.isEqual(matchable) }) else { return }
 
 		let item = DeepLinkStackItem(path: path, matchable: matchable)
 		stack = stack.removingWeakReferences() + [item]
@@ -129,7 +129,7 @@ extension DeepLinker {
 
 extension DeepLinker {
 	private func navigate(to route: [String], animated: Bool) -> Bool {
-		let stack = self.stack.removingWeakReferences()
+		let stack = stack.removingWeakReferences()
 
 		// if we don't have a stack, store the request for later
 		guard let firstDifferent = findFirstDifferentIndex(stack: stack, route: route) else {
