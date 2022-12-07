@@ -41,6 +41,16 @@ if [ "$ACTION" = "install" ]; then
       fi
     done
   fi
+
+  echo "Searching in '${APP_PATH}/AppClips/*.app/Info.plist'"
+  if [ -d "$APP_PATH/AppClips" ]; then
+    find "$APP_PATH/AppClips" -name '*.app' -type d | while read -r subapp; do
+      if [ -f "$subapp/Info.plist" ]; then
+        echo "Updating $subapp/Info.plist"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${version}" "${subapp}/Info.plist"
+      fi
+    done
+  fi
 fi
 
 # Dsym info.plist
