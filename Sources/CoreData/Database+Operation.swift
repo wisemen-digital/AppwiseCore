@@ -33,3 +33,32 @@ public extension DB {
 		}
 	}
 }
+
+@available(iOS 13.0, *)
+public extension DB {
+	// Perform an operation asynchronously.
+	///
+	/// - parameter operation: The closure to perform within a new context.
+	/// - parameter context: The temporary save context.
+	func operation(operation: @escaping (_ context: NSManagedObjectContext) throws -> Void) async throws -> Void {
+		try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+			DB.shared.operation { context, save in
+				do {
+					try operation(context)
+
+					save { error in
+						context.reset()
+
+						if let error = error {
+							continuation.resume(throwing: error)
+						} else {
+							continuation.resume(returning: ())
+						}
+					}
+				} catch {
+					continuation.resume(throwing: error)
+				}
+			}
+		}
+	}
+}

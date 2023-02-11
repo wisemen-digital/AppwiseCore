@@ -14,6 +14,9 @@ public protocol ObjectListRepository {
 	var frc: NSFetchedResultsController<ObjectType> { get }
 	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void)
 	func findOldItems() -> [ObjectType]
+
+	@available(iOS 13.0, *)
+	func refresh() async -> Result<[ObjectType], Error>
 }
 
 // MARK: - Default implementations
@@ -21,6 +24,15 @@ public protocol ObjectListRepository {
 public extension ObjectListRepository {
 	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
 		handler(.cancelled)
+	}
+}
+
+@available(iOS 13.0, *)
+public extension ObjectListRepository {
+	func refresh() async -> Result<[ObjectType], Error> {
+		await withCheckedContinuation { continuation in
+			self.refresh { continuation.resume(returning: $0) }
+		}
 	}
 }
 

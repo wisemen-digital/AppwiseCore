@@ -102,7 +102,7 @@ public extension Client {
 		}
 	}
 
-	/// Shortcut method for building the request and parsing the JSON.
+	/// Shortcut method for building the request and parsing the String.
 	///
 	/// - parameter request:  The router request type
 	/// - parameter queue:    The queue on which the deserializer (and your completion handler) is dispatched.

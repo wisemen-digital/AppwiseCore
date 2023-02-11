@@ -33,3 +33,21 @@ public extension DB {
 		}
 	}
 }
+
+@available(iOS 13, *)
+public extension DB {
+	/// Save the changes in the given context to the persistent store.
+	///
+	/// - parameter moc: The managed object context.
+	func saveToPersistentStore(_ moc: NSManagedObjectContext) async throws {
+		try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+			self.saveToPersistentStore(moc) { error in
+				if let error = error {
+					continuation.resume(throwing: error)
+				} else {
+					continuation.resume(returning: ())
+				}
+			}
+		}
+	}
+}

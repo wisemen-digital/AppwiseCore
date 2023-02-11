@@ -14,6 +14,9 @@ public protocol SingleObjectRepository {
 
 	var object: ObjectType? { get }
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void)
+
+	@available(iOS 13.0, *)
+	func refresh() async -> Result<ObjectType, Error>
 }
 
 // MARK: - Default implementations
@@ -25,6 +28,15 @@ public extension SingleObjectRepository {
 
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {
 		handler(.cancelled)
+	}
+}
+
+@available(iOS 13.0, *)
+public extension SingleObjectRepository {
+	func refresh() async -> Result<ObjectType, Error> {
+		await withCheckedContinuation { continuation in
+			self.refresh { continuation.resume(returning: $0) }
+		}
 	}
 }
 
