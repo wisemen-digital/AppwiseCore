@@ -94,4 +94,14 @@ Pod::Spec.new do |s|
 		# dependencies
 		ss.dependency 'AppwiseCore/Core'
 	end
+
+	# Tests
+	s.test_spec 'Tests' do |ts|
+		ts.source_files = 'Tests/Sources/**/*.swift'
+		ts.resource_bundles = {
+			'Tests' => ['Tests/Resources/*']
+		}
+		ts.dependency 'OHHTTPStubs'
+		ts.dependency 'OHHTTPStubs/Swift'	
+	end
 end
