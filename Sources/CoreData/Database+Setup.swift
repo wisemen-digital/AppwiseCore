@@ -37,9 +37,15 @@ internal extension DB {
 				self.didLoad(store: store)
 			}
 
-			if loaded == total && !failedStores.isEmpty {
-				failedStores.forEach { self.delete(store: $0) }
-				self.loadStores(attemptRecovery: false)
+			if loaded == total {
+				if failedStores.isEmpty {
+					self.state = .initialized
+				} else if attemptRecovery {
+					failedStores.forEach { self.delete(store: $0) }
+					self.loadStores(attemptRecovery: false)
+				} else {
+					self.state = .failed
+				}
 			}
 		}
 	}

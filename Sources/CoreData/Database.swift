@@ -26,6 +26,9 @@ public final class DB: NSObject {
 	/// The persistent container (based on storage definition)
 	internal lazy var container: NSPersistentContainer = storage.createContainer()
 
+	/// The current state of the database.
+	@objc public dynamic var state: State = .unknown
+
 	@available(*, renamed: "view")
 	public var main: NSManagedObjectContext {
 		view
@@ -87,5 +90,26 @@ public extension DB {
 		container.viewContext.reset()
 		container = storage.createContainer()
 		container.persistentStoreDescriptions.forEach { delete(store: $0) }
+		state = .unknown
+	}
+}
+
+// MAK: - State
+
+public extension DB {
+	@objc enum State: Int, CustomDebugStringConvertible {
+		case unknown
+		case loading
+		case initialized
+		case failed
+
+		public var debugDescription: String {
+			switch self {
+			case .unknown: return "unknown"
+			case .loading: return "loading"
+			case .initialized: return "initialized"
+			case .failed: return "failed"
+			}
+		}
 	}
 }
