@@ -61,10 +61,10 @@ public final class DB: NSObject {
 		}
 	}
 
-	/// The merge policy for the main (and root) contexts
+	/// The merge policy for the view (and root) contexts
 	public var mergePolicy: NSMergePolicyType = .mergeByPropertyStoreTrumpMergePolicyType {
 		didSet {
-			main.mergePolicy = NSMergePolicy(merge: mergePolicy)
+			view.mergePolicy = NSMergePolicy(merge: mergePolicy)
 		}
 	}
 }
@@ -75,18 +75,8 @@ public extension DB {
 	/// Initialize the data store.
 	@objc
 	func initialize() {
-		container.loadPersistentStores { [weak self] storeDescription, error in
-			DDLogInfo("Store URL: \(String(describing: storeDescription.url ?? URL(string: "")))")
-
-			if error != nil, let url = storeDescription.url {
-				try? self?.container.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType)
-				self?.container.loadPersistentStores { _, _ in
-				}
-			}
-		}
-
-		container.viewContext.automaticallyMergesChangesFromParent = true
-		container.viewContext.mergePolicy = NSMergePolicy(merge: mergePolicy)
+		preInitialize()
+		loadStores(attemptRecovery: true)
 	}
 
 	/// Reset the data store (effectively deletes it).
@@ -94,12 +84,6 @@ public extension DB {
 	func reset() {
 		container.viewContext.reset()
 		container = storage.createContainer()
-
-		do {
-			guard let url = container.persistentStoreDescriptions.first?.url else { return }
-			try container.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType)
-		} catch {
-			DDLogError("Error deleting DB store: \(error)")
-		}
+		container.persistentStoreDescriptions.forEach { delete(store: $0) }
 	}
 }
