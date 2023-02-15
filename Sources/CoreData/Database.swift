@@ -76,7 +76,9 @@ public extension DB {
 	@objc
 	func initialize() {
 		preInitialize()
-		loadStores(attemptRecovery: true)
+		migrate(storage: storage) { [weak self] in
+			self?.loadStores(attemptRecovery: true)
+		}
 	}
 
 	/// Reset the data store (effectively deletes it).

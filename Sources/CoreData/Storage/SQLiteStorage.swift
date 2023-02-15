@@ -8,6 +8,7 @@ import CoreData
 public struct SQLiteStorage: Storage {
 	public let fileURL: URL
 	public let configuration: ModelConfiguration
+	public let migration: StoreConfiguration.Migration?
 
 	public var migrateStoreAutomatically = true
 	public var inferMappingModelAutomatically = true
@@ -22,14 +23,15 @@ public struct SQLiteStorage: Storage {
 
 	public var configurationName: String?
 
-	public init(fileURL: URL, configuration: ModelConfiguration) {
+	public init(fileURL: URL, configuration: ModelConfiguration, migration: StoreConfiguration.Migration? = nil) {
 		self.fileURL = fileURL
 		self.configuration = configuration
+		self.migration = migration
 	}
 
 	public var storeConfigurations: [StoreConfiguration] {
 		[
-			StoreConfiguration(description: buildStoreDescription())
+			StoreConfiguration(description: buildStoreDescription(), migration: migration)
 		]
 	}
 }
