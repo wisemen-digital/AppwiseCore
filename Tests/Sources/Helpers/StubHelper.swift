@@ -16,26 +16,40 @@ enum StubHelper {
 
 	@discardableResult
 	static func registerRandomData(delay: TimeInterval = 0) -> Data {
-		let randomString = UUID().uuidString
-		let randomData = Data(randomString.utf8)
+		let string = UUID().uuidString
+		let data = Data(string.utf8)
+
+		register(data: data, delay: delay)
+
+		return data
+	}
+
+	static func register(data: Data, delay: TimeInterval = 0) {
+		stub(condition: routerCondition) { _ in
+			HTTPStubsResponse(data: data, statusCode: 200, headers: nil).then {
+				$0.requestTime = delay
+			}
+		}
+	}
+
+	@discardableResult
+	static func register(encodable: Encodable, delay: TimeInterval = 0) throws -> Data {
+		let encoder = JSONEncoder()
+		encoder.keyEncodingStrategy = .convertToSnakeCase
+
+		let data = try encoder.encode(encodable)
 
 		stub(condition: routerCondition) { _ in
-			HTTPStubsResponse(data: randomData, statusCode: 200, headers: nil).then {
+			HTTPStubsResponse(
+				data: data,
+				statusCode: 200,
+				headers: ["Content-Type": "application/json"]
+			).then {
 				$0.requestTime = delay
 			}
 		}
 
-		return randomData
-	}
-
-	static func registerUser() {
-		stub(condition: routerCondition) { _ in
-			HTTPStubsResponse(
-				fileAtPath: OHPathForFileInBundle("user.json", testBundle).require(),
-				statusCode: 200,
-				headers: ["Content-Type": "application/json"]
-			)
-		}
+		return data
 	}
 }
 
@@ -43,16 +57,4 @@ extension StubHelper {
 	static func routerCondition(request: URLRequest) -> Bool {
 		request.url.map { $0.absoluteString.contains(MockRouter.baseURLString) } ?? false
 	}
-
-	static var testBundle: Bundle {
-		let bundle = Bundle(for: BundleToken.self)
-
-		if let url = bundle.url(forResource: "Tests", withExtension: "bundle") {
-			return Bundle(url: url).require()
-		} else {
-			fatalError("Test bundle not found")
-		}
-	}
-}
-
-private class BundleToken { }
+} 

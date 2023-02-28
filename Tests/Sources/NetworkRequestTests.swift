@@ -25,7 +25,7 @@ extension NetworkRequestsTests {
 		let expectation = XCTestExpectation()
 
 		client.empty { result in
-			XCTAssert(result.isSuccess)
+			XCTAssertTrue(result.isSuccess)
 			expectation.fulfill()
 		}
 
@@ -37,34 +37,38 @@ extension NetworkRequestsTests {
 		let expectation = XCTestExpectation()
 
 		client.data { result in
-			XCTAssert(result.isSuccess)
-			XCTAssert(randomData == result.value)
+			XCTAssertTrue(result.isSuccess)
+			XCTAssertEqual(randomData, result.value)
 			expectation.fulfill()
 		}
 
 		wait(for: [expectation], timeout: 1)
 	}
 
-	func testJSON() {
-		StubHelper.registerUser()
+	func testJSON() throws {
+		let data = try StubHelper.register(encodable: MockUser.default)
+		let json = try JSONSerialization.jsonObject(with: data)
 		let expectation = XCTestExpectation()
 
 		client.json { result in
-			XCTAssert(result.isSuccess)
+			XCTAssertTrue(result.isSuccess)
+			if let value = result.value {
+				XCTAssertTrue(areEqual(first: value, second: json))
+			}
 			expectation.fulfill()
 		}
 
 		wait(for: [expectation], timeout: 1)
 	}
 
-	func testDecodable() {
-		StubHelper.registerUser()
-		let user = MockUser.example()
+	func testDecodable() throws {
+		let user = MockUser.default
+		try StubHelper.register(encodable: MockUser.default)
 		let expectation = XCTestExpectation()
 
 		client.decodable { result in
-			XCTAssert(result.isSuccess)
-			XCTAssert(user == result.value)
+			XCTAssertTrue(result.isSuccess)
+			XCTAssertEqual(user, result.value)
 			expectation.fulfill()
 		}
 
@@ -72,11 +76,31 @@ extension NetworkRequestsTests {
 	}
 
 	func testString() {
-		StubHelper.registerUser()
+		let data = StubHelper.registerRandomData()
+		let string = String(data: data, encoding: .utf8)
 		let expectation = XCTestExpectation()
 
 		client.string { result in
-			XCTAssert(result.isSuccess)
+			XCTAssertTrue(result.isSuccess)
+			XCTAssertEqual(result.value, string)
+			expectation.fulfill()
+		}
+
+		wait(for: [expectation], timeout: 1)
+	}
+
+	func testInsert() async throws {
+		let user = MockUser.default
+		try StubHelper.register(encodable: user)
+		let database = DataBaseHelper.setupDefault()
+		let expectation = XCTestExpectation()
+
+		client.insert(database: database) { result in
+			XCTAssertTrue(result.isSuccess)
+			XCTAssertEqual(Int64(user.id), result.value?.id.rawValue)
+			XCTAssertEqual(user.email, result.value?.email)
+			XCTAssertEqual(user.firstName, result.value?.firstName)
+			XCTAssertEqual(user.lastName, result.value?.lastName)
 			expectation.fulfill()
 		}
 

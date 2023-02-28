@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="MockProfile" representedClassName="AppwiseCore_Unit_Tests.MockProfile" syncable="YES">
+        <attribute name="email" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="email"/>
+            </userInfo>
+        </attribute>
+        <attribute name="firstName" optional="YES" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="first_name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="lastName" optional="YES" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="last_name"/>
+            </userInfo>
+        </attribute>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+        <userInfo>
+            <entry key="idenityAttributes" value="id"/>
+        </userInfo>
+    </entity>
+</model>

@@ -39,6 +39,10 @@ extension MockClient {
 
 		requestDecodable(.user, decoder: decoder, then: handler)
 	}
+
+	func insert(database: DB, then handler: @escaping Handler<MockProfile>) {
+		requestInsert(.user, db: database, then: handler)
+	}
 }
 
 @available(iOS 13, *)
@@ -64,6 +68,10 @@ extension MockClient {
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
 
 		return await requestDecodable(.user, decoder: decoder)
+	}
+
+	func insert(database: DB) async -> Result<MockProfile, Error> {
+		await requestInsert(.user, db: database)
 	}
 
 	func cancel(automaticallyCancelling: Bool) async -> Result<Void, Error> {

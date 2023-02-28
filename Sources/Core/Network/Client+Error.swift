@@ -64,8 +64,9 @@ public extension Client {
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
 	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error {
-		// unauthorized status code --> unauthorized
-		if let status = response.response?.statusCode, status == 401 || status == 403 {
+		if case .explicitlyCancelled = error {
+			return error
+		} else if let status = response.response?.statusCode, status == 401 || status == 403 { // unauthorized status code --> unauthorized
 			return ClientError.unauthorized(underlyingError: error)
 		} else if let data = response.data {
 			// try to parse structured error or simple message
