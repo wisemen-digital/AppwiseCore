@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
 * CoreData: lower the requirement of repositories to `NSFetchRequestResult` where possible.
 * Core: add `requestVoid` method to network client.
+* Core: default error parser now ignores `.explicitlyCancelled` (for cancelled requests).
 * Behaviours: add keyboard avoiding behaviour (using the system provided layout guide).
 * XcodeGen: added a template for shared frameworks.
 
