@@ -6,19 +6,9 @@
 import CoreData
 
 public struct StoreConfiguration {
-	public struct Migration {
-		public let oldStore: NSPersistentStoreDescription
-
-		public init(oldStore: NSPersistentStoreDescription) {
-			self.oldStore = oldStore
-		}
-	}
-
 	public let description: NSPersistentStoreDescription
-	public let migration: Migration?
 
-	public init(description: NSPersistentStoreDescription, migration: Migration? = nil) {
+	public init(description: NSPersistentStoreDescription) {
 		self.description = description
-		self.migration = migration
 	}
 }
