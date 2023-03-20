@@ -29,6 +29,8 @@ public enum ClientError: Error, LocalizedError {
 	case message(String, underlyingError: Error)
 	/// In case of HTTP Status 401 or 403
 	case unauthorized(underlyingError: Error)
+	/// Server is in maintenance mode
+	case maintenanceMode(underlyingError: Error)
 
 	public var errorDescription: String? {
 		switch self {
@@ -40,19 +42,24 @@ public enum ClientError: Error, LocalizedError {
 			return message
 		case .unauthorized:
 			return L10n.Client.Error.unauthorized
+		case .maintenanceMode(let error):
+			return error.localizedDescription
 		}
 	}
 
 	/// The underlying error as reported by serializers, Alamofire, ...
 	public var underlyingError: Error {
 		switch self {
-		case .errors(_, let error), .message(_, let error), .unauthorized(let error):
+		case .errors(_, let error), .message(_, let error), .unauthorized(let error), .maintenanceMode(let error):
 			return error
 		}
 	}
 }
 
 public extension Client {
+	/// By default no maintenance checker is active
+	static var maintenanceChecker: MaintenanceModeResponseChecker.Type? { nil }
+
 	/// Extract a readable error from the response in case of an error. This default implementation will:
 	/// - Check if authorized
 	/// - Consider the response as an array of objects, and get the first object's `message`
@@ -64,8 +71,9 @@ public extension Client {
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
 	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error {
-		// unauthorized status code --> unauthorized
-		if let status = response.response?.statusCode, status == 401 || status == 403 {
+		if let checker = maintenanceChecker, checker.inMaintenanceMode(response: response) {
+			return ClientError.maintenanceMode(underlyingError: error)
+		} else if let status = response.response?.statusCode, status == 401 || status == 403 { // unauthorized status code --> unauthorized
 			return ClientError.unauthorized(underlyingError: error)
 		} else if let data = response.data {
 			// try to parse structured error or simple message

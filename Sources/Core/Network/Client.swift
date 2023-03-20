@@ -18,6 +18,9 @@ public protocol Client {
 	/// The Alamofire session for this client
 	var session: Session { get }
 
+	/// Protocol used to check if a response matches maintenance mode
+	static var maintenanceChecker: MaintenanceModeResponseChecker.Type? { get }
+
 	/// Extract a readable error from the response in case of an error.
 	///
 	/// - parameter response: The data response
