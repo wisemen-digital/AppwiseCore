@@ -17,14 +17,14 @@ public protocol MaintenanceModeChecker {
 
 public enum MaintenanceMode {
 	/// Returns `true` if maintenance mode is currently enabled.
-	private(set) static var isEnabled: Bool = false
+	private(set) public static var isEnabled: Bool = false
 
 	/// This notification gets posted whenever the app enters maintenance mode.
-	struct EnterMaintenanceMode: TypedNotification {}
+	public struct EnterMaintenanceMode: TypedNotification {}
 	/// This notification gets posted whenever the app exits maintenance mode.
-	struct ExitMaintenanceMode: TypedNotification {}
+	public struct ExitMaintenanceMode: TypedNotification {}
 	/// This notification gets posted whenever the maintenance mode did change.
-	struct MaintenanceModeDidChange: TypedNotification {}
+	public struct MaintenanceModeDidChange: TypedNotification {}
 
 	/// Set whether or not maintenance mode is currently enabled. If maintenance mode has changed, this will send the appropriate local notifications.
 	///
