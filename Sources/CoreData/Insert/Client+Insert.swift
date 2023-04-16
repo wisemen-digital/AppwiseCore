@@ -27,37 +27,22 @@ public extension Client {
 		contextObject: Any? = nil,
 		then handler: @escaping (Result<T, Error>) -> Void
 	) {
-		let responseHandler = { (response: DataResponse<T, AFError>, save: @escaping DB.SaveBlockWitCallback) in
-			switch response.result {
-			case .success(let value):
-				save { error in
-					// cast the value to the main context
-					do {
-						if let error {
-							throw error
-						} else {
-							let mainValue = try value.inContext(db.main)
-							handler(.success(mainValue))
-						}
-					} catch {
-						DDLogInfo("Error saving result: \(error.localizedDescription)")
-						handler(.failure(error))
-					}
+		self.requestData(request, queue: queue) { result in
+			switch result {
+			case .success(let data):
+				do {
+					// use old decoding for Groot
+					let json = try JSONSerialization.jsonObject(with: data, options: jsonOptions)
+					let transformedJSON = try jsonTransformer(json)
+					Self.insert(json: json, into: db, queue: queue, contextObject: contextObject, then: handler)
+				} catch {
+					DDLogError(error.localizedDescription)
+					handler(.failure(error))
 				}
-			case .failure:
-				handler(Self.transform(response: response))
+			case .failure(let error):
+				handler(.failure(error))
 			}
 		}
-
-		self.request(request).responseInsert(
-			of: type,
-			db: db,
-			queue: queue,
-			jsonOptions: jsonOptions,
-			jsonTransformer: jsonTransformer,
-			contextObject: contextObject,
-			then: responseHandler
-		)
 	}
 
 	@available(*, deprecated, renamed: "requestInsert(_:of:db:queue:jsonOptions:jsonTransformer:contextObject:then:)")
@@ -73,4 +58,48 @@ public extension Client {
 		requestInsert(request, of: type, db: db, queue: queue, jsonTransformer: jsonTransformer, contextObject: contextObject, then: handler)
 	}
 	// swiftlint:enable function_default_parameter_at_end
+}
+
+// MARK: - Helpers
+
+private extension Client {
+	static func insert<T: Insertable>(
+		json: Any,
+		into db: DB,
+		queue: DispatchQueue,
+		contextObject: Any?,
+		then handler: @escaping (Result<T, Error>) -> Void
+	) {
+		db.operation(queue: queue) { context, save in
+			do {
+				let value: T = try T.insert(from: json, in: context)
+
+				if let value = value as? Importable {
+					let importContext = ImportContext(moc: context, object: contextObject)
+					try value.didImport(from: json, in: importContext)
+				}
+
+				save { error in
+					afterInsert(value: value, error: error, db: db, then: handler)
+				}
+			} catch {
+				handler(.failure(error))
+			}
+		}
+	}
+
+	/// cast the value to the main context if we can
+	static func afterInsert<T: Insertable>(value: T, error: Error?, db: DB, then handler: @escaping (Result<T, Error>) -> Void) {
+		do {
+			if let error {
+				throw error
+			} else {
+				let mainValue = try value.inContext(db.view)
+				handler(.success(mainValue))
+			}
+		} catch {
+			DDLogError("Error saving result: \(error.localizedDescription)")
+			handler(.failure(error))
+		}
+	}
 }
