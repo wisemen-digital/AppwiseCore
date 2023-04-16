@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 * Behaviours: add keyboard avoiding behaviour (using the system provided layout guide).
 * XcodeGen: added a template for shared frameworks.
 
+### Bug Fixes
+
+* Fastlane: ensure translations export can handle "empty" targets.
+
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 
 ### Bug Fixes
