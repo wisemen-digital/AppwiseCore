@@ -13,6 +13,8 @@ import Foundation
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
 public protocol _Identifiable {
+	// swiftlint:disable:previous type_name
+
 	/// The backing raw type of this type's identifier.
 	associatedtype RawIdentifier
 

@@ -33,9 +33,7 @@ extension NSManagedObject: ManyInsertable {
 
 		let entityName = context.entityDescriptionForClass(self).name.require(hint: "Entity has no name")
 
-		return try objects(withEntityName: entityName,
-		                   fromJSONArray: array,
-		                   inContext: context)
+		return try objects(withEntityName: entityName, fromJSONArray: array, inContext: context)
 	}
 }
 

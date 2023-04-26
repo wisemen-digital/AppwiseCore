@@ -10,8 +10,8 @@ public protocol ObjectListRepository {
 
 	var context: NSManagedObjectContext { get }
 	var fetchRequest: NSFetchRequest<ObjectType> { get }
-
 	var frc: NSFetchedResultsController<ObjectType> { get }
+
 	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void)
 	func findOldItems() -> [ObjectType]
 }

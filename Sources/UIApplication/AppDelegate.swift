@@ -58,10 +58,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, willFinishLaunchingWithOptions: launchOptions) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(application, willFinishLaunchingWithOptions: launchOptions) ?? false {
+			result = true
 		}
 
 		return result
@@ -69,10 +67,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, didFinishLaunchingWithOptions: launchOptions) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(application, didFinishLaunchingWithOptions: launchOptions) ?? false {
+			result = true
 		}
 
 		return result
@@ -92,10 +88,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(app, open: url, options: options) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(app, open: url, options: options) ?? false {
+			result = true
 		}
 		return result
 	}
@@ -295,10 +289,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, shouldAllowExtensionPointIdentifier: extensionPointIdentifier) ?? true {
-				result = true
-			}
+		for service in allServices where service.application?(application, shouldAllowExtensionPointIdentifier: extensionPointIdentifier) ?? true {
+			result = true
 		}
 		return result
 	}
@@ -327,20 +319,16 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, shouldSaveApplicationState: coder) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(application, shouldSaveApplicationState: coder) ?? false {
+			result = true
 		}
 		return result
 	}
 
 	public func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, shouldRestoreApplicationState: coder) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(application, shouldRestoreApplicationState: coder) ?? false {
+			result = true
 		}
 		return result
 	}
@@ -359,10 +347,8 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	public func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
 		var result = false
-		for service in allServices {
-			if service.application?(application, willContinueUserActivityWithType: userActivityType) ?? false {
-				result = true
-			}
+		for service in allServices where service.application?(application, willContinueUserActivityWithType: userActivityType) ?? false {
+			result = true
 		}
 		return result
 	}
@@ -396,4 +382,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 			service.application?(application, userDidAcceptCloudKitShareWith: cloudKitShareMetadata)
 		}
 	}
+
+	// swiftlint:enable discouraged_optional_boolean discouraged_optional_collection
 }
+// swiftlint:enable type_body_length

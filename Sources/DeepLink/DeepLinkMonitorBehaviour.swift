@@ -34,7 +34,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 	}
 
 	func afterDisappearing(viewController: UIViewController, animated: Bool) {
-		guard let matchable = matchable else { return }
+		guard let matchable else { return }
 
 		if wasTabBarVisible,
 		   let tbc = viewController.tabBarController,

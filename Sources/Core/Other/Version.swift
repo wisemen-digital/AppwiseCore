@@ -211,3 +211,5 @@ public extension Range where Bound == Version {
 		return version >= lowerBound && version < upperBound
 	}
 }
+
+// swiftlint:enable all

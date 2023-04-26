@@ -8,8 +8,9 @@ public protocol PushNotificationType {
 
 	init?(type: String, data: [AnyHashable: Any])
 
-	func handle()
 	var canShow: Bool { get }
+
+	func handle()
 	func open()
 }
 

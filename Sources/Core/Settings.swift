@@ -17,9 +17,10 @@ public struct Settings {
 	}
 
 	/// `Settings` is a singleton.
-	public static var shared = Settings()
+	public static var shared = Self()
 	/// The underlying user defaults.
 	public let defaults = UserDefaults.standard
+
 	private init() {}
 
 	internal mutating func load<C: Config>(with config: C) {
@@ -32,12 +33,14 @@ public struct Settings {
 		lastVersion = config.appVersion
 
 		// try to load settings bundle
+		// swiftlint:disable legacy_objc_type
 		guard let bundle = Bundle.main.path(forResource: "Settings", ofType: "bundle") as NSString?,
 		      let settings = NSDictionary(contentsOfFile: bundle.appendingPathComponent("Root.plist")),
 		      let preferences = settings["PreferenceSpecifiers"] as? [[String: Any]] else {
 			DDLogError("Could not find Settings.bundle")
 			return
 		}
+		// swiftlint:enable legacy_objc_type
 
 		// load defaults from settings bundle
 		var data = [String: Any]()

@@ -33,7 +33,7 @@ public extension Client {
 				save { error in
 					// cast the value to the main context
 					do {
-						if let error = error {
+						if let error {
 							throw error
 						} else {
 							let mainValue = try value.inContext(db.main)
@@ -72,4 +72,5 @@ public extension Client {
 	) {
 		requestInsert(request, of: type, db: db, queue: queue, jsonTransformer: jsonTransformer, contextObject: contextObject, then: handler)
 	}
+	// swiftlint:enable function_default_parameter_at_end
 }

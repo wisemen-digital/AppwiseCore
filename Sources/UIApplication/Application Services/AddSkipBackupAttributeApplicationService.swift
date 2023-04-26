@@ -28,6 +28,7 @@ final class AddSkipBackupAttributeApplicationService: NSObject, ApplicationServi
 			}
 
 			// add skip attribute
+			// swiftlint:disable:next legacy_objc_type
 			try (supportDirectory as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
 		} catch {
 			DDLogError("Error excluding support directory from backup: \(error)")

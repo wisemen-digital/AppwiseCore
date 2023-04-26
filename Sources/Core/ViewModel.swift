@@ -29,7 +29,7 @@ public extension ViewModelType {
 	///
 	/// - parameter data: The data instance (can be nil)
 	init?(_ data: ModelType?) {
-		if let data = data {
+		if let data {
 			self.init(data)
 		} else {
 			return nil

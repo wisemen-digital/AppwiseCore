@@ -57,12 +57,14 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 		self.context = context
 		self.contextObject = contextObject
 	}
+	// swiftlint:enable function_default_parameter_at_end
 
 	public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {
+		// swiftlint:disable:next force_unwrapping
 		guard error == nil else { throw error! }
 
 		// process data
-		guard var data = data, !data.isEmpty || emptyResponseAllowed(forRequest: request, response: response) else {
+		guard var data, !data.isEmpty || emptyResponseAllowed(forRequest: request, response: response) else {
 			throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)
 		}
 		data = try dataPreprocessor.preprocess(data)

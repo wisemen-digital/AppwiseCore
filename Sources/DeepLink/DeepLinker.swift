@@ -15,6 +15,7 @@ public final class DeepLinker {
 
 	private var stack: Stack = []
 	public private(set) var scheduledRoute: (path: [String], animated: Bool)?
+
 	private init() {
 	}
 

@@ -73,7 +73,7 @@ public extension Router {
 			fatalError("Error building request: \(error)")
 		}
 
-		if let multipart = multipart {
+		if let multipart {
 			return session.upload(multipartFormData: multipart, with: request)
 		} else {
 			return session.request(request)

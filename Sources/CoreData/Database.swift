@@ -12,8 +12,9 @@ public enum DBError: Error {
 }
 
 /// Container for all core data related operations.
-// swiftlint:disable:next type_name
 public final class DB: NSObject {
+	// swiftlint:disable:previous type_name
+
 	fileprivate let bundle: Bundle
 	fileprivate let storeName: String
 	internal var container: NSPersistentContainer
@@ -54,7 +55,7 @@ public final class DB: NSObject {
 // MARK: Accessed from Config
 
 public extension DB {
-	/// Initialize the data store.  It will merge all data models in the DB's bundle.
+	/// Initialize the data store. It will merge all data models in the DB's bundle.
 	@objc
 	func initialize() {
 		container.loadPersistentStores { [weak self] storeDescription, error in

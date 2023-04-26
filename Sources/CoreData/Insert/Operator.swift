@@ -14,7 +14,7 @@ public extension Optional where Wrapped == MapValue {
 		guard let mapValue = right else { return }
 
 		let value: T? = try mapValue.serialize()
-		if let value = value {
+		if let value {
 			left = value
 		} else {
 			throw InsertError.invalidValue(key: mapValue.keyPath, type: T.self)
