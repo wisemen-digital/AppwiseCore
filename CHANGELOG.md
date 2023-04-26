@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 
 * Fastlane: ensure translations export can handle "empty" targets.
 
+### Internal
+
+* Bump copyright.
+
 ## [2.0.3](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.0.3)
 
 ### Bug Fixes

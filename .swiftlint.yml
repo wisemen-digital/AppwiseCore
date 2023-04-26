@@ -112,7 +112,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/ AppwiseCore
-                    \/\/ Copyright © 2022 Appwise
+                    \/\/ Copyright © 2023 Wisemen
                     \/\/
 
 custom_rules:
