@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Fastlane: ensure translations export can handle "empty" targets.
+* Scripts: fix Xcode warnings for build steps without input/output files.
 
 ### Internal
 
