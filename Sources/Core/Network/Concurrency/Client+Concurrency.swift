@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import CocoaLumberjack
 
 @available(iOS 13, *)
 public extension Client {
@@ -16,9 +17,9 @@ public extension Client {
 	func requestVoid(
 		_ request: RouterType,
 		automaticallyCancelling: Bool = false
-	) async -> Result<Void, Error> {
+	) async throws {
 		let task = self.request(request).serializingResponse(using: PassthroughResponseSerializer(), automaticallyCancelling: automaticallyCancelling)
-		return Self.transform(response: await task.response)
+		return try Self.transform(response: await task.response)
 	}
 
 	/// Shortcut method for building the request and loading the data.
@@ -30,9 +31,9 @@ public extension Client {
 	func requestData(
 		_ request: RouterType,
 		automaticallyCancelling: Bool = false
-	) async -> Result<Data, Error> {
+	) async throws -> Data {
 		let task = self.request(request).serializingData(automaticallyCancelling: automaticallyCancelling)
-		return Self.transform(response: await task.response)
+		return try Self.transform(response: await task.response)
 	}
 
 	/// Shortcut method for building the request and parsing the JSON.
@@ -47,9 +48,9 @@ public extension Client {
 		_ request: RouterType,
 		options: JSONSerialization.ReadingOptions = .allowFragments,
 		automaticallyCancelling: Bool = false
-	) async -> Result<Any, Error> {
+	) async throws -> Any {
 		let task = self.request(request).serializingResponse(using: JSONResponseSerializer(options: options), automaticallyCancelling: automaticallyCancelling)
-		return Self.transform(response: await task.response)
+		return try Self.transform(response: await task.response)
 	}
 
 	/// Shortcut method for building the request, parsing the JSON and decoding it into an object.
@@ -65,9 +66,9 @@ public extension Client {
 		of type: T.Type = T.self,
 		decoder: DataDecoder = JSONDecoder(),
 		automaticallyCancelling: Bool = false
-	) async -> Result<T, Error> {
+	) async throws -> T {
 		let task = self.request(request).serializingDecodable(type, automaticallyCancelling: automaticallyCancelling, decoder: decoder)
-		return Self.transform(response: await task.response)
+		return try Self.transform(response: await task.response)
 	}
 
 	/// Shortcut method for building the request and parsing the String.
@@ -83,13 +84,26 @@ public extension Client {
 		_ request: RouterType,
 		encoding: String.Encoding? = nil,
 		automaticallyCancelling: Bool = false
-	) async -> Result<String, Error> {
+	) async throws -> String {
 		let task = self.request(request).serializingString(automaticallyCancelling: automaticallyCancelling, encoding: encoding)
-		return Self.transform(response: await task.response)
+		return try Self.transform(response: await task.response)
 	}
 }
 
 // MARK: - Helpers
+
+extension Client {
+	static func transform<T>(response: DataResponse<T, AFError>) throws -> T {
+		switch response.result {
+		case .success(let data):
+			return data
+		case .failure(let error):
+			let error = extract(from: response, error: error)
+			DDLogInfo(error.localizedDescription)
+			throw error
+		}
+	}
+}
 
 /// A `ResponseSerializer` which performs no serialization on incoming `Data`.
 private final class PassthroughResponseSerializer: ResponseSerializer {

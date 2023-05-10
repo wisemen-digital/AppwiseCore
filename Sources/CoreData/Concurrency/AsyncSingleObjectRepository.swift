@@ -7,18 +7,18 @@ import Foundation
 
 @available(iOS 13.0, *)
 public protocol AsyncSingleObjectRepository: SingleObjectRepository {
-	func refresh() async -> Result<ObjectType, Error>
+	func refresh() async throws -> ObjectType
 }
 
 @available(iOS 13.0, *)
 public extension AsyncSingleObjectRepository {
-	func refresh() async -> Result<ObjectType, Error> {
-		.cancelled
+	func refresh() async throws -> ObjectType {
+		throw Cancelled()
 	}
 
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {
 		Task { @MainActor in
-			let result = await refresh()
+			let result = await Result { try await refresh() }
 			handler(result)
 		}
 	}

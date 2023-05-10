@@ -27,26 +27,19 @@ public extension Client {
 		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
 		contextObject: Any? = nil,
 		automaticallyCancelling: Bool = false
-	) async -> Result<T, Error> {
-		let response = await self.request(request).responseInsert(
-			of: type,
-			db: db,
-			jsonOptions: jsonOptions,
-			jsonTransformer: jsonTransformer,
-			contextObject: contextObject,
-			automaticallyCancelling: automaticallyCancelling
-		)
+	) async throws -> T {
+		let task = self.request(request).serializingData(automaticallyCancelling: automaticallyCancelling)
+		let data: Data = try Self.transform(response: await task.response)
 
-		switch response.result {
-		case .success(let value):
-			do {
-				return try await MainActor.run { try .success(value.inContext(db.view)) }
-			} catch {
-				DDLogInfo(error.localizedDescription)
-				return .failure(error)
+		// use old decoding for Groot
+		let json = try JSONSerialization.jsonObject(with: data, options: jsonOptions)
+		let transformedJSON = try jsonTransformer(json)
+
+		// actually insert (use non-async function for now, until we switch around)
+		return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<T, Error>) in
+			Self.insert(json: transformedJSON, into: db, queue: .main, contextObject: contextObject) { result in
+				continuation.resume(with: result)
 			}
-		case .failure:
-			return Self.transform(response: response)
 		}
 	}
 }
