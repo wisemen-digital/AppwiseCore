@@ -3,7 +3,6 @@
 // Copyright © 2023 Wisemen
 //
 
-import AppwiseCore
 import UIKit
 
 /// Tries to ensure that a scrollview grows to fill the screen, but if a

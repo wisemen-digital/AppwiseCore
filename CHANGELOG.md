@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 * Fastlane: ensure translations export can handle "empty" targets.
 * Scripts: fix Xcode warnings for build steps without input/output files.
 * Bump dependencies (Sentry to 8).
+* CoreData: ensure `requestInsert` imports objects on the context's thread. Note: because of limitations, we're deprecating `responseInsert`.
 
 ### Internal
 
