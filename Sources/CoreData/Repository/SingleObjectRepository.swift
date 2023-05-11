@@ -6,7 +6,7 @@
 import CoreData
 
 public protocol SingleObjectRepository {
-	associatedtype ObjectType: NSFetchRequestResult, _Identifiable
+	associatedtype ObjectType: NSFetchRequestResult, _TaggedIdentifiable
 
 	var objectID: Identifier<ObjectType> { get }
 	var context: NSManagedObjectContext { get }

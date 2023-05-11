@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 * Core: deprecate our `Cancelled` error type in favour of Swift's built-in `CancellationError` type.
 * Core: due to unuse, we're marking `OptionalIdentifiable` as deprecated.
+* Core: renamed our own `Identifiable` protocol to `TaggedIdentifiable`.
 * CoreData: due to incorrectness, we're deprecating `responseInsert` (this is not `responseInsert`, see below).
 
 ### Improvements

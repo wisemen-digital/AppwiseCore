@@ -12,16 +12,16 @@ import Foundation
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol _Identifiable {
+public protocol _TaggedIdentifiable {
 	// swiftlint:disable:previous type_name
 
-	// Note: once we remove `OptionalIdentifiable`, unify this protocol with `Identifiable` below.
+	// Note: once we remove `OptionalIdentifiable`, unify this protocol with `TaggedIdentifiable` below.
 
 	/// The backing raw type of this type's identifier.
 	associatedtype RawIdentifier
 
 	/// The object type (hack needed to support subclasses)
-	associatedtype IdentifierObjectType: _Identifiable = Self
+	associatedtype IdentifierObjectType: _TaggedIdentifiable = Self
 
 	// swiftlint:disable type_name
 	/// Shorthand type alias for this type's identifier.
@@ -32,7 +32,7 @@ public protocol _Identifiable {
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol Identifiable: _Identifiable {
+public protocol TaggedIdentifiable: _TaggedIdentifiable {
 	// swiftlint:disable identifier_name
 	/// The ID of this instance.
 	var id: ID { get }
@@ -42,7 +42,7 @@ public protocol Identifiable: _Identifiable {
 /// A type-safe identifier for a given `Value`, backed by a raw value.
 /// When backed by a `Codable` type, `Identifier` also becomes codable,
 /// and will be encoded into a single value according to its raw value.
-public struct Identifier<Value: _Identifiable>: RawRepresentable {
+public struct Identifier<Value: _TaggedIdentifiable>: RawRepresentable {
 	/// The raw value that is backing this identifier.
 	public let rawValue: Value.RawIdentifier
 
@@ -127,8 +127,11 @@ extension Identifier: Codable where Value.RawIdentifier: Codable {
 
 // MARK: - Deprecated
 
+@available(*, deprecated, renamed: "TaggedIdentifiable")
+public typealias Identifiable = TaggedIdentifiable
+
 @available(*, deprecated, message: "Will be removed in next major version")
-public protocol OptionalIdentifiable: _Identifiable {
+public protocol OptionalIdentifiable: _TaggedIdentifiable {
 	// swiftlint:disable identifier_name
 	/// The ID of this instance.
 	var id: ID? { get }
