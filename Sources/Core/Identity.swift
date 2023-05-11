@@ -18,24 +18,29 @@ public protocol _TaggedIdentifiable {
 	// Note: once we remove `OptionalIdentifiable`, unify this protocol with `TaggedIdentifiable` below.
 
 	/// The backing raw type of this type's identifier.
-	associatedtype RawIdentifier
+	associatedtype RawIdentifier: Hashable
 
 	/// The object type (hack needed to support subclasses)
 	associatedtype IdentifierObjectType: _TaggedIdentifiable = Self
 
+	/// Shorthand type alias for this type's identifier.
+	typealias TaggedID = Identifier<IdentifierObjectType>
+
 	// swiftlint:disable type_name
 	/// Shorthand type alias for this type's identifier.
-	typealias ID = Identifier<IdentifierObjectType>
+	///
+	/// - Warning: Prefer `TaggedID` to avoid ambiguity errors.
+	typealias ID = TaggedID
 	// swiftlint:enable type_name
 }
 
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol TaggedIdentifiable: _TaggedIdentifiable {
+public protocol TaggedIdentifiable<RawIdentifier>: _TaggedIdentifiable, Swift.Identifiable {
 	// swiftlint:disable identifier_name
 	/// The ID of this instance.
-	var id: ID { get }
+	var id: TaggedID { get }
 	// swiftlint:enable identifier_name
 }
 
@@ -138,7 +143,6 @@ public typealias Identifiable = TaggedIdentifiable
 @available(*, deprecated, message: "Will be removed in next major version")
 public protocol OptionalIdentifiable: _TaggedIdentifiable {
 	// swiftlint:disable identifier_name
-	/// The ID of this instance.
-	var id: ID? { get }
+	var id: TaggedID? { get }
 	// swiftlint:enable identifier_name
 }
