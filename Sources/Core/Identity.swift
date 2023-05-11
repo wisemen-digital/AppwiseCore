@@ -15,6 +15,8 @@ import Foundation
 public protocol _Identifiable {
 	// swiftlint:disable:previous type_name
 
+	// Note: once we remove `OptionalIdentifiable`, unify this protocol with `Identifiable` below.
+
 	/// The backing raw type of this type's identifier.
 	associatedtype RawIdentifier
 
@@ -34,16 +36,6 @@ public protocol Identifiable: _Identifiable {
 	// swiftlint:disable identifier_name
 	/// The ID of this instance.
 	var id: ID { get }
-	// swiftlint:enable identifier_name
-}
-
-/// Protocol used to mark a given type as being identifiable, meaning
-/// that it has a type-safe identifier, backed by a raw value, which
-/// defaults to String.
-public protocol OptionalIdentifiable: _Identifiable {
-	// swiftlint:disable identifier_name
-	/// The ID of this instance.
-	var id: ID? { get }
 	// swiftlint:enable identifier_name
 }
 
@@ -131,4 +123,14 @@ extension Identifier: Codable where Value.RawIdentifier: Codable {
 		var container = encoder.singleValueContainer()
 		try container.encode(rawValue)
 	}
+}
+
+// MARK: - Deprecated
+
+@available(*, deprecated, message: "Will be removed in next major version")
+public protocol OptionalIdentifiable: _Identifiable {
+	// swiftlint:disable identifier_name
+	/// The ID of this instance.
+	var id: ID? { get }
+	// swiftlint:enable identifier_name
 }

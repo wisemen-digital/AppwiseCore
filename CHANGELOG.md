@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 ### Deprecations
 
 * Core: deprecate our `Cancelled` error type in favour of Swift's built-in `CancellationError` type.
+* Core: due to unuse, we're marking `OptionalIdentifiable` as deprecated.
+* CoreData: due to incorrectness, we're deprecating `responseInsert` (this is not `responseInsert`, see below).
 
 ### Improvements
 
@@ -25,7 +27,7 @@ All notable changes to this project will be documented in this file.
 * Fastlane: ensure translations export can handle "empty" targets.
 * Scripts: fix Xcode warnings for build steps without input/output files.
 * Bump dependencies (Sentry to 8).
-* CoreData: ensure `requestInsert` imports objects on the context's thread. Note: because of limitations, we're deprecating `responseInsert`.
+* CoreData: ensure `requestInsert` imports objects on the context's thread.
 
 ### Internal
 
