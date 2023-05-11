@@ -103,7 +103,12 @@ extension Identifier: CustomDebugStringConvertible {
 
 extension Identifier: Equatable where Value.RawIdentifier: Equatable {}
 
-extension Identifier: Hashable where Value.RawIdentifier: Hashable {}
+extension Identifier: Hashable where Value.RawIdentifier: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(String(describing: Value.self))
+		hasher.combine(rawValue)
+	}
+}
 
 extension Identifier: Comparable where Value.RawIdentifier: Comparable {
 	public static func < (lhs: Identifier<Value>, rhs: Identifier<Value>) -> Bool {
