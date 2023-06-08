@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CoreData
@@ -33,9 +33,7 @@ extension NSManagedObject: ManyInsertable {
 
 		let entityName = context.entityDescriptionForClass(self).name.require(hint: "Entity has no name")
 
-		return try objects(withEntityName: entityName,
-		                   fromJSONArray: array,
-		                   inContext: context)
+		return try objects(withEntityName: entityName, fromJSONArray: array, inContext: context)
 	}
 }
 

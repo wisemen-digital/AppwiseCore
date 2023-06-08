@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Foundation
@@ -15,6 +15,7 @@ public final class DeepLinker {
 
 	private var stack: Stack = []
 	public private(set) var scheduledRoute: (path: [String], animated: Bool)?
+
 	private init() {
 	}
 

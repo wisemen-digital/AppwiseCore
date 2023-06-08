@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CoreData
@@ -73,6 +73,7 @@ public struct Map {
 		case .root:
 			originalValue = dictionary
 		case .path(let stringKeyPath):
+			// swiftlint:disable:next legacy_objc_type
 			originalValue = (dictionary as NSDictionary).value(forKeyPath: stringKeyPath)
 		}
 

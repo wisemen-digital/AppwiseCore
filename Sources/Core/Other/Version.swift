@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Foundation
@@ -211,3 +211,5 @@ public extension Range where Bound == Version {
 		return version >= lowerBound && version < upperBound
 	}
 }
+
+// swiftlint:enable all

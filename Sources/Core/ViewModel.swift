@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Foundation
@@ -29,7 +29,7 @@ public extension ViewModelType {
 	///
 	/// - parameter data: The data instance (can be nil)
 	init?(_ data: ModelType?) {
-		if let data = data {
+		if let data {
 			self.init(data)
 		} else {
 			return nil

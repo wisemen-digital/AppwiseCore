@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 public protocol PushNotificationType {
@@ -8,8 +8,9 @@ public protocol PushNotificationType {
 
 	init?(type: String, data: [AnyHashable: Any])
 
-	func handle()
 	var canShow: Bool { get }
+
+	func handle()
 	func open()
 }
 

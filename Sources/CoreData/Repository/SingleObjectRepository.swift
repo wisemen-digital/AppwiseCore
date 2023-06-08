@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CoreData
@@ -10,9 +10,9 @@ public protocol SingleObjectRepository {
 
 	var objectID: Identifier<ObjectType> { get }
 	var context: NSManagedObjectContext { get }
-	init(objectID: Identifier<ObjectType>, context: NSManagedObjectContext)
-
 	var object: ObjectType? { get }
+
+	init(objectID: Identifier<ObjectType>, context: NSManagedObjectContext)
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void)
 }
 

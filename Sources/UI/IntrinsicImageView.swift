@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 open class IntrinsicImageView: UIImageView {
@@ -18,7 +18,7 @@ open class IntrinsicImageView: UIImageView {
 			ratioConstraint = nil
 		}
 
-		if let image = image {
+		if let image {
 			let ratio = image.size.width / image.size.height
 			let constraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: ratio, constant: 0).then {
 				$0.priority = UILayoutPriority(999)

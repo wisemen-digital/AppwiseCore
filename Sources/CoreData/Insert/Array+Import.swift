@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CoreData
@@ -12,7 +12,7 @@ extension Array: Insertable where Element: ManyInsertable & Insertable {
 			throw InsertError.invalidJSON(json)
 		}
 
-		return (try Element.insertMany(from: jsonArray, in: context) as? [Element])
+		return try (Element.insertMany(from: jsonArray, in: context) as? [Element])
 			.require(hint: "Insert result is not of type \([Element].self)")
 	}
 

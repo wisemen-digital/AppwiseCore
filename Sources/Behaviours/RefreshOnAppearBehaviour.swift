@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import UIKit
@@ -9,6 +9,7 @@ public protocol RefreshOnAppearBehaviorDelegate: AnyObject {
 	func refresh()
 }
 
+// swiftlint:disable:next type_name
 public protocol RefreshOnAppearBehaviorDelegateWithControl: AnyObject {
 	func refresh(_ control: UIRefreshControl)
 }
@@ -27,7 +28,7 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 	private weak var withControlDelegate: RefreshOnAppearBehaviorDelegateWithControl?
 	private weak var refreshControl: UIRefreshControl?
 	private var mode: Mode
-	private var nextAppearIsPopNavigation: Bool = false
+	private var nextAppearIsPopNavigation = false
 
 	/// Creates a new instance with the delegate.
 	///
@@ -77,7 +78,7 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 	private func triggerRefresh() {
 		if let delegate = simpleDelegate {
 			delegate.refresh()
-		} else if let delegate = withControlDelegate, let refreshControl = refreshControl {
+		} else if let delegate = withControlDelegate, let refreshControl {
 			delegate.refresh(refreshControl)
 		}
 	}

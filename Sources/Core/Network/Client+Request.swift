@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Alamofire
@@ -21,10 +21,8 @@ public extension Client {
 			switch response.result {
 			case .success:
 				handler(.success(()))
-			case .failure(let error):
-				let error = Self.extract(from: response, error: error)
-				DDLogError(error.localizedDescription)
-				handler(.failure(error))
+			case .failure:
+				handler(Self.transform(response: response).map { _ in })
 			}
 		}
 	}
@@ -43,10 +41,8 @@ public extension Client {
 			switch response.result {
 			case .success(let data):
 				handler(.success(data))
-			case .failure(let error):
-				let error = Self.extract(from: response, error: error)
-				DDLogInfo(error.localizedDescription)
-				handler(.failure(error))
+			case .failure:
+				handler(Self.transform(response: response))
 			}
 		}
 	}
@@ -68,10 +64,8 @@ public extension Client {
 			switch response.result {
 			case .success(let data):
 				handler(.success(data))
-			case .failure(let error):
-				let error = Self.extract(from: response, error: error)
-				DDLogInfo(error.localizedDescription)
-				handler(.failure(error))
+			case .failure:
+				handler(Self.transform(response: response))
 			}
 		}
 	}
@@ -94,15 +88,13 @@ public extension Client {
 			switch response.result {
 			case .success(let data):
 				handler(.success(data))
-			case .failure(let error):
-				let error = Self.extract(from: response, error: error)
-				DDLogInfo(error.localizedDescription)
-				handler(.failure(error))
+			case .failure:
+				handler(Self.transform(response: response))
 			}
 		}
 	}
 
-	/// Shortcut method for building the request and parsing the JSON.
+	/// Shortcut method for building the request and parsing the String.
 	///
 	/// - parameter request:  The router request type
 	/// - parameter queue:    The queue on which the deserializer (and your completion handler) is dispatched.
@@ -120,11 +112,24 @@ public extension Client {
 			switch response.result {
 			case .success(let data):
 				handler(.success(data))
-			case .failure(let error):
-				let error = Self.extract(from: response, error: error)
-				DDLogInfo(error.localizedDescription)
-				handler(.failure(error))
+			case .failure:
+				handler(Self.transform(response: response))
 			}
+		}
+	}
+}
+
+// MARK: - Helpers
+
+extension Client {
+	static func transform<T>(response: DataResponse<T, AFError>) -> Result<T, Error> {
+		switch response.result {
+		case .success(let data):
+			return .success(data)
+		case .failure(let error):
+			let error = extract(from: response, error: error)
+			DDLogInfo(error.localizedDescription)
+			return .failure(error)
 		}
 	}
 }

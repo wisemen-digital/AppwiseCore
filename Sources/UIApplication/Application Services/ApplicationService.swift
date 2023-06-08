@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import UIKit
@@ -35,7 +35,7 @@ extension Array where Element == ApplicationService {
 				results.append(result)
 				dispatchGroup.leave()
 			}
-			if let returned = returned {
+			if let returned {
 				returns.append(returned)
 			} else { // delegate doesn't impliment method
 				dispatchGroup.leave()
