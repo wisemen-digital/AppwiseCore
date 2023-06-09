@@ -29,8 +29,8 @@ public enum ClientError: Error, LocalizedError {
 	case message(String, underlyingError: Error)
 	/// In case of HTTP Status 401 or 403
 	case unauthorized(underlyingError: Error)
-	/// Server is in maintenance mode
-	case maintenanceMode(underlyingError: Error)
+	/// Client detected a certain mode
+	case mode(Mode, underlyingError: Error)
 
 	public var errorDescription: String? {
 		switch self {
@@ -42,7 +42,7 @@ public enum ClientError: Error, LocalizedError {
 			return message
 		case .unauthorized:
 			return L10n.Client.Error.unauthorized
-		case .maintenanceMode(let error):
+		case .mode(_, let error):
 			return error.localizedDescription
 		}
 	}
@@ -50,44 +50,11 @@ public enum ClientError: Error, LocalizedError {
 	/// The underlying error as reported by serializers, Alamofire, ...
 	public var underlyingError: Error {
 		switch self {
-		case .errors(_, let error), .message(_, let error), .unauthorized(let error), .maintenanceMode(let error):
+		case .errors(_, let error), .message(_, let error), .unauthorized(let error), .mode(_, let error):
 			return error
 		}
 	}
 }
 
-public extension Client {
-	/// By default no maintenance checker is active
-	static var maintenanceChecker: MaintenanceModeResponseChecker.Type? { nil }
-
-	/// Extract a readable error from the response in case of an error. This default implementation will:
-	/// - Check if authorized
-	/// - Consider the response as an array of objects, and get the first object's `message`
-	/// - Consider the response as an object, and get the object's `message`
-	/// - Consider the response as a string, and use that as error message
-	///
-	/// - parameter response: The data response
-	/// - parameter error: The existing error
-	///
-	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
-	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error {
-		if case .explicitlyCancelled = error {
-			return error
-		} else if let status = response.response?.statusCode, status == 401 || status == 403 { // unauthorized status code --> unauthorized
-			return ClientError.unauthorized(underlyingError: error)
-		} else if let data = response.data {
-			// try to parse structured error or simple message
-			if let items = try? JSONDecoder().decode([ClientStructuredError].self, from: data) {
-				return ClientError.errors(items, underlyingError: error)
-			} else if let item = try? JSONDecoder().decode(ClientStructuredError.self, from: data) {
-				return ClientError.errors([item], underlyingError: error)
-			} else if let message = String(data: data, encoding: .utf8),
-			          !message.lowercased().contains("<html"),
-			          !message.isEmpty {
-				return ClientError.message(message, underlyingError: error)
-			}
-		}
-
-		return error
-	}
-}
+// For internal use only
+struct DeprecatedError: Error { }

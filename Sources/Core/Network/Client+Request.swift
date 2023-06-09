@@ -22,7 +22,7 @@ public extension Client {
 			case .success:
 				handler(.success(()))
 			case .failure:
-				handler(Self.transform(response: response).map { _ in })
+				handler(self.transform(response: response).map { _ in })
 			}
 		}
 	}
@@ -42,7 +42,7 @@ public extension Client {
 			case .success(let data):
 				handler(.success(data))
 			case .failure:
-				handler(Self.transform(response: response))
+				handler(self.transform(response: response))
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public extension Client {
 			case .success(let data):
 				handler(.success(data))
 			case .failure:
-				handler(Self.transform(response: response))
+				handler(self.transform(response: response))
 			}
 		}
 	}
@@ -89,7 +89,7 @@ public extension Client {
 			case .success(let data):
 				handler(.success(data))
 			case .failure:
-				handler(Self.transform(response: response))
+				handler(self.transform(response: response))
 			}
 		}
 	}
@@ -113,7 +113,7 @@ public extension Client {
 			case .success(let data):
 				handler(.success(data))
 			case .failure:
-				handler(Self.transform(response: response))
+				handler(self.transform(response: response))
 			}
 		}
 	}
@@ -122,14 +122,24 @@ public extension Client {
 // MARK: - Helpers
 
 extension Client {
-	static func transform<T>(response: DataResponse<T, AFError>) -> Result<T, Error> {
+	func transform<T>(response: DataResponse<T, AFError>) -> Result<T, Error> {
 		switch response.result {
 		case .success(let data):
 			return .success(data)
 		case .failure(let error):
-			let error = extract(from: response, error: error)
-			DDLogInfo(error.localizedDescription)
-			return .failure(error)
+			let extractedError: Error
+			let oldError = Self.extract(from: response, error: error)
+
+			if !(oldError is DeprecatedError) {
+				extractedError = error
+			} else if let error = errorExtractor.extract(from: response, error: error) {
+				extractedError = error
+			} else {
+				extractedError = error
+			}
+
+			DDLogInfo(extractedError.localizedDescription)
+			return .failure(extractedError)
 		}
 	}
 }

@@ -18,8 +18,8 @@ public protocol Client {
 	/// The Alamofire session for this client
 	var session: Session { get }
 
-	/// Protocol used to check if a response matches maintenance mode
-	static var maintenanceChecker: MaintenanceModeResponseChecker.Type? { get }
+	/// Extract a readable error from the response in case of an error.
+	var errorExtractor: ClientErrorExtractor { get }
 
 	/// Extract a readable error from the response in case of an error.
 	///
@@ -27,6 +27,7 @@ public protocol Client {
 	/// - parameter error: The existing error
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
+	@available(iOS, deprecated, message: "Use the ErrorExtractor protocol instead")
 	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error
 }
 
