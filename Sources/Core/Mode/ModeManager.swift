@@ -6,7 +6,7 @@
 import Combine
 import Foundation
 
-final public class ModeManager {
+final public actor ModeManager {
 	@Published private(set) public var activeMode: Mode? {
 		didSet { updatedAt = Date() }
 	}

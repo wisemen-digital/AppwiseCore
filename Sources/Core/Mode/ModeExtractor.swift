@@ -40,7 +40,9 @@ public struct MaintenanceModeExtractor: ModeExtractor {
 	public func extract<T>(response: DataResponse<T, AFError>) -> ModeResult {
 		let statusCode = response.response?.statusCode
 
-		if response.result.isSuccess || statusCode == nil {
+		if statusCode == nil {
+			return .unknown
+		} else if response.result.isSuccess {
 			return .empty
 		} else if let statusCode = statusCode, 502...503 ~= statusCode {
 			let metaData: MaintenanceMetaData? = response.data.flatMap { decode(data: $0) }

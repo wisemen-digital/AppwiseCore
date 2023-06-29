@@ -12,7 +12,7 @@ public protocol ClientErrorExtractor {
 public struct IgnoredErrorExtractor: ClientErrorExtractor {
 	public func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error? {
 		if error.isExplicitlyCancelledError {
-			return error
+			return CancellationError()
 		} else {
 			return nil
 		}
@@ -104,7 +104,6 @@ public extension Client {
 		])
 	}
 
-	// TODO: find a way to migrate without breaking changes
 	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error {
 		DeprecatedError()
 	}
