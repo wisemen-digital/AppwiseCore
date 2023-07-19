@@ -13,7 +13,8 @@ public protocol AsyncSingleObjectRepository: SingleObjectRepository {
 @available(iOS 13.0, *)
 public extension AsyncSingleObjectRepository {
 	func refresh() async throws -> ObjectType {
-		throw Cancelled()
+		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")
+		throw UnimplementedMethod()
 	}
 
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {

@@ -24,7 +24,8 @@ public extension SingleObjectRepository {
 	}
 
 	func refresh(then handler: @escaping (Result<ObjectType, Error>) -> Void) {
-		handler(.cancelled)
+		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")
+		handler(.failure(UnimplementedMethod()))
 	}
 }
 
