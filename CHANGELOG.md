@@ -5,13 +5,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Master](https://github.com/appwise-labs/AppwiseCore)
 
+### Deprecations
+
+* Core: deprecate our `Cancelled` error type in favour of Swift's built-in `CancellationError` type.
+
 ### Improvements
 
 * Behaviours: add keyboard avoiding behaviour (using the system provided layout guide).
 * CoreData: make `SingleObjectRepository` compatible with `OptionalIdentifiable`.
 * CoreData: lower the requirement of repositories to `NSFetchRequestResult` where possible.
+* CoreData: repository `refresh` now asserts by default, to better warn about missing implementations.
 * Core: add `requestVoid` method to network client.
 * Core: default error parser now ignores `.explicitlyCancelled` (for cancelled requests).
+* Core: result "cancellation" now uses Swift's built-in `CancellationError` type if available.
 * XcodeGen: added a template for shared frameworks.
 
 ### Bug Fixes

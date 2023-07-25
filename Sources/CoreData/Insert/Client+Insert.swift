@@ -62,7 +62,7 @@ public extension Client {
 
 // MARK: - Helpers
 
-private extension Client {
+extension Client {
 	static func insert<T: Insertable>(
 		json: Any,
 		into db: DB,
