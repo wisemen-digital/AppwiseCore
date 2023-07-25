@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 * Bump dependencies (Sentry to 8).
 * CoreData: ensure `requestInsert` imports objects on the context's thread.
 * Sourcery: fix code generation for `Self.ID` properties.
+* SwiftLint: fix warnings from using deprecated rules (because we use `all`).
 
 ### Internal
 
