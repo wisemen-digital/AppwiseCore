@@ -1,23 +1,16 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Alamofire
 import CoreData
 
-/// A wrapper which encapsulate all the info of the response of a Request
-public struct ResponseInfo {
-	public let request: URLRequest?
-	public let response: HTTPURLResponse?
-	public let data: Data?
-	public let error: Error?
-}
-
 /// A `ResponseSerializer` that decodes the response data using `JSONSerialization` and then imports
 /// it into Core Data using `Groot`. By default, a request returning `nil` or no data is considered an error.
 /// However, if the request has an `HTTPMethod` or the response has an HTTP status code valid for empty
 /// responses, then an `NSNull` value is returned.
+@available(*, deprecated, message: "Considered unsafe, please use `Client.requestInsert` instead.")
 public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 	public let dataPreprocessor: DataPreprocessor
 	public let emptyResponseCodes: Set<Int>
@@ -57,12 +50,14 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 		self.context = context
 		self.contextObject = contextObject
 	}
+	// swiftlint:enable function_default_parameter_at_end
 
 	public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {
+		// swiftlint:disable:next force_unwrapping
 		guard error == nil else { throw error! }
 
 		// process data
-		guard var data = data, !data.isEmpty || emptyResponseAllowed(forRequest: request, response: response) else {
+		guard var data, !data.isEmpty || emptyResponseAllowed(forRequest: request, response: response) else {
 			throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)
 		}
 		data = try dataPreprocessor.preprocess(data)
@@ -121,6 +116,7 @@ public extension DataRequest {
 	/// - parameter handler:           The code to be executed once the request has finished.
 	///
 	/// - returns: the request
+	@available(*, deprecated, message: "Considered unsafe, please use `Client.requestInsert` instead.")
 	@discardableResult
 	func responseInsert<T: Insertable>(
 		of type: T.Type = T.self,

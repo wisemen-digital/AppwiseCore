@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import UIKit
@@ -100,7 +100,7 @@ final class LifecycleBehaviourViewController: UIViewController {
 	}
 
 	private func applyBehaviours(_ apply: (ViewControllerLifeCycleBehaviour, UIViewController) -> Void) {
-		guard let parent = parent else { return }
+		guard let parent else { return }
 
 		for behaviour in behaviours {
 			apply(behaviour, parent)

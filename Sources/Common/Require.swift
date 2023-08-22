@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import Foundation
@@ -24,7 +24,7 @@ public extension Optional {
 		file: StaticString = #file,
 		line: UInt = #line
 	) -> Wrapped {
-		guard let self = self else {
+		guard let self else {
 			var message = "Required value was nil in \(file), at line \(line)"
 
 			if let hint = hintExpression() {

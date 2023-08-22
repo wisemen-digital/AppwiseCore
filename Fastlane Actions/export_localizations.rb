@@ -104,6 +104,7 @@ module Fastlane
               correspondingUnit.attributes['approved']
             ) unless correspondingUnit.attributes['approved'].nil?
 
+            next if unit.elements['target'].nil?
             next if correspondingUnit.elements['target'].nil?
             unit.elements['target'].add_attribute(
               'state',

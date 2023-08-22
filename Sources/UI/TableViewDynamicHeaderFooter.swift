@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import UIKit
@@ -14,7 +14,7 @@ open class ResizableTableHeaderFooterView: UIView {
 	@IBOutlet private var contentView: UIView?
 
 	fileprivate func resizeToMatchContent(completion: @escaping (() -> Void)) {
-		guard let contentView = contentView,
+		guard let contentView,
 		      contentView.bounds.height != bounds.height else { return }
 
 		// Set the height to be the content's height,
@@ -76,8 +76,8 @@ public struct DynamicHeaderFooterBehaviour: ViewControllerLifeCycleBehaviour {
 	public func afterLayingOutSubviews(viewController: UIViewController) {
 		// Delay this a bit, to avoid layout issues (header shrinking and such...)
 		DispatchQueue.main.async {
-			self.tableView?.updateHeaderViewHeight()
-			self.tableView?.updateFooterViewHeight()
+			tableView?.updateHeaderViewHeight()
+			tableView?.updateFooterViewHeight()
 		}
 	}
 }

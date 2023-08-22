@@ -42,9 +42,11 @@ targetTemplates:
       - name: Strip Architectures
         path: ../Scripts/strip_architectures.sh
         showEnvVars: false
+        basedOnDependencyAnalysis: false
       - name: Update Version Number
         path: ../Scripts/update_build_number.sh
         showEnvVars: false
+        basedOnDependencyAnalysis: false
   iOS Extension:
     templates:
       - iOS Common

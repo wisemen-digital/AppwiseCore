@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CocoaLumberjack
@@ -12,7 +12,6 @@ public enum DBError: Error {
 }
 
 /// Container for all core data related operations.
-// swiftlint:disable:next type_name
 public final class DB: NSObject {
 	/// The default database is a singleton (points to the main bundle).
 	@objc public static let shared = DB(storage: defaultStorage)

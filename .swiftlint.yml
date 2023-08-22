@@ -1,102 +1,42 @@
-swiftlint_version: 0.49.1
+swiftlint_version: 0.51.0
 
 disabled_rules:
+  - anonymous_argument_in_multiline_closure
+  - conditional_returns_on_newline
+  - discouraged_object_literal
+  - explicit_acl
+  - explicit_enum_raw_value
+  - explicit_init
+  - explicit_top_level_acl
+  - explicit_type_interface
+  - file_name
+  - file_name_no_space
+  - file_types_order
+  - ibinspectable_in_extension
+  - implicitly_unwrapped_optional
+  - indentation_width
   - line_length
+  - missing_docs
+  - no_extension_access_modifier
+  - no_grouping_extension
+  - no_magic_numbers
+  - pattern_matching_keywords
+  - prefer_nimble
+  - prohibited_interface_builder
+  - required_deinit
+  - strict_fileprivate
+  - switch_case_on_newline
+  - type_contents_order
+  - untyped_error_in_catch
+  - vertical_whitespace_between_cases
 
 opt_in_rules:
-  - accessibility_label_for_image
-  - array_init
-  - attributes
-  - balanced_xctest_lifecycle
-  - closure_body_length
-  - closure_end_indentation
-  - closure_spacing
-  - collection_alignment
-  - computed_accessors_order
-  - contains_over_filter_count
-  - contains_over_filter_is_empty
-  - contains_over_first_not_nil
-  - contains_over_range_nil_comparison
-  - convenience_type
-  - discouraged_assert
-  - discouraged_none_name
-  - discouraged_optional_boolean
-  - discouraged_optional_collection
-  - duplicate_enum_cases
-  - duplicate_imports
-  - empty_collection_literal
-  - empty_count
-  - empty_string
-  - extension_access_modifier
-  - fallthrough
-  - fatal_error_message
-  - file_header
-  - first_where
-  - flatmap_over_map_reduce
-  - force_unwrapping
-  - function_default_parameter_at_end
-  - identical_operands
-  - implicit_return
-  - inert_defer
-  - joined_default_parameter
-  - last_where
-  - legacy_hashing
-  - legacy_multiple
-  - legacy_random
-  - literal_expression_end_indentation
-  - lower_acl_than_parent
-  - modifier_order
-  - multiline_arguments
-  - multiline_function_chains
-  - multiline_literal_brackets
-  - multiline_parameters
-  - multiline_parameters_brackets
-  - nslocalizedstring_key
-  - nsobject_prefer_isequal
-  - number_separator
-  - object_literal
-  - operator_usage_whitespace
-  - optional_enum_case_matching
-  - overridden_super_call
-  - override_in_extension
-  - prefer_self_in_static_references
-  - prefer_self_type_over_type_of_self
-  - prefer_zero_over_explicit_init
-  - private_action
-  - private_outlet
-  - private_subject
-  - prohibited_super_call
-  - raw_value_for_camel_cased_codable_enum
-  - reduce_boolean
-  - reduce_into
-  - redundant_nil_coalescing
-  - redundant_objc_attribute
-  - return_value_from_void_function
-  - self_binding
-  - sorted_first_last
-  - sorted_imports
-  - static_operator
-  - strong_iboutlet
-  - toggle_bool
-  - trailing_closure
-  - unavailable_function
-  - unneeded_parentheses_in_closure_argument
-  - unowned_variable_capture
-  - unused_capture_list
-  - unused_control_flow_label
-  - unused_declaration
-  - unused_setter_value
-  - vertical_parameter_alignment_on_call
-  - vertical_whitespace_closing_braces
-  - vertical_whitespace_opening_braces
-  - void_function_in_ternary
-  - weak_delegate
-  - xct_specific_matcher
-  - yoda_condition
+  - all
 
 excluded:
   - .build
   - Package.swift
+  - Sources/Core/Generated
   - Example
 
 identifier_name:
@@ -112,7 +52,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/ AppwiseCore
-                    \/\/ Copyright © 2022 Appwise
+                    \/\/ Copyright © 2023 Wisemen
                     \/\/
 
 custom_rules:

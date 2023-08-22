@@ -1,11 +1,9 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 // MARK: - Getters
-
-public struct Cancelled: Error {}
 
 public extension Result {
 	/// Returns `true` if the result is a success, `false` otherwise.
@@ -43,14 +41,25 @@ public extension Result {
 
 // MARK: - Cancellation
 
+@available(*, deprecated, renamed: "CancellationError", message: "Use the built-in cancellation type.")
+public struct Cancelled: Error {}
+
 public extension Result {
 	/// Returns a new cancelled result.
 	static var cancelled: Result<Success, Error> {
-		.failure(Cancelled())
+		if #available(iOS 13.0, *) {
+			return .failure(CancellationError())
+		} else {
+			return .failure(Cancelled())
+		}
 	}
 
 	/// Returns `true` if this result is cancelled.
 	var isCancelled: Bool {
+		if #available(iOS 13.0, *), case let .failure(error) = self, error is CancellationError {
+			return true
+		}
+
 		switch self {
 		case .failure(let error) where error is Cancelled: return true
 		default: return false

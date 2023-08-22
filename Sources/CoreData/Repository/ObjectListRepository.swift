@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2023 Wisemen
 //
 
 import CoreData
@@ -10,8 +10,8 @@ public protocol ObjectListRepository {
 
 	var context: NSManagedObjectContext { get }
 	var fetchRequest: NSFetchRequest<ObjectType> { get }
-
 	var frc: NSFetchedResultsController<ObjectType> { get }
+
 	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void)
 	func findOldItems() -> [ObjectType]
 }
@@ -20,7 +20,8 @@ public protocol ObjectListRepository {
 
 public extension ObjectListRepository {
 	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
-		handler(.cancelled)
+		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")
+		handler(.failure(UnimplementedMethod()))
 	}
 }
 
