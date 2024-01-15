@@ -5,7 +5,6 @@
 
 import CoreData
 import Foundation
-import Groot
 
 extension NSManagedObject: Insertable {
 	public static func insert(from json: Any, in context: NSManagedObjectContext) throws -> Self {

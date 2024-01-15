@@ -4,7 +4,7 @@
 //
 
 import Alamofire
-import CocoaLumberjack
+import CocoaLumberjackSwift
 
 public extension Client {
 	/// Shortcut method for building the request and loading the response (ignoring data).

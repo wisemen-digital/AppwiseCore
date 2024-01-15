@@ -5,7 +5,6 @@
 
 import CoreData
 import Foundation
-import Groot
 
 /// Types that implement this method can insert its properties into a managed object context.
 public protocol Wrapper: Insertable, ManyInsertable {

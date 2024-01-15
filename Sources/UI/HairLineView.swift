@@ -4,6 +4,7 @@
 //
 
 import IBAnimatable
+import UIKit
 
 open class HairLineView: AnimatableView {
 	override open var intrinsicContentSize: CGSize {

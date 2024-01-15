@@ -3,7 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
-import CocoaLumberjack
+import CocoaLumberjackSwift
 import UIKit
 
 /// Internal class for adding a "skip backup" attribute to the application support directory.

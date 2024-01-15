@@ -5,7 +5,6 @@
 
 import CoreData
 import Foundation
-import Groot
 
 /// The errors that can be thrown if
 ///

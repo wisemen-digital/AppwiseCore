@@ -4,7 +4,7 @@
 //
 
 import Alamofire
-import CocoaLumberjack
+import CocoaLumberjackSwift
 
 @available(iOS 13, *)
 public extension Client {

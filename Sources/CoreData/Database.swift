@@ -3,7 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
-import CocoaLumberjack
+import CocoaLumberjackSwift
 import CoreData
 
 public enum DBError: Error {

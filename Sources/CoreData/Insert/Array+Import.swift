@@ -4,7 +4,6 @@
 //
 
 import CoreData
-import Groot
 
 extension Array: Insertable where Element: ManyInsertable & Insertable {
 	public static func insert(from json: Any, in context: NSManagedObjectContext) throws -> [Element] {

@@ -3,7 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
-import CocoaLumberjack
+import CocoaLumberjackSwift
 import Foundation
 
 /// This is a light layer over the UserDefaults framework, that'll load any settings you have

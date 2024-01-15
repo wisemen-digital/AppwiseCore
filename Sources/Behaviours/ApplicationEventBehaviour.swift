@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Behaviour for listening to application events such as will enter background/foreground.
 public final class ApplicationEventBehavior: ViewControllerLifeCycleBehaviour {

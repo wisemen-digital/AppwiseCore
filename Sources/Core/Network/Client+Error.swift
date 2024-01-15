@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import Foundation
 
 /// Structured error information, including sub-errors if available.
 public struct ClientStructuredError: Decodable, LocalizedError {

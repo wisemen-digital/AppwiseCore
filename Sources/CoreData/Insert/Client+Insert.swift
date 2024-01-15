@@ -4,7 +4,7 @@
 //
 
 import Alamofire
-import CocoaLumberjack
+import CocoaLumberjackSwift
 
 public extension Client {
 	// swiftlint:disable function_default_parameter_at_end
