@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import AppwiseCoreCore
 import CocoaLumberjack
 
 @available(iOS 13, *)

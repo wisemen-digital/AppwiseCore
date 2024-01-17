@@ -92,7 +92,7 @@ public extension Client {
 
 // MARK: - Helpers
 
-extension Client {
+public extension Client {
 	static func transform<T>(response: DataResponse<T, AFError>) throws -> T {
 		switch response.result {
 		case .success(let data):

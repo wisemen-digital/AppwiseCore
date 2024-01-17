@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import AppwiseCoreCore
 import CocoaLumberjackSwift
 
 public extension Client {

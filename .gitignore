@@ -43,3 +43,6 @@ Carthage/Build
 
 # Example
 Example/**/Generated
+
+# SPM
+.swiftpm/

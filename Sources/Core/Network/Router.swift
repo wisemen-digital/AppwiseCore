@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import AppwiseCoreCommon
 import Foundation
 
 public typealias MultipartBuilder = (MultipartFormData) -> Void

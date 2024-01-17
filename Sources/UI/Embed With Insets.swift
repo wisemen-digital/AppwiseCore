@@ -3,6 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
+import AppwiseCoreBehaviours
 import UIKit
 
 /// Add this behaviour to the parent controller, to apply insets to the given child controller

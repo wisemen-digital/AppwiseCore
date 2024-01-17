@@ -3,6 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
+import AppwiseCoreCore
 import CocoaLumberjack
 
 /// Internal class for initializing the logging framework

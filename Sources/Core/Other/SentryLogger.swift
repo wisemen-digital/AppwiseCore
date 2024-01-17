@@ -7,10 +7,10 @@ import CocoaLumberjack
 import Sentry
 
 /// Internal CocoaLumberjack logger to Sentry
-internal final class SentryLogger: DDAbstractLogger {
-	static let shared = SentryLogger()
+public final class SentryLogger: DDAbstractLogger {
+	public static let shared = SentryLogger()
 
-	override func log(message logMessage: DDLogMessage) {
+	public override func log(message logMessage: DDLogMessage) {
 		guard let level = logMessage.level.sentryLevel else { return }
 
 		SentrySDK.capture(message: logFormatter?.format(message: logMessage) ?? logMessage.message) { scope in

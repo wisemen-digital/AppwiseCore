@@ -3,6 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
+import AppwiseCoreBehaviours
 import UIKit
 
 /// Header (or footer) view for in a UITableView, that will automatically resize itself

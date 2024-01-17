@@ -3,6 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
+import AppwiseCoreBehaviours
 import UIKit
 
 /// Internal class for keeping track if a registered deeplink item is visible or not.

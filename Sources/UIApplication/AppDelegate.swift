@@ -3,6 +3,7 @@
 // Copyright © 2023 Wisemen
 //
 
+import AppwiseCoreCore
 import CloudKit
 import UIKit
 
