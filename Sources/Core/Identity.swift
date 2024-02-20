@@ -12,45 +12,42 @@ import Foundation
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol _Identifiable {
+public protocol _TaggedIdentifiable {
 	// swiftlint:disable:previous type_name
 
+	// Note: once we remove `OptionalIdentifiable`, unify this protocol with `TaggedIdentifiable` below.
+
 	/// The backing raw type of this type's identifier.
-	associatedtype RawIdentifier
+	associatedtype RawIdentifier: Hashable
 
 	/// The object type (hack needed to support subclasses)
-	associatedtype IdentifierObjectType: _Identifiable = Self
+	associatedtype IdentifierObjectType: _TaggedIdentifiable = Self
+
+	/// Shorthand type alias for this type's identifier.
+	typealias TaggedID = Identifier<IdentifierObjectType>
 
 	// swiftlint:disable type_name
 	/// Shorthand type alias for this type's identifier.
-	typealias ID = Identifier<IdentifierObjectType>
+	///
+	/// - Warning: Prefer `TaggedID` to avoid ambiguity errors.
+	typealias ID = TaggedID
 	// swiftlint:enable type_name
 }
 
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol Identifiable: _Identifiable {
+public protocol TaggedIdentifiable<RawIdentifier>: _TaggedIdentifiable, Swift.Identifiable {
 	// swiftlint:disable identifier_name
 	/// The ID of this instance.
-	var id: ID { get }
-	// swiftlint:enable identifier_name
-}
-
-/// Protocol used to mark a given type as being identifiable, meaning
-/// that it has a type-safe identifier, backed by a raw value, which
-/// defaults to String.
-public protocol OptionalIdentifiable: _Identifiable {
-	// swiftlint:disable identifier_name
-	/// The ID of this instance.
-	var id: ID? { get }
+	var id: TaggedID { get }
 	// swiftlint:enable identifier_name
 }
 
 /// A type-safe identifier for a given `Value`, backed by a raw value.
 /// When backed by a `Codable` type, `Identifier` also becomes codable,
 /// and will be encoded into a single value according to its raw value.
-public struct Identifier<Value: _Identifiable>: RawRepresentable {
+public struct Identifier<Value: _TaggedIdentifiable>: RawRepresentable {
 	/// The raw value that is backing this identifier.
 	public let rawValue: Value.RawIdentifier
 
@@ -111,7 +108,12 @@ extension Identifier: CustomDebugStringConvertible {
 
 extension Identifier: Equatable where Value.RawIdentifier: Equatable {}
 
-extension Identifier: Hashable where Value.RawIdentifier: Hashable {}
+extension Identifier: Hashable where Value.RawIdentifier: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(String(describing: Value.self))
+		hasher.combine(rawValue)
+	}
+}
 
 extension Identifier: Comparable where Value.RawIdentifier: Comparable {
 	public static func < (lhs: Identifier<Value>, rhs: Identifier<Value>) -> Bool {
@@ -131,4 +133,16 @@ extension Identifier: Codable where Value.RawIdentifier: Codable {
 		var container = encoder.singleValueContainer()
 		try container.encode(rawValue)
 	}
+}
+
+// MARK: - Deprecated
+
+@available(*, deprecated, renamed: "TaggedIdentifiable")
+public typealias Identifiable = TaggedIdentifiable
+
+@available(*, deprecated, message: "Will be removed in next major version")
+public protocol OptionalIdentifiable: _TaggedIdentifiable {
+	// swiftlint:disable identifier_name
+	var id: TaggedID? { get }
+	// swiftlint:enable identifier_name
 }
