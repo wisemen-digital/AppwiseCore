@@ -19,5 +19,5 @@ fi
 
 # Only execute during normal builds (not archives)
 if [ "$ACTION" != "install" ]; then
-  "$SWIFTLINT" lint --quiet
+  "$SWIFTLINT" lint --quiet --silence-deprecation-warnings
 fi
