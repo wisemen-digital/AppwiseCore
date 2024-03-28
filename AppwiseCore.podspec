@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
 	s.subspec 'Core' do |ss|
 		ss.source_files = 'Sources/Core/**/*.swift'
 		ss.resource_bundles = {
-			'AppwiseCore-Core' => ['Resources/Core/*.lproj']
+			'AppwiseCore-Core' => ['Resources/Core/*.lproj', 'Resources/Core/PrivacyInfo.xcprivacy']
 		}
 
 		# dependencies
