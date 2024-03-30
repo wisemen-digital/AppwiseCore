@@ -19,7 +19,7 @@ import {{ module }}
 	{% set exists %}{% if viewModelType %}{% call propertyAlreadyExists var viewModelType %}{% endif %}{% endset %}
 	{% if not exists %}
 	{% set vmTypeName %}{% call viewModelFor var.type %}{% endset %}
-	var {{ var.name }}: {% if vmTypeName %}{{ vmTypeName }}{% if var.typeName.isOptional %}?{% endif %}{% else %}{{ var.typeName }}{% endif %} {
+	var {{ var.name }}: {% call typeNameFor var vmTypeName modelType %} {
 		{% if vmTypeName %}
 		return vm(data.{{ var.name }})
 		{% else %}
@@ -53,6 +53,16 @@ import {{ module }}
 			{% endif %}
 		{% endfor %}
 	{% endif %}
+{% endfilter %}{% endmacro %}
+{% macro typeNameFor var vmTypeName modelType %}{% filter removeNewlines:"all" %}
+	{% if vmTypeName %}
+		{{ vmTypeName }}
+	{% elif var.typeName.unwrappedTypeName|hasPrefix:'Self.' %}
+		{{ modelType.globalName }}.{{ var.typeName.unwrappedTypeName|replace:'Self.','' }}
+	{% else %}
+		{{ var.typeName.unwrappedTypeName }}
+	{% endif %}
+	{% if var.typeName.isOptional %}?{% endif %}
 {% endfilter %}{% endmacro %}
 
 // swiftlint:disable all
