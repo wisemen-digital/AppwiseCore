@@ -1,4 +1,4 @@
-swiftlint_version: 0.51.0
+swiftlint_version: 0.54.0
 
 disabled_rules:
   - anonymous_argument_in_multiline_closure
@@ -52,7 +52,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/ AppwiseCore
-                    \/\/ Copyright © 2023 Wisemen
+                    \/\/ Copyright © 2024 Wisemen
                     \/\/
 
 custom_rules:

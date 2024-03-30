@@ -1,11 +1,11 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import Foundation
 
-internal extension DispatchQueue {
+extension DispatchQueue {
 	fileprivate static let mainQueueKey = DispatchSpecificKey<Void>()
 
 	static func configureMainQueue() {

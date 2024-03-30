@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2024 Appwise
 //
 
 import CoreData
@@ -50,7 +50,7 @@ public extension SQLiteStorage {
 
 	static func `default`(bundle: Bundle = .main) -> SQLiteStorage {
 		if let url = defaultFileURL(name: Constants.defaultName), let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle) {
-			return SQLiteStorage(fileURL: url, configuration: configuration)
+			SQLiteStorage(fileURL: url, configuration: configuration)
 		} else {
 			fatalError("Unable to load store")
 		}
@@ -58,7 +58,7 @@ public extension SQLiteStorage {
 
 	static func group(identifier: String, bundle: Bundle = .main) -> SQLiteStorage {
 		if let url = groupFileURL(name: Constants.defaultName, groupIdentifier: identifier), let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle) {
-			return SQLiteStorage(fileURL: url, configuration: configuration)
+			SQLiteStorage(fileURL: url, configuration: configuration)
 		} else {
 			fatalError("Unable to load store")
 		}
@@ -72,17 +72,17 @@ public extension SQLiteStorage {
 
 	static func defaultFileURL(name: String) -> URL? {
 		if let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-			return directory.appendingPathComponent(name).appendingPathExtension(sqliteExtension)
+			directory.appendingPathComponent(name).appendingPathExtension(sqliteExtension)
 		} else {
-			return nil
+			nil
 		}
 	}
 
 	static func groupFileURL(name: String, groupIdentifier: String) -> URL? {
 		if let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier) {
-			return directory.appendingPathComponent(Constants.groupFolderName).appendingPathComponent(name).appendingPathExtension(sqliteExtension)
+			directory.appendingPathComponent(Constants.groupFolderName).appendingPathComponent(name).appendingPathExtension(sqliteExtension)
 		} else {
-			return nil
+			nil
 		}
 	}
 }

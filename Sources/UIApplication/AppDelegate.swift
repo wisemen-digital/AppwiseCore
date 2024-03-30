@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import CloudKit
@@ -15,7 +15,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The shared application delegate
 	@available(iOSApplicationExtension, unavailable)
 	public static var shared: AppDelegate {
-		let result = UIApplication.shared.delegate as? AppDelegate
+		let result = UIApplication.shared.delegate as? Self
 		return result.require(hint: "Unable to cast app delegate to correct type")
 	}
 
@@ -385,4 +385,5 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 	// swiftlint:enable discouraged_optional_boolean discouraged_optional_collection
 }
+
 // swiftlint:enable type_body_length

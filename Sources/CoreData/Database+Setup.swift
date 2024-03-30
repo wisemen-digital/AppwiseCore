@@ -1,12 +1,12 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2024 Appwise
 //
 
 import CocoaLumberjack
 import CoreData
 
-internal extension DB {
+extension DB {
 	/// Configures some general properties on the container, such as merge policies.
 	func preInitialize() {
 		container.viewContext.do {
@@ -25,26 +25,26 @@ internal extension DB {
 		var failedStores: [NSPersistentStoreDescription] = []
 
 		container.loadPersistentStores { [weak self] store, error in
-			guard let self = self else { return }
+			guard let self else { return }
 
 			loaded += 1
 
-			if let error = error {
+			if let error {
 				DDLogError("Error loading DB store: \(error)")
 				failedStores.append(store)
 			} else {
 				store.url.map { DDLogInfo("Store URL: \($0)") }
-				self.didLoad(store: store)
+				didLoad(store: store)
 			}
 
 			if loaded == total {
 				if failedStores.isEmpty {
-					self.state = .initialized
+					state = .initialized
 				} else if attemptRecovery {
 					failedStores.forEach { self.delete(store: $0) }
-					self.loadStores(attemptRecovery: false)
+					loadStores(attemptRecovery: false)
 				} else {
-					self.state = .failed
+					state = .failed
 				}
 			}
 		}

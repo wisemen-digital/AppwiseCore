@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import Foundation
@@ -18,7 +18,7 @@ public final class DeepLinkStackItem {
 	}
 }
 
-extension Array where Element == DeepLinkStackItem {
+extension [DeepLinkStackItem] {
 	mutating func cleanupWeakReferences() {
 		self = filter { item in
 			item.matchable != nil

@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import CoreData
@@ -18,7 +18,7 @@ public extension DB {
 					try operation(context)
 
 					save { error in
-						if let error = error {
+						if let error {
 							continuation.resume(throwing: error)
 						} else {
 							continuation.resume(returning: ())
@@ -37,7 +37,7 @@ public extension DB {
 	func saveToPersistentStore(_ moc: NSManagedObjectContext) async throws {
 		try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
 			self.saveToPersistentStore(moc) { error in
-				if let error = error {
+				if let error {
 					continuation.resume(throwing: error)
 				} else {
 					continuation.resume(returning: ())

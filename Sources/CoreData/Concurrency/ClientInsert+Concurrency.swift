@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import Alamofire
@@ -29,7 +29,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws -> T {
 		let task = self.request(request).serializingData(automaticallyCancelling: automaticallyCancelling)
-		let data: Data = try Self.transform(response: await task.response)
+		let data: Data = try await Self.transform(response: task.response)
 
 		// use old decoding for Groot
 		let json = try JSONSerialization.jsonObject(with: data, options: jsonOptions)

@@ -1,12 +1,12 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2024 Appwise
 //
 
 import CocoaLumberjack
 import CoreData
 
-internal extension DB {
+extension DB {
 	func didLoad(store: NSPersistentStoreDescription) {
 		if let index = container.persistentStoreDescriptions.firstIndex(of: store) {
 			container.persistentStoreDescriptions.remove(at: index)

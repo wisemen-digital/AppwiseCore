@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 import CocoaLumberjack
@@ -23,7 +23,7 @@ public struct Settings {
 
 	private init() {}
 
-	internal mutating func load<C: Config>(with config: C) {
+	mutating func load(with config: some Config) {
 		// version check
 		let new = config.appVersion
 		if let old = lastVersion, old < new {
@@ -52,12 +52,12 @@ public struct Settings {
 		defaults.register(defaults: data)
 	}
 
-	internal func reset() {
+	func reset() {
 		guard let identifier = Bundle.main.bundleIdentifier else { return }
 		defaults.removePersistentDomain(forName: identifier)
 	}
 
-	internal var shouldReset: Bool {
+	var shouldReset: Bool {
 		get {
 			defaults.bool(forKey: DefaultsKey.reset.rawValue)
 		}
@@ -93,14 +93,14 @@ extension Settings {
 		"\(router.method)|\(R.baseURLString)|\(router.path)"
 	}
 
-	func timestamp<R: Router>(router: R) -> TimeInterval {
+	func timestamp(router: some Router) -> TimeInterval {
 		guard let timestamps = defaults.dictionary(forKey: DefaultsKey.resourceTimestamps.rawValue) as? [String: Double] else {
 			return 0
 		}
 		return timestamps[key(router: router)] ?? 0
 	}
 
-	func setTimestamp<R: Router>(_ timestamp: TimeInterval, router: R) {
+	func setTimestamp(_ timestamp: TimeInterval, router: some Router) {
 		var timestamps = defaults.dictionary(forKey: DefaultsKey.resourceTimestamps.rawValue) as? [String: Double] ?? [String: Double]()
 
 		timestamps[key(router: router)] = timestamp
