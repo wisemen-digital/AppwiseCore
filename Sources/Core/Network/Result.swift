@@ -9,32 +9,32 @@ public extension Result {
 	/// Returns `true` if the result is a success, `false` otherwise.
 	var isSuccess: Bool {
 		switch self {
-		case .success: return true
-		case .failure: return false
+		case .success: true
+		case .failure: false
 		}
 	}
 
 	/// Returns `true` if the result is a failure, `false` otherwise.
 	var isFailure: Bool {
 		switch self {
-		case .success: return false
-		case .failure: return true
+		case .success: false
+		case .failure: true
 		}
 	}
 
 	/// Returns the associated value if the result is a success, `nil` otherwise.
 	var value: Success? {
 		switch self {
-		case .success(let value): return value
-		case .failure: return nil
+		case .success(let value): value
+		case .failure: nil
 		}
 	}
 
 	/// Returns the associated error value if the result is a failure, `nil` otherwise.
 	var error: Failure? {
 		switch self {
-		case .success: return nil
-		case .failure(let error): return error
+		case .success: nil
+		case .failure(let error): error
 		}
 	}
 }
@@ -48,15 +48,15 @@ public extension Result {
 	/// Returns a new cancelled result.
 	static var cancelled: Result<Success, Error> {
 		if #available(iOS 13.0, *) {
-			return .failure(CancellationError())
+			.failure(CancellationError())
 		} else {
-			return .failure(Cancelled())
+			.failure(Cancelled())
 		}
 	}
 
 	/// Returns `true` if this result is cancelled.
 	var isCancelled: Bool {
-		if #available(iOS 13.0, *), case let .failure(error) = self, error is CancellationError {
+		if #available(iOS 13.0, *), case .failure(let error) = self, error is CancellationError {
 			return true
 		}
 

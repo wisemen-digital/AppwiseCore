@@ -46,13 +46,13 @@ public extension ViewModelType where ModelType: NSObject {
 	func has(_ key: PartialKeyPath<ModelType>) -> Bool {
 		switch data[keyPath: key] {
 		case let value as String:
-			return !value.isEmpty
+			!value.isEmpty
 		case let value as [Any]:
-			return !value.isEmpty
+			!value.isEmpty
 		case let value as [AnyHashable: Any]:
-			return !value.isEmpty
+			!value.isEmpty
 		default:
-			return false
+			false
 		}
 	}
 }

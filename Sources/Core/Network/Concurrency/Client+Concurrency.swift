@@ -19,7 +19,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws {
 		let task = self.request(request).serializingResponse(using: PassthroughResponseSerializer(), automaticallyCancelling: automaticallyCancelling)
-		return try Self.transform(response: await task.response)
+		return try await Self.transform(response: task.response)
 	}
 
 	/// Shortcut method for building the request and loading the data.
@@ -33,7 +33,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws -> Data {
 		let task = self.request(request).serializingData(automaticallyCancelling: automaticallyCancelling)
-		return try Self.transform(response: await task.response)
+		return try await Self.transform(response: task.response)
 	}
 
 	/// Shortcut method for building the request and parsing the JSON.
@@ -50,7 +50,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws -> Any {
 		let task = self.request(request).serializingResponse(using: JSONResponseSerializer(options: options), automaticallyCancelling: automaticallyCancelling)
-		return try Self.transform(response: await task.response)
+		return try await Self.transform(response: task.response)
 	}
 
 	/// Shortcut method for building the request, parsing the JSON and decoding it into an object.
@@ -68,7 +68,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws -> T {
 		let task = self.request(request).serializingDecodable(type, automaticallyCancelling: automaticallyCancelling, decoder: decoder)
-		return try Self.transform(response: await task.response)
+		return try await Self.transform(response: task.response)
 	}
 
 	/// Shortcut method for building the request and parsing the String.
@@ -86,7 +86,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws -> String {
 		let task = self.request(request).serializingString(automaticallyCancelling: automaticallyCancelling, encoding: encoding)
-		return try Self.transform(response: await task.response)
+		return try await Self.transform(response: task.response)
 	}
 }
 

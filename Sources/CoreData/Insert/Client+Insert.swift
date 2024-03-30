@@ -27,7 +27,7 @@ public extension Client {
 		contextObject: Any? = nil,
 		then handler: @escaping (Result<T, Error>) -> Void
 	) {
-		self.requestData(request, queue: queue) { result in
+		requestData(request, queue: queue) { result in
 			switch result {
 			case .success(let data):
 				do {

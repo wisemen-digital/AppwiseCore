@@ -33,13 +33,13 @@ public enum ClientError: Error, LocalizedError {
 	public var errorDescription: String? {
 		switch self {
 		case .errors(let errors, _):
-			return errors
+			errors
 				.compactMap(\.errorDescription)
 				.joined(separator: "\n")
 		case .message(let message, _):
-			return message
+			message
 		case .unauthorized:
-			return L10n.Client.Error.unauthorized
+			L10n.Client.Error.unauthorized
 		}
 	}
 
@@ -47,7 +47,7 @@ public enum ClientError: Error, LocalizedError {
 	public var underlyingError: Error {
 		switch self {
 		case .errors(_, let error), .message(_, let error), .unauthorized(let error):
-			return error
+			error
 		}
 	}
 }
@@ -63,7 +63,7 @@ public extension Client {
 	/// - parameter error: The existing error
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
-	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error {
+	static func extract(from response: DataResponse<some Any, AFError>, error: AFError) -> Error {
 		if case .explicitlyCancelled = error {
 			return error
 		} else if let status = response.response?.statusCode, status == 401 || status == 403 { // unauthorized status code --> unauthorized

@@ -9,7 +9,7 @@ import Foundation
 public extension Result where Failure == Error {
 	init(catching body: () async throws -> Success) async {
 		do {
-			self = .success(try await body())
+			self = try await .success(body())
 		} catch {
 			self = .failure(error)
 		}

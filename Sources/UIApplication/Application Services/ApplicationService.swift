@@ -22,7 +22,7 @@ public extension ApplicationService {
 	}
 }
 
-extension Array where Element == ApplicationService {
+extension [ApplicationService] {
 	@discardableResult
 	func apply<T, S>(_ work: (ApplicationService, @escaping (T) -> Void) -> S?, then handler: @escaping ([T]) -> Swift.Void) -> [S] {
 		let dispatchGroup = DispatchGroup()

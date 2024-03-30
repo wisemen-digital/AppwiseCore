@@ -50,6 +50,7 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 		self.context = context
 		self.contextObject = contextObject
 	}
+
 	// swiftlint:enable function_default_parameter_at_end
 
 	public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {

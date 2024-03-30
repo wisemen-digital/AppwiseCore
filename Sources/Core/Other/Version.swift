@@ -124,7 +124,7 @@ public extension Version {
 		patch = requiredComponents[2]
 
 		func identifiers(start: String.Index?, end: String.Index) -> [String] {
-			guard let start = start else { return [] }
+			guard let start else { return [] }
 			let identifiers = string[string.index(after: start)..<end]
 			return identifiers.split(separator: ".").map(String.init)
 		}

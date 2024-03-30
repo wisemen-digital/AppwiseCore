@@ -107,11 +107,11 @@ public extension Config {
 	/// The name of the application, taken from the info dictionary.
 	var appName: String {
 		if let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.bundleDisplayName) as? String {
-			return value
+			value
 		} else if let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.bundleName) as? String {
-			return value
+			value
 		} else {
-			return ""
+			""
 		}
 	}
 

@@ -45,7 +45,7 @@ public enum MapKeyPath {
 /// The values of the dictionary can be inserted into the context by using `serialize` method.
 public struct Map {
 	/// The original dictionary whose values will be serialized
-	internal var dictionary: [String: Any]
+	var dictionary: [String: Any]
 
 	/// The context that will be used to insert the Insertable objects
 	public internal(set) var context: NSManagedObjectContext
@@ -67,14 +67,12 @@ public struct Map {
 	///
 	/// - returns: The MapValue or nil if the keyPath does not exists
 	public subscript(keyPath: MapKeyPath) -> MapValue? {
-		var originalValue: Any?
-
-		switch keyPath {
+		var originalValue: Any? = switch keyPath {
 		case .root:
-			originalValue = dictionary
+			dictionary
 		case .path(let stringKeyPath):
 			// swiftlint:disable:next legacy_objc_type
-			originalValue = (dictionary as NSDictionary).value(forKeyPath: stringKeyPath)
+			(dictionary as NSDictionary).value(forKeyPath: stringKeyPath)
 		}
 
 		switch originalValue {
@@ -92,7 +90,7 @@ public struct Map {
 /// It can serialize the original value to `Insertable` using the `serialize` methods.
 public struct MapValue {
 	/// The original value to serialize
-	internal private(set) var originalValue: Any?
+	private(set) var originalValue: Any?
 
 	/// The context that will be used to insert the `Insertable` objects
 	fileprivate let context: NSManagedObjectContext
@@ -104,7 +102,7 @@ public struct MapValue {
 	 Serialize the receiver to a `Insertable` item
 	 - returns: The serialized and inserted object, nil if there is any error
 	 */
-	internal func serialize<T: Insertable>() throws -> T? {
+	func serialize<T: Insertable>() throws -> T? {
 		guard let value = originalValue else {
 			return nil
 		}

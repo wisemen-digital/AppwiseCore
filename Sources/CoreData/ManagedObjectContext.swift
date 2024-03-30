@@ -98,7 +98,7 @@ public extension NSManagedObjectContext {
 	/// Specifies objects that should be removed from their persistent store when changes are committed.
 	///
 	/// - parameter items: A list of objects
-	func delete<T: NSManagedObject>(_ items: [T]) {
+	func delete(_ items: [some NSManagedObject]) {
 		for item in items {
 			delete(item)
 		}

@@ -5,7 +5,7 @@
 
 import Foundation
 
-internal extension DispatchQueue {
+extension DispatchQueue {
 	fileprivate static let mainQueueKey = DispatchSpecificKey<Void>()
 
 	static func configureMainQueue() {

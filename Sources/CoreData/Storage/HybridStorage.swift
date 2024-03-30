@@ -8,11 +8,6 @@ import CoreData
 public struct HybridStorage: Storage {
 	public let configuration: ModelConfiguration
 	public let storeConfigurations: [StoreConfiguration]
-
-	init(configuration: ModelConfiguration, storeConfigurations: [StoreConfiguration]) {
-		self.configuration = configuration
-		self.storeConfigurations = storeConfigurations
-	}
 }
 
 // MARK: - Quick creation
@@ -44,7 +39,7 @@ public extension HybridStorage {
 	static func `default`(bundle: Bundle = .main) -> HybridStorage {
 		if let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle),
 		   let url = SQLiteStorage.defaultFileURL(name: Constants.defaultName) {
-			return `default`(configuration: configuration, persistentURL: url)
+			`default`(configuration: configuration, persistentURL: url)
 		} else {
 			fatalError("Unable to load store")
 		}
@@ -53,7 +48,7 @@ public extension HybridStorage {
 	static func group(identifier: String, bundle: Bundle = .main) -> HybridStorage {
 		if let configuration = ModelConfiguration(name: Constants.defaultName, bundle: bundle),
 		   let url = SQLiteStorage.groupFileURL(name: Constants.defaultName, groupIdentifier: identifier) {
-			return `default`(configuration: configuration, persistentURL: url)
+			`default`(configuration: configuration, persistentURL: url)
 		} else {
 			fatalError("Unable to load store")
 		}

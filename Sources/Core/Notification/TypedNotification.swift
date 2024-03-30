@@ -61,7 +61,7 @@ extension TypedNotification {
 		Notification(name: Self.notificationName, object: object)
 	}
 
-	internal static var notificationName: Notification.Name {
+	static var notificationName: Notification.Name {
 		let name = String(describing: self)
 		return Notification.Name(rawValue: name)
 	}

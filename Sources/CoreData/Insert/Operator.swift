@@ -7,7 +7,7 @@ import Foundation
 
 infix operator <-
 
-public extension Optional where Wrapped == MapValue {
+public extension MapValue? {
 	// MARK: Insertable Operator
 
 	static func <- <T: Insertable>(left: inout T, right: MapValue?) throws {
@@ -30,11 +30,11 @@ public extension Optional where Wrapped == MapValue {
 
 	// MARK: Generic operator
 
-	static func <- <T>(left: inout T, right: MapValue?) throws {
+	static func <- (left: inout some Any, right: MapValue?) throws {
 		try left <- (right, { $0 })
 	}
 
-	static func <- <T: ExpressibleByNilLiteral>(left: inout T, right: MapValue?) {
+	static func <- (left: inout some ExpressibleByNilLiteral, right: MapValue?) {
 		left <- (right, { $0 })
 	}
 }
