@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2023 Wisemen
+// Copyright © 2024 Wisemen
 //
 
 public protocol PushNotificationType {

@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2022 Appwise
+// Copyright © 2024 Appwise
 //
 
 import CocoaLumberjack
