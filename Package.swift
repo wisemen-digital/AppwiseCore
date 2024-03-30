@@ -1,11 +1,11 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.10
 
 import PackageDescription
 
 let package = Package(
 	name: "AppwiseCore",
 	dependencies: [
-		.package(url: "https://github.com/shibapm/Komondor.git", from: "1.0.0")
+		.package(url: "https://github.com/shibapm/Komondor.git", exact: "1.1.3")
 	]
 )
 

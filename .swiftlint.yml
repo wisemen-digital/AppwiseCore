@@ -1,4 +1,4 @@
-swiftlint_version: 0.51.0
+swiftlint_version: 0.54.0
 
 disabled_rules:
   - anonymous_argument_in_multiline_closure
