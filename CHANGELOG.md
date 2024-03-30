@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 * Core: add `requestVoid` method to network client.
 * Core: default error parser now ignores `.explicitlyCancelled` (for cancelled requests).
 * Core: result "cancellation" now uses Swift's built-in `CancellationError` type if available.
+* Core: add privacy manifest file
 * XcodeGen: added a template for shared frameworks.
 
 ### Bug Fixes
