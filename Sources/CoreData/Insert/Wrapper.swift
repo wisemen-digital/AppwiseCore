@@ -67,7 +67,7 @@ public struct Map {
 	///
 	/// - returns: The MapValue or nil if the keyPath does not exists
 	public subscript(keyPath: MapKeyPath) -> MapValue? {
-		var originalValue: Any? = switch keyPath {
+		let originalValue: Any? = switch keyPath {
 		case .root:
 			dictionary
 		case .path(let stringKeyPath):

@@ -128,7 +128,7 @@ extension Client {
 			return .success(data)
 		case .failure(let error):
 			let error = extract(from: response, error: error)
-			DDLogInfo(error.localizedDescription)
+			DDLogInfo("\(error.localizedDescription)")
 			return .failure(error)
 		}
 	}

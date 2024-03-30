@@ -36,7 +36,7 @@ public extension Client {
 					let transformedJSON = try jsonTransformer(json)
 					Self.insert(json: transformedJSON, into: db, queue: queue, contextObject: contextObject, then: handler)
 				} catch {
-					DDLogError(error.localizedDescription)
+					DDLogError("\(error.localizedDescription)")
 					handler(.failure(error))
 				}
 			case .failure(let error):

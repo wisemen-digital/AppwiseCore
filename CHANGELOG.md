@@ -3,12 +3,15 @@
 All notable changes to this project will be documented in this file.
 `AppwiseCore` adheres to [Semantic Versioning](http://semver.org/).
 
-## [Master](https://github.com/appwise-labs/AppwiseCore)
+## [Main](https://github.com/appwise-labs/AppwiseCore)
+
+## [2.1.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.0)
 
 ### Deprecations
 
 * Core: deprecate our `Cancelled` error type in favour of Swift's built-in `CancellationError` type.
 * CoreData: due to incorrectness, we're deprecating `responseInsert` (this is not `responseInsert`, see below).
+* This version drops support for iOS 11 or lower.
 
 ### Improvements
 
