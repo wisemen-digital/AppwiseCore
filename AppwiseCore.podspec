@@ -52,8 +52,8 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Alamofire', '> 5.2'
-		ss.dependency 'CocoaLumberjack/Swift', '~> 3.6'
+		ss.dependency 'Alamofire', '> 5.10'
+		ss.dependency 'CocoaLumberjack/Swift', '~> 3.8'
 		ss.dependency 'Sentry', '~> 8.40'
 		ss.dependency 'Then', '~> 3.0'
 	end

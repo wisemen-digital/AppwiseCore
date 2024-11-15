@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 * Core: `Identity.ID` supports `Sendable`.
-* Update Sentry to 8.40 to be make AppwiseCore compatible with Xcode 16.
+* Bump dependencies (Sentry to 8.40) to support Xcode 16.
 
 ## [2.1.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.0)
 
