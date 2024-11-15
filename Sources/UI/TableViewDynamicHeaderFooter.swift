@@ -63,17 +63,17 @@ public struct DynamicHeaderFooterBehaviour: ViewControllerLifeCycleBehaviour {
 		self.tableView = tableView
 	}
 
-	public func beforeAppearing(viewController: UIViewController, animated: Bool) {
+	public func beforeAppearing(viewController _: UIViewController, animated _: Bool) {
 		tableView?.updateHeaderViewHeight()
 		tableView?.updateFooterViewHeight()
 	}
 
-	public func afterAppearing(viewController: UIViewController, animated: Bool) {
+	public func afterAppearing(viewController _: UIViewController, animated _: Bool) {
 		tableView?.updateHeaderViewHeight()
 		tableView?.updateFooterViewHeight()
 	}
 
-	public func afterLayingOutSubviews(viewController: UIViewController) {
+	public func afterLayingOutSubviews(viewController _: UIViewController) {
 		// Delay this a bit, to avoid layout issues (header shrinking and such...)
 		DispatchQueue.main.async {
 			tableView?.updateHeaderViewHeight()

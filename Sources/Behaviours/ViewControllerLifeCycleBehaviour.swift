@@ -42,20 +42,20 @@ public protocol ViewControllerLifeCycleBehaviour {
 
 /// Default empty implementations
 public extension ViewControllerLifeCycleBehaviour {
-	func afterLoading(viewController: UIViewController) {}
+	func afterLoading(viewController _: UIViewController) {}
 
-	func beforeAppearing(viewController: UIViewController, animated: Bool) {}
-	func afterAppearing(viewController: UIViewController, animated: Bool) {}
+	func beforeAppearing(viewController _: UIViewController, animated _: Bool) {}
+	func afterAppearing(viewController _: UIViewController, animated _: Bool) {}
 
-	func beforeDisappearing(viewController: UIViewController, animated: Bool) {}
-	func afterDisappearing(viewController: UIViewController, animated: Bool) {}
+	func beforeDisappearing(viewController _: UIViewController, animated _: Bool) {}
+	func afterDisappearing(viewController _: UIViewController, animated _: Bool) {}
 
-	func beforeLayingOutSubviews(viewController: UIViewController) {}
-	func afterLayingOutSubviews(viewController: UIViewController) {}
+	func beforeLayingOutSubviews(viewController _: UIViewController) {}
+	func afterLayingOutSubviews(viewController _: UIViewController) {}
 
-	func beforeTransitioning(viewController: UIViewController, to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {}
-	func whileTransitioning(viewController: UIViewController, to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {}
-	func afterTransitioning(viewController: UIViewController, to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {}
+	func beforeTransitioning(viewController _: UIViewController, to _: CGSize, with _: UIViewControllerTransitionCoordinator) {}
+	func whileTransitioning(viewController _: UIViewController, to _: CGSize, with _: UIViewControllerTransitionCoordinator) {}
+	func afterTransitioning(viewController _: UIViewController, to _: CGSize, with _: UIViewControllerTransitionCoordinator) {}
 }
 
 public extension UIViewController {

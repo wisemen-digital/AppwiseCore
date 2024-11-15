@@ -51,7 +51,7 @@ public protocol ManyImportable {
 
 /// Default implementation so that the user isn't obligated to implement the single-item import function
 public extension ManyImportable {
-	static func didImport(item: Any, from data: Any, in context: ImportContext) throws {
+	static func didImport(item _: Any, from _: Any, in _: ImportContext) throws {
 	}
 }
 

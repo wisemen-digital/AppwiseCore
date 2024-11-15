@@ -39,7 +39,7 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
 		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
 		context: NSManagedObjectContext,
-		type: T.Type = T.self,
+		type _: T.Type = T.self,
 		contextObject: Any? = nil
 	) {
 		self.dataPreprocessor = dataPreprocessor

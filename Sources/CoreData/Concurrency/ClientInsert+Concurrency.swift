@@ -8,7 +8,6 @@ import CocoaLumberjack
 
 @available(iOS 13, *)
 public extension Client {
-	// swiftlint:disable function_default_parameter_at_end
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
 	/// - parameter request:         The router request type
@@ -21,7 +20,7 @@ public extension Client {
 	/// - returns: the result
 	func requestInsert<T: Insertable>(
 		_ request: RouterType,
-		of type: T.Type = T.self,
+		of _: T.Type = T.self,
 		db: DB = DB.shared,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
 		jsonTransformer: @escaping (Any) throws -> Any = { $0 },

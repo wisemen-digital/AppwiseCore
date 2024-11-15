@@ -14,12 +14,12 @@ final class LifecycleBehaviourViewController: UIViewController {
 	}
 
 	@available(*, unavailable)
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+	override init(nibName _: String?, bundle _: Bundle?) {
 		fatalError("init(nibName:bundle:) has not been implemented")
 	}
 
 	@available(*, unavailable)
-	required init?(coder aDecoder: NSCoder) {
+	required init?(coder _: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 

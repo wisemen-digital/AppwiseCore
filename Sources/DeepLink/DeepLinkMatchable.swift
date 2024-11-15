@@ -33,13 +33,13 @@ public protocol DeepLinkMatchable: AnyObject, NSObjectProtocol {
 
 public extension DeepLinkMatchable {
 	/// Default implementation, just returns false.
-	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
+	func dismiss(items _: [DeepLinkStackItem], animated _: Bool) -> Bool {
 		false
 	}
 }
 
 public extension DeepLinkMatchable where Self: UIViewController {
-	func dismiss(items: [DeepLinkStackItem], animated: Bool) -> Bool {
+	func dismiss(items _: [DeepLinkStackItem], animated _: Bool) -> Bool {
 		false // TODO: default dismiss of presented or pop nav
 	}
 }

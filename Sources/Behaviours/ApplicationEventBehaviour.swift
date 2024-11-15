@@ -25,12 +25,12 @@ public final class ApplicationEventBehavior: ViewControllerLifeCycleBehaviour {
 	}
 
 	@objc
-	private func applicationWillEnterForeground(_ sender: Notification) {
+	private func applicationWillEnterForeground(_: Notification) {
 		willEnterForeground?()
 	}
 
 	@objc
-	private func applicationWillResignActive(_ sender: Notification) {
+	private func applicationWillResignActive(_: Notification) {
 		willEnterBackground?()
 	}
 }

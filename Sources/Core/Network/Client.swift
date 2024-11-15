@@ -39,7 +39,7 @@ public extension Client {
 	}
 
 	@available(*, unavailable, renamed: "request(_:)")
-	func buildRequest(_ request: RouterType, completion: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
+	func buildRequest(_: RouterType, completion _: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
 		fatalError("unavailable")
 	}
 }

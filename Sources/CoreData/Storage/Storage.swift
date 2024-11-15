@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2024 Appwise
+// Copyright © 2024 Wisemen
 //
 
 import CoreData

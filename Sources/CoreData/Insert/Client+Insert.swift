@@ -19,7 +19,7 @@ public extension Client {
 	/// - parameter handler:         The code to be executed once the request has finished.
 	func requestInsert<T: Insertable>(
 		_ request: RouterType,
-		of type: T.Type = T.self,
+		of _: T.Type = T.self,
 		db: DB = DB.shared,
 		queue: DispatchQueue = .main,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,

@@ -57,7 +57,7 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 		self.mode = mode
 	}
 
-	public func beforeDisappearing(viewController: UIViewController, animated: Bool) {
+	public func beforeDisappearing(viewController: UIViewController, animated _: Bool) {
 		if let nvc = viewController.navigationController,
 		   let nvcChild = viewController.navigationControllerChild {
 			nextAppearIsPopNavigation = (nvc.topViewController != nvcChild)
@@ -66,7 +66,7 @@ public final class RefreshOnAppearBehavior: ViewControllerLifeCycleBehaviour {
 		}
 	}
 
-	public func beforeAppearing(viewController: UIViewController, animated: Bool) {
+	public func beforeAppearing(viewController _: UIViewController, animated _: Bool) {
 		switch mode {
 		case .excludingPopNavigation where nextAppearIsPopNavigation:
 			break

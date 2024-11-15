@@ -19,7 +19,7 @@ public extension Client {
 		automaticallyCancelling: Bool = false
 	) async throws {
 		let task = self.request(request).serializingResponse(using: PassthroughResponseSerializer(), automaticallyCancelling: automaticallyCancelling)
-		return try await Self.transform(response: task.response)
+		try await Self.transform(response: task.response) as Void
 	}
 
 	/// Shortcut method for building the request and loading the data.

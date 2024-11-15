@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2024 Appwise
+// Copyright © 2024 Wisemen
 //
 
 import CoreData
@@ -18,6 +18,7 @@ public struct SQLiteStorage: Storage {
 	public var isReadOnly = false
 
 	public var persistentHistoryTrackingEnabled = false
+	// swiftlint:disable:next identifier_name
 	public var persistentStoreRemoteNotificationsEnabled = false
 
 	public var configurationName: String?
@@ -99,6 +100,7 @@ private extension SQLiteStorage {
 			$0.shouldInferMappingModelAutomatically = inferMappingModelAutomatically
 			$0.shouldAddStoreAsynchronously = addStoreAsynchronously
 
+			// swiftlint:disable legacy_objc_type
 			$0.setOption(analyzeEnabled as NSNumber, forKey: NSSQLiteAnalyzeOption)
 			$0.setOption(vacuumEnabled as NSNumber, forKey: NSSQLiteManualVacuumOption)
 			$0.setOption(isReadOnly as NSNumber, forKey: NSReadOnlyPersistentStoreOption)
@@ -107,6 +109,7 @@ private extension SQLiteStorage {
 				$0.setOption(persistentHistoryTrackingEnabled as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 				$0.setOption(persistentStoreRemoteNotificationsEnabled as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 			}
+			// swiftlint:enable legacy_objc_type
 		}
 	}
 }

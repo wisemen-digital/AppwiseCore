@@ -34,11 +34,11 @@ public extension Wrapper {
 
 /// The ways of creating a keyPath to represent Dictionaries keyPaths
 ///
-/// - root: it refers to root of the dictionary (the dictionary itself)
 /// - path: it refers to the object at the given key path
+/// - root: it refers to root of the dictionary (the dictionary itself)
 public enum MapKeyPath {
-	case root
 	case path(String)
+	case root
 }
 
 /// A struct that store a `[String: Any]` and a `NSManagedObjectContext`.

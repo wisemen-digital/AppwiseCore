@@ -81,7 +81,7 @@ public extension Router {
 	}
 
 	@available(*, unavailable, renamed: "makeDataRequest(session:)")
-	func asURLRequest(with sessionManager: Session, completion: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
+	func asURLRequest(with _: Session, completion _: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
 		fatalError("unavailable")
 	}
 

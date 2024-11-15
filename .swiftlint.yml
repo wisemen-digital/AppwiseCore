@@ -1,9 +1,10 @@
-swiftlint_version: 0.54.0
+swiftlint_version: 0.57.0
 
 disabled_rules:
   - anonymous_argument_in_multiline_closure
   - conditional_returns_on_newline
   - discouraged_object_literal
+  - contrasted_opening_brace
   - explicit_acl
   - explicit_enum_raw_value
   - explicit_init
@@ -17,6 +18,7 @@ disabled_rules:
   - indentation_width
   - line_length
   - missing_docs
+  - no_empty_block
   - no_extension_access_modifier
   - no_grouping_extension
   - no_magic_numbers
@@ -25,10 +27,13 @@ disabled_rules:
   - prohibited_interface_builder
   - required_deinit
   - strict_fileprivate
+  - superfluous_else
   - switch_case_on_newline
   - type_contents_order
   - untyped_error_in_catch
   - vertical_whitespace_between_cases
+  # We define types together sometimes
+  - one_declaration_per_file
 
 opt_in_rules:
   - all

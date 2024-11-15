@@ -116,7 +116,7 @@ public extension NSManagedObjectContext {
 	///            `NSManagedObjectContext.reset()` or use the result of the batch
 	///            request by setting the result type to `.resultTypeObjectIDs`.
 	@discardableResult
-	func removeAll<T: NSManagedObject>(of entity: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
+	func removeAll<T: NSManagedObject>(of _: T.Type, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
 		let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: T.fetchRequest().entityName ?? "")
 		let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
 		deleteRequest.resultType = resultType

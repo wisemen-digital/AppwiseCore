@@ -32,7 +32,7 @@ public extension Notification {
 	///
 	/// - Parameter notificationType: The notificationType to retrieve the payload from.
 	/// - Returns: The payload from the `TypedNotification`.
-	func getPayload<T: TypedPayloadNotification>(for notificationType: T.Type) -> T.Payload? {
+	func getPayload<T: TypedPayloadNotification>(for _: T.Type) -> T.Payload? {
 		userInfo?[UserInfoKey.payload] as? T.Payload
 	}
 }

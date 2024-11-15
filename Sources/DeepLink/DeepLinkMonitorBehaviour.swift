@@ -18,12 +18,12 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		]
 	}
 
-	func afterAppearing(viewController: UIViewController, animated: Bool) {
+	func afterAppearing(viewController _: UIViewController, animated _: Bool) {
 		guard matchable != nil else { return }
 		DeepLinker.shared.addToStack(items: stackToRestore)
 	}
 
-	func beforeDisappearing(viewController: UIViewController, animated: Bool) {
+	func beforeDisappearing(viewController: UIViewController, animated _: Bool) {
 		if let tbc = viewController.tabBarController,
 		   let selected = tbc.selectedViewController,
 		   viewController == selected || viewController.navigationController == selected {
@@ -33,7 +33,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		}
 	}
 
-	func afterDisappearing(viewController: UIViewController, animated: Bool) {
+	func afterDisappearing(viewController: UIViewController, animated _: Bool) {
 		guard let matchable else { return }
 
 		if wasTabBarVisible,

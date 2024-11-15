@@ -13,6 +13,8 @@ public enum DBError: Error {
 
 /// Container for all core data related operations.
 public final class DB: NSObject {
+	// swiftlint:disable:previous type_name
+
 	/// The default database is a singleton (points to the main bundle).
 	@objc public static let shared = DB(storage: defaultStorage)
 
@@ -94,7 +96,8 @@ public extension DB {
 // MAK: - State
 
 public extension DB {
-	@objc enum State: Int, CustomDebugStringConvertible {
+	@objc
+	enum State: Int, CustomDebugStringConvertible {
 		case unknown
 		case loading
 		case initialized

@@ -37,7 +37,7 @@ public extension Config {
 	func teardownForReset() {
 	}
 
-	func handleUpdate(from old: Version, to new: Version) {
+	func handleUpdate(from _: Version, to _: Version) {
 	}
 }
 

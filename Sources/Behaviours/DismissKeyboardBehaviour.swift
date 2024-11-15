@@ -13,7 +13,7 @@ public struct DismissKeyboardBehaviour: ViewControllerLifeCycleBehaviour {
 	public init() {
 	}
 
-	public func beforeDisappearing(viewController: UIViewController, animated: Bool) {
+	public func beforeDisappearing(viewController: UIViewController, animated _: Bool) {
 		viewController.view.endEditing(true)
 	}
 }
