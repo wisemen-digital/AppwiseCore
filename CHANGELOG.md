@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Main](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* Update Sentry to 8.40 to be make AppwiseCore compatible with Xcode 16.
+
 ## [2.1.0](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.0)
 
 ### Deprecations
