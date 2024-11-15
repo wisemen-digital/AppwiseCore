@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Main](https://github.com/appwise-labs/AppwiseCore)
 
+## [2.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.1)
+
 ### Bug Fixes
 
 * Core: `Identity.ID` supports `Sendable`.
