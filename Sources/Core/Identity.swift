@@ -50,7 +50,7 @@ public protocol OptionalIdentifiable: _Identifiable {
 /// A type-safe identifier for a given `Value`, backed by a raw value.
 /// When backed by a `Codable` type, `Identifier` also becomes codable,
 /// and will be encoded into a single value according to its raw value.
-public struct Identifier<Value: _Identifiable>: RawRepresentable {
+public struct Identifier<Value: _Identifiable>: RawRepresentable, Sendable where Value.RawIdentifier: Sendable {
 	/// The raw value that is backing this identifier.
 	public let rawValue: Value.RawIdentifier
 
@@ -122,12 +122,12 @@ extension Identifier: Comparable where Value.RawIdentifier: Comparable {
 // MARK: - Codable support
 
 extension Identifier: Codable where Value.RawIdentifier: Codable {
-	public init(from decoder: Decoder) throws {
+	public init(from decoder: any Decoder) throws {
 		let container = try decoder.singleValueContainer()
 		rawValue = try container.decode(Value.RawIdentifier.self)
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: any Encoder) throws {
 		var container = encoder.singleValueContainer()
 		try container.encode(rawValue)
 	}
