@@ -40,7 +40,7 @@ public extension Client {
 					handler(.failure(error))
 				}
 			case .failure(let error):
-				handler(.failure(error))
+				queue.async { handler(.failure(error)) }
 			}
 		}
 	}
@@ -83,7 +83,7 @@ extension Client {
 					afterInsert(value: value, error: error, db: db, then: handler)
 				}
 			} catch {
-				handler(.failure(error))
+				queue.async { handler(.failure(error)) }
 			}
 		}
 	}
