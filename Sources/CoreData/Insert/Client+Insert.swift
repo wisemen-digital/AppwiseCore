@@ -40,7 +40,7 @@ public extension Client {
 					handler(.failure(error))
 				}
 			case .failure(let error):
-				queue.async { handler(.failure(error)) }
+				handler(.failure(error))
 			}
 		}
 	}
