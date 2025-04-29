@@ -83,7 +83,7 @@ extension Client {
 					afterInsert(value: value, error: error, db: db, then: handler)
 				}
 			} catch {
-				handler(.failure(error))
+				queue.async { handler(.failure(error)) }
 			}
 		}
 	}
