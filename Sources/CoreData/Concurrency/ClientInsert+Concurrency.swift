@@ -1,6 +1,6 @@
 //
 // AppwiseCore
-// Copyright © 2024 Wisemen
+// Copyright © 2026 Wisemen
 //
 
 import Alamofire

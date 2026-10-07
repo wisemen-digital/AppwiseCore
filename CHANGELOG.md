@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 
 * Bump dependencies and minimum iOS to 15. We don't consider this breaking as it's the minimum iOS supported by the latest Xcode version.
 
+### Internal
+
+* Bump copyright.
+
 ## [2.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.1)
 
 ### Bug Fixes
