@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Main](https://github.com/appwise-labs/AppwiseCore)
 
+### Bug Fixes
+
+* CoreData: fix handler callback (for errors) on wrong queue.
+
+### Deprecations
+
+* Bump dependencies and minimum iOS to 15. We don't consider this breaking as it's the minimum iOS supported by the latest Xcode version.
+
 ## [2.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.1)
 
 ### Bug Fixes

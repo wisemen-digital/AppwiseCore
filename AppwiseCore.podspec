@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 		:type => 'MIT',
 		:file => 'LICENSE'
 	}
-	s.ios.deployment_target = '12.0'
+	s.ios.deployment_target = '15.0'
 	s.swift_version = '5.10'
 
 	# files
@@ -52,9 +52,9 @@ Pod::Spec.new do |s|
 
 		# dependencies
 		ss.dependency 'AppwiseCore/Common'
-		ss.dependency 'Alamofire', '> 5.10'
-		ss.dependency 'CocoaLumberjack/Swift', '~> 3.8'
-		ss.dependency 'Sentry', '~> 8.40'
+		ss.dependency 'Alamofire', '> 5.12'
+		ss.dependency 'CocoaLumberjack/Swift', '~> 3.10'
+		ss.dependency 'Sentry', '~> 9.19'
 		ss.dependency 'Then', '~> 3.0'
 	end
 
