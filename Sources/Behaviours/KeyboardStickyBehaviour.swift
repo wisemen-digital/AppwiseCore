@@ -21,10 +21,8 @@ public struct KeyboardStickyBehaviour: ViewControllerLifeCycleBehaviour {
 	}
 
 	public func afterLoading(viewController: UIViewController) {
-		if #available(iOS 15.0, *) {
-			let constraint = NSLayoutConstraint(item: content, attribute: .bottom, relatedBy: .equal, toItem: viewController.view.keyboardLayoutGuide, attribute: .top, multiplier: 1, constant: 0)
-			constraint.priority = .dragThatCanResizeScene
-			NSLayoutConstraint.activate([constraint])
-		}
+		let constraint = NSLayoutConstraint(item: content, attribute: .bottom, relatedBy: .equal, toItem: viewController.view.keyboardLayoutGuide, attribute: .top, multiplier: 1, constant: 0)
+		constraint.priority = .dragThatCanResizeScene
+		NSLayoutConstraint.activate([constraint])
 	}
 }

@@ -8,7 +8,7 @@ import UIKit
 
 /// Internal class for adding a "skip backup" attribute to the application support directory.
 final class AddSkipBackupAttributeApplicationService: NSObject, ApplicationService {
-	// swiftlint:disable:next discouraged_optional_collection
+	// swiftlint:disable:next discouraged_default_parameter discouraged_optional_collection
 	func application(_: UIApplication, willFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		DispatchQueue.global(qos: .background).async { [weak self] in
 			self?.addSkipBackupAttributeToAppSupportDirectory()

@@ -5,12 +5,10 @@
 
 import Foundation
 
-@available(iOS 13.0, *)
 public protocol AsyncSingleObjectRepository: SingleObjectRepository {
 	func refresh() async throws -> ObjectType
 }
 
-@available(iOS 13.0, *)
 public extension AsyncSingleObjectRepository {
 	func refresh() async throws -> ObjectType {
 		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")

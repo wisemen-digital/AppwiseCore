@@ -20,7 +20,6 @@ open class TabBarController: UITabBarController {
 		selectedViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
-	#if swift(>=4.2)
 	override open var childForStatusBarStyle: UIViewController? {
 		selectedViewController
 	}
@@ -28,13 +27,4 @@ open class TabBarController: UITabBarController {
 	override open var childForStatusBarHidden: UIViewController? {
 		selectedViewController
 	}
-	#else
-	override open var childViewControllerForStatusBarStyle: UIViewController? {
-		selectedViewController
-	}
-
-	override open var childViewControllerForStatusBarHidden: UIViewController? {
-		selectedViewController
-	}
-	#endif
 }

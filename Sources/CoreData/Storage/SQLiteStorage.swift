@@ -104,11 +104,8 @@ private extension SQLiteStorage {
 			$0.setOption(analyzeEnabled as NSNumber, forKey: NSSQLiteAnalyzeOption)
 			$0.setOption(vacuumEnabled as NSNumber, forKey: NSSQLiteManualVacuumOption)
 			$0.setOption(isReadOnly as NSNumber, forKey: NSReadOnlyPersistentStoreOption)
-
-			if #available(iOS 13.0, *) {
-				$0.setOption(persistentHistoryTrackingEnabled as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-				$0.setOption(persistentStoreRemoteNotificationsEnabled as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-			}
+			$0.setOption(persistentHistoryTrackingEnabled as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+			$0.setOption(persistentStoreRemoteNotificationsEnabled as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 			// swiftlint:enable legacy_objc_type
 		}
 	}

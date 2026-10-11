@@ -5,7 +5,6 @@
 
 import CoreData
 
-@available(iOS 13.0, *)
 public extension DB {
 	// Perform an operation asynchronously.
 	///

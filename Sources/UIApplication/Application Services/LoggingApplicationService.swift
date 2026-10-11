@@ -7,7 +7,7 @@ import CocoaLumberjack
 
 /// Internal class for initializing the logging framework
 final class LoggingApplicationService: NSObject, ApplicationService {
-	// swiftlint:disable:next discouraged_optional_collection
+	// swiftlint:disable:next discouraged_default_parameter discouraged_optional_collection
 	func application(_: UIApplication, willFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		DDLog.add(DDOSLogger.sharedInstance)
 		DDLog.add(SentryLogger.shared)

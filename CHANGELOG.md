@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 
 ### Internal
 
+* Removed some availability & swift version checkes that are no longer needed.
 * Bump copyright.
 
 ## [2.1.1](https://github.com/appwise-labs/AppwiseCore/releases/tag/2.1.1)

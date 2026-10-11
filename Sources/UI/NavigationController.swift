@@ -20,7 +20,6 @@ open class NavigationController: UINavigationController {
 		topViewController?.preferredInterfaceOrientationForPresentation ?? super.preferredInterfaceOrientationForPresentation
 	}
 
-	#if swift(>=4.2)
 	override open var childForStatusBarStyle: UIViewController? {
 		topViewController
 	}
@@ -28,13 +27,4 @@ open class NavigationController: UINavigationController {
 	override open var childForStatusBarHidden: UIViewController? {
 		topViewController
 	}
-	#else
-	override open var childViewControllerForStatusBarStyle: UIViewController? {
-		topViewController
-	}
-
-	override open var childViewControllerForStatusBarHidden: UIViewController? {
-		topViewController
-	}
-	#endif
 }

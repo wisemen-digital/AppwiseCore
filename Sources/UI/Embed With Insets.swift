@@ -6,7 +6,6 @@
 import UIKit
 
 /// Add this behaviour to the parent controller, to apply insets to the given child controller
-@available(iOS 11.0, tvOS 11.0, *)
 public struct EmbedInsetsBehaviour: ViewControllerLifeCycleBehaviour {
 	private weak var affectedController: UIViewController?
 	private var topView: UIView?
@@ -27,7 +26,6 @@ public struct EmbedInsetsBehaviour: ViewControllerLifeCycleBehaviour {
 }
 
 /// Use this as a class for a custom segue, and trigger it on `viewDidLoad`.
-@available(iOS 11.0, tvOS 11.0, *)
 public final class EmbedWithInsetsSegue: UIStoryboardSegue {
 	override public func perform() {
 		let parentView: UIView = source.view

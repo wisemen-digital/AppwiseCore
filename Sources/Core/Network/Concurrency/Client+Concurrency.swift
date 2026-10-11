@@ -6,7 +6,6 @@
 import Alamofire
 import CocoaLumberjack
 
-@available(iOS 13, *)
 public extension Client {
 	/// Shortcut method for building the request and loading the response (ignoring data).
 	///

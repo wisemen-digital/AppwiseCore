@@ -6,7 +6,6 @@
 import Alamofire
 import CocoaLumberjack
 
-@available(iOS 13, *)
 public extension Client {
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
