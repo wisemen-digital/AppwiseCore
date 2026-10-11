@@ -23,7 +23,10 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	public var window: UIWindow?
 
 	/// The list of application services, empty by default
-	open var services: [ApplicationService] { [] }
+	open var services: [ApplicationService] {
+		[]
+	}
+
 	private lazy var internalServices: [ApplicationService] = [
 		LoggingApplicationService(),
 		AddSkipBackupAttributeApplicationService(),
@@ -38,7 +41,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		FileManager.default.documentsDirectory.require(hint: "Application requires a documents directory")
 	}
 
-	// The support directory of your application
+	/// The support directory of your application
 	@available(*, deprecated, message: "Please use FileManager.default.supportDirectory instead")
 	public var supportDirectory: URL {
 		FileManager.default.supportDirectory.require(hint: "Application requires an application support directory")
@@ -228,7 +231,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 			service.application?(application, performActionFor: shortcutItem, completionHandler: completionHandler)
 		}, then: { results in
 			// if any service handled the shortcut, return true
-			let result = results.contains { $0 }
+			let result = results.contains(where: \.self)
 			completionHandler(result)
 		})
 	}
@@ -361,7 +364,7 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 			restorationHandler(result)
 		})
 
-		return returns.contains { $0 }
+		return returns.contains(where: \.self)
 	}
 
 	public func application(_ application: UIApplication, didFailToContinueUserActivityWithType userActivityType: String, error: Error) {

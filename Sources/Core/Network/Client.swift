@@ -24,7 +24,7 @@ public protocol Client {
 	/// - parameter error: The existing error
 	///
 	/// - returns: An error with the message from the response (see `ClientError`), or the existing error
-	static func extract<T>(from response: DataResponse<T, AFError>, error: AFError) -> Error
+	static func extract(from response: DataResponse<some Any, AFError>, error: AFError) -> Error
 }
 
 public extension Client {
@@ -39,7 +39,7 @@ public extension Client {
 	}
 
 	@available(*, unavailable, renamed: "request(_:)")
-	func buildRequest(_: RouterType, completion _: @escaping (_ result: Result<DataRequest, Error>) -> Void) {
+	func buildRequest(_: RouterType, completion _: (_ result: Result<DataRequest, Error>) -> Void) {
 		fatalError("unavailable")
 	}
 }

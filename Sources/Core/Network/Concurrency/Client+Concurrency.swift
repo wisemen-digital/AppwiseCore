@@ -120,7 +120,7 @@ private final class PassthroughResponseSerializer: ResponseSerializer {
 		self.emptyRequestMethods = emptyRequestMethods
 	}
 
-	// Based on `StringResponseSerializer`
+	/// Based on `StringResponseSerializer`
 	func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws {
 		if let error {
 			throw error

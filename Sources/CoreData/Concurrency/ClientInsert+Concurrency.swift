@@ -22,7 +22,7 @@ public extension Client {
 		of _: T.Type = T.self,
 		db: DB = DB.shared,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
-		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
+		jsonTransformer: (Any) throws -> Any = \.self,
 		contextObject: Any? = nil,
 		automaticallyCancelling: Bool = false
 	) async throws -> T {

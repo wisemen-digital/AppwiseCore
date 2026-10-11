@@ -6,7 +6,7 @@
 import CoreData
 
 public extension DB {
-	// Perform an operation asynchronously.
+	/// Perform an operation asynchronously.
 	///
 	/// - parameter operation: The closure to perform within a new context.
 	/// - parameter context: The temporary save context.

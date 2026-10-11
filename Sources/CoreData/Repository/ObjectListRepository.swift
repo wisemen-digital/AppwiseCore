@@ -19,7 +19,7 @@ public protocol ObjectListRepository {
 // MARK: - Default implementations
 
 public extension ObjectListRepository {
-	func refresh(then handler: @escaping (Result<[ObjectType], Error>) -> Void) {
+	func refresh(then handler: (Result<[ObjectType], Error>) -> Void) {
 		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")
 		handler(.failure(UnimplementedMethod()))
 	}

@@ -23,7 +23,7 @@ public extension Client {
 		db: DB = DB.shared,
 		queue: DispatchQueue = .main,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
-		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
+		jsonTransformer: @escaping (Any) throws -> Any = \.self,
 		contextObject: Any? = nil,
 		then handler: @escaping (Result<T, Error>) -> Void
 	) {
@@ -89,7 +89,7 @@ extension Client {
 	}
 
 	/// cast the value to the main context if we can
-	static func afterInsert<T: Insertable>(value: T, error: Error?, db: DB, then handler: @escaping (Result<T, Error>) -> Void) {
+	static func afterInsert<T: Insertable>(value: T, error: Error?, db: DB, then handler: (Result<T, Error>) -> Void) {
 		do {
 			if let error {
 				throw error

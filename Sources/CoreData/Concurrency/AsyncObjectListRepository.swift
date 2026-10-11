@@ -10,7 +10,7 @@ public protocol AsyncObjectListRepository: ObjectListRepository {
 }
 
 public extension AsyncObjectListRepository {
-	func refresh() async throws -> [ObjectType] {
+	func refresh() throws -> [ObjectType] {
 		assertionFailure("Forgot to implement refresh handler of repository \(Self.self).")
 		throw UnimplementedMethod()
 	}

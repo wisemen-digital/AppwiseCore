@@ -31,11 +31,11 @@ public extension MapValue? {
 	// MARK: Generic operator
 
 	static func <- (left: inout some Any, right: MapValue?) throws {
-		try left <- (right, { $0 })
+		try left <- (right, \.self)
 	}
 
 	static func <- (left: inout some ExpressibleByNilLiteral, right: MapValue?) {
-		left <- (right, { $0 })
+		left <- (right, \.self)
 	}
 }
 

@@ -37,7 +37,7 @@ public final class InsertResponseSerializer<T: Insertable>: ResponseSerializer {
 		emptyResponseCodes: Set<Int> = InsertResponseSerializer.defaultEmptyResponseCodes,
 		emptyRequestMethods: Set<HTTPMethod> = InsertResponseSerializer.defaultEmptyRequestMethods,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
-		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
+		jsonTransformer: @escaping (Any) throws -> Any = \.self,
 		context: NSManagedObjectContext,
 		type _: T.Type = T.self,
 		contextObject: Any? = nil
@@ -124,7 +124,7 @@ public extension DataRequest {
 		db: DB = DB.shared,
 		queue: DispatchQueue = .main,
 		jsonOptions: JSONSerialization.ReadingOptions = .allowFragments,
-		jsonTransformer: @escaping (Any) throws -> Any = { $0 },
+		jsonTransformer: @escaping (Any) throws -> Any = \.self,
 		contextObject: Any? = nil,
 		then handler: @escaping (DataResponse<T, AFError>, @escaping DB.SaveBlockWitCallback) -> Void
 	) -> Self {

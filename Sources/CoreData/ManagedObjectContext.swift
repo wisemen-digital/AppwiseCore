@@ -51,7 +51,7 @@ public extension NSManagedObjectContext {
 	func first<T: NSManagedObject>(sortDescriptor: NSSortDescriptor? = nil, predicate: NSPredicate? = nil) -> T? {
 		let request = T.fetchRequest(
 			predicate: predicate,
-			sortDescriptors: [sortDescriptor].compactMap { $0 },
+			sortDescriptors: [sortDescriptor].compactMap(\.self),
 			limit: 1
 		)
 

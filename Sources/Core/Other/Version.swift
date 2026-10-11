@@ -159,7 +159,7 @@ extension Version: ExpressibleByStringLiteral {
 
 // MARK: - Range operations
 
-public extension ClosedRange where Bound == Version {
+public extension ClosedRange<Version> {
 	/// Marked as unavailable because we have custom rules for contains.
 	func contains(_ element: Version) -> Bool {
 		// Unfortunately, we can't use unavailable here.
@@ -178,7 +178,7 @@ public extension CountableRange where Bound == Version {
 }
 #endif
 
-public extension Range where Bound == Version {
+public extension Range<Version> {
 	/// Marked as unavailable because we have custom rules for contains.
 	func contains(_ element: Version) -> Bool {
 		// Unfortunately, we can't use unavailable here.
@@ -186,7 +186,7 @@ public extension Range where Bound == Version {
 	}
 }
 
-public extension Range where Bound == Version {
+public extension Range<Version> {
 	func contains(version: Version) -> Bool {
 		// Special cases if version contains prerelease identifiers.
 		if !version.prereleaseIdentifiers.isEmpty {

@@ -83,7 +83,9 @@ public extension Result {
 	/// - Returns: This `Result` instance, unmodified.
 	@discardableResult
 	func withValue(_ closure: (Success) throws -> Void) rethrows -> Result {
-		if case .success(let value) = self { try closure(value) }
+		if case .success(let value) = self {
+			try closure(value)
+		}
 		return self
 	}
 
@@ -95,7 +97,9 @@ public extension Result {
 	/// - Returns: This `Result` instance, unmodified.
 	@discardableResult
 	func withError(_ closure: (Failure) throws -> Void) rethrows -> Result {
-		if case .failure(let error) = self { try closure(error) }
+		if case .failure(let error) = self {
+			try closure(error)
+		}
 		return self
 	}
 
@@ -107,7 +111,9 @@ public extension Result {
 	/// - Returns: This `Result` instance, unmodified.
 	@discardableResult
 	func ifSuccess(_ closure: () throws -> Void) rethrows -> Result {
-		if isSuccess { try closure() }
+		if isSuccess {
+			try closure()
+		}
 		return self
 	}
 
@@ -119,7 +125,9 @@ public extension Result {
 	/// - Returns: This `Result` instance, unmodified.
 	@discardableResult
 	func ifFailure(_ closure: () throws -> Void) rethrows -> Result {
-		if isFailure { try closure() }
+		if isFailure {
+			try closure()
+		}
 		return self
 	}
 }

@@ -39,7 +39,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		if wasTabBarVisible,
 		   let tbc = viewController.tabBarController,
 		   let selected = tbc.selectedViewController,
-		   viewController != selected && viewController.navigationController != selected {
+		   viewController != selected, viewController.navigationController != selected {
 			if let nvc = viewController.navigationController {
 				// switching tabs, have a NVC (need to remove all VCs in NVC)
 				let controllers = collectControllers(in: nvc)
@@ -64,7 +64,7 @@ class DeepLinkMonitorBehaviour: ViewControllerLifeCycleBehaviour {
 		return root
 	}
 
-	// collect child VCs that are DeeplinkMatchable
+	/// collect child VCs that are DeeplinkMatchable
 	private func collectControllers(in parent: UIViewController) -> [DeepLinkMatchable] {
 		parent.children
 			.flatMap { [$0] + collectControllers(in: $0) }

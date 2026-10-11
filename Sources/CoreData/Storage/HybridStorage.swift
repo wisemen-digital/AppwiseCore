@@ -22,7 +22,7 @@ public extension HybridStorage {
 	static func build(configuration: ModelConfiguration, storages: [Storage]) -> HybridStorage {
 		HybridStorage(
 			configuration: configuration,
-			storeConfigurations: storages.map(\.storeConfigurations).flatMap { $0 }
+			storeConfigurations: storages.map(\.storeConfigurations).flatMap(\.self)
 		)
 	}
 
