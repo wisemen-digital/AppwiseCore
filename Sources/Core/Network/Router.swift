@@ -80,11 +80,6 @@ public extension Router {
 		}
 	}
 
-	@available(*, unavailable, renamed: "makeDataRequest(session:)")
-	func asURLRequest(with _: Session, completion _: (_ result: Result<DataRequest, Error>) -> Void) {
-		fatalError("unavailable")
-	}
-
 	private func buildURLRequest() throws -> URLRequest {
 		let params = params ?? anyParams
 

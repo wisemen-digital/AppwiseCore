@@ -7,7 +7,6 @@ import Alamofire
 import CocoaLumberjack
 
 public extension Client {
-	// swiftlint:disable function_default_parameter_at_end
 	/// Shortcut method for building the request, performing an insert, and saving the result.
 	///
 	/// - parameter request:         The router request type
@@ -44,20 +43,6 @@ public extension Client {
 			}
 		}
 	}
-
-	@available(*, deprecated, renamed: "requestInsert(_:of:db:queue:jsonOptions:jsonTransformer:contextObject:then:)")
-	func requestInsert<T: Insertable>(
-		_ request: RouterType,
-		db: DB = DB.shared,
-		queue: DispatchQueue = .main,
-		jsonTransformer: @escaping (Any) throws -> Any,
-		type: T.Type,
-		contextObject: Any? = nil,
-		then handler: @escaping (Result<T, Error>) -> Void
-	) {
-		requestInsert(request, of: type, db: db, queue: queue, jsonTransformer: jsonTransformer, contextObject: contextObject, then: handler)
-	}
-	// swiftlint:enable function_default_parameter_at_end
 }
 
 // MARK: - Helpers

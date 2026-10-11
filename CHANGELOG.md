@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Main](https://github.com/appwise-labs/AppwiseCore)
 
+### Breaking
+
+* Removed old deprecated properties, functions and types.
+
 ### Bug Fixes
 
 * CoreData: fix handler callback (for errors) on wrong queue.

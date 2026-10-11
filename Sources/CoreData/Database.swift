@@ -30,11 +30,6 @@ public final class DB: NSObject {
 	/// The current state of the database.
 	@objc public dynamic var state: State = .unknown
 
-	@available(*, renamed: "view")
-	public var main: NSManagedObjectContext {
-		view
-	}
-
 	/// The main context. All UI related operations should use this context.
 	public var view: NSManagedObjectContext {
 		container.viewContext
@@ -48,21 +43,6 @@ public final class DB: NSObject {
 	public required init(storage: Storage) {
 		self.storage = storage
 		super.init()
-	}
-
-	/// Creates a new DB instance with the specified bundle.
-	///
-	/// - parameter bundle: The bundle to work in.
-	///
-	/// - returns: The new DB instance.
-	@available(*, deprecated, message: "use init(storage:) instead")
-	public required init(bundle: Bundle, storeName: String) {
-		let url = SQLiteStorage.defaultFileURL(name: storeName).require()
-		let configuration = ModelConfiguration(name: storeName, bundle: bundle).require()
-
-		storage = SQLiteStorage(fileURL: url, configuration: configuration).with {
-			$0.addStoreAsynchronously = false
-		}
 	}
 
 	/// The merge policy for the view (and root) contexts

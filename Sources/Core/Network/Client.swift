@@ -37,9 +37,4 @@ public extension Client {
 		request.makeDataRequest(session: session)
 			.validate()
 	}
-
-	@available(*, unavailable, renamed: "request(_:)")
-	func buildRequest(_: RouterType, completion _: (_ result: Result<DataRequest, Error>) -> Void) {
-		fatalError("unavailable")
-	}
 }

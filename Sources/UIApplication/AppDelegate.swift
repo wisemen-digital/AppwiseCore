@@ -35,18 +35,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	]
 	private lazy var allServices: [ApplicationService] = self.services + self.internalServices
 
-	/// The document directory of your application
-	@available(*, deprecated, message: "Please use FileManager.default.documentsDirectory instead")
-	public var documentsDirectory: URL {
-		FileManager.default.documentsDirectory.require(hint: "Application requires a documents directory")
-	}
-
-	/// The support directory of your application
-	@available(*, deprecated, message: "Please use FileManager.default.supportDirectory instead")
-	public var supportDirectory: URL {
-		FileManager.default.supportDirectory.require(hint: "Application requires an application support directory")
-	}
-
 	// MARK: UIApplicationDelegate
 
 	// Based on https://github.com/fmo91/PluggableApplicationDelegate
@@ -139,13 +127,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotification UNNotification Settings instead")
-	public func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-		for service in allServices {
-			service.application?(application, didRegister: notificationSettings)
-		}
-	}
-
 	public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		for service in allServices {
 			service.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
@@ -156,56 +137,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		for service in allServices {
 			service.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
 		}
-	}
-
-	@available(iOS, introduced: 3.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate willPresentNotification:withCompletionHandler:] or -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:] for user visible notifications and -[UIApplicationDelegate application:didReceiveRemoteNotification:fetchCompletionHandler:] for silent remote notifications")
-	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-		for service in allServices {
-			service.application?(application, didReceiveRemoteNotification: userInfo)
-		}
-	}
-
-	@available(iOS, introduced: 4.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate willPresentNotification:withCompletionHandler:] or -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-		for service in allServices {
-			service.application?(application, didReceive: notification)
-		}
-	}
-
-	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ service, completion -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification) { completion(completionHandler) }
-		}, then: { _ in
-			completionHandler()
-		})
-	}
-
-	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ (service, _: @escaping (()) -> Void) -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, withResponseInfo: responseInfo, completionHandler: completionHandler)
-		}, then: { _ in
-			completionHandler()
-		})
-	}
-
-	@available(iOS, introduced: 8.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ service, completion -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo) { completion(completionHandler) }
-		}, then: { _ in
-			completionHandler()
-		})
-	}
-
-	@available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use UserNotifications Framework's -[UNUserNotificationCenterDelegate didReceiveNotificationResponse:withCompletionHandler:]")
-	public func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ service, completion -> Void? in
-			service.application?(application, handleActionWithIdentifier: identifier, for: notification, withResponseInfo: responseInfo) { completion(completionHandler) }
-		}, then: { _ in
-			completionHandler()
-		})
 	}
 
 	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
@@ -298,7 +229,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 		return result
 	}
 
-	#if swift(>=4.2)
 	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
 		for service in allServices {
 			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {
@@ -308,17 +238,6 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 
 		return nil
 	}
-	#else
-	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-		for service in allServices {
-			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {
-				return viewController
-			}
-		}
-
-		return nil
-	}
-	#endif
 
 	public func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
 		var result = false
