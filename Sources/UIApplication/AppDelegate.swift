@@ -4,14 +4,14 @@
 //
 
 import CloudKit
+import Intents
 import UIKit
 
-// swiftlint:disable type_body_length
-
-/// An implementation of the application delegate, that automatically integrates with application services and the `Config` you provide.
+/// An implementation of the application delegate, that automatically integrates with application plugins (observers) and the `Config` you provide.
 ///
 /// Expects a generic parameter for the type of `Config` you'll be using.
-open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
+/// Expects a generic parameter for the type of `SceneDelegate` you'll be using, in case it is not set in your `Info.plist`.
+open class AppDelegate<ConfigType: Config, SceneDelegateType: SceneDelegate>: UIResponder, UIApplicationDelegate {
 	/// The shared application delegate
 	@available(iOSApplicationExtension, unavailable)
 	public static var shared: AppDelegate {
@@ -22,290 +22,200 @@ open class AppDelegate<ConfigType: Config>: UIResponder, UIApplicationDelegate {
 	/// The application's window
 	public var window: UIWindow?
 
-	/// The list of application services, empty by default
-	open var services: [ApplicationService] {
+	/// The list of application plugins, empty by default
+	open var plugins: [ApplicationDelegatePlugin] {
 		[]
 	}
 
-	private lazy var internalServices: [ApplicationService] = [
-		LoggingApplicationService(),
-		AddSkipBackupAttributeApplicationService(),
-		ConfigureMainQueueApplicationService(),
-		ConfigurationApplicationService<ConfigType>()
+	private lazy var internalPlugins: [ApplicationDelegatePlugin] = [
+		LoggingObserver(),
+		AddSkipBackupAttributeObserver(),
+		ConfigureMainQueueObserver(),
+		ConfigurationObserver<ConfigType>()
 	]
-	private lazy var allServices: [ApplicationService] = self.services + self.internalServices
+	private lazy var allPlugins: [ApplicationDelegatePlugin] = self.plugins + self.internalPlugins
 
-	// MARK: UIApplicationDelegate
+	// MARK: - App Lifecycle
 
-	// Based on https://github.com/fmo91/PluggableApplicationDelegate
-	// Last synced on 8 November 2017, commit 465ebe3
-	// swiftlint:disable discouraged_optional_boolean discouraged_optional_collection
-
-	public func applicationDidFinishLaunching(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationDidFinishLaunching?(application)
-		}
-	}
-
+	// swiftlint:disable:next discouraged_optional_collection
 	public func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, willFinishLaunchingWithOptions: launchOptions) ?? false {
-			result = true
-		}
-
-		return result
+		allPlugins
+			.filter(as: ApplicationLifecycleObserver.self)
+			.allSatisfy { $0.application(application, willFinishLaunchingWithOptions: launchOptions ?? [:]) }
 	}
 
+	// swiftlint:disable:next discouraged_optional_collection
 	public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, didFinishLaunchingWithOptions: launchOptions) ?? false {
-			result = true
-		}
-
-		return result
-	}
-
-	public func applicationDidBecomeActive(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationDidBecomeActive?(application)
-		}
-	}
-
-	public func applicationWillResignActive(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationWillResignActive?(application)
-		}
-	}
-
-	public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-		var result = false
-		for service in allServices where service.application?(app, open: url, options: options) ?? false {
-			result = true
-		}
-		return result
-	}
-
-	public func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationDidReceiveMemoryWarning?(application)
-		}
+		allPlugins
+			.filter(as: ApplicationLifecycleObserver.self)
+			.allSatisfy { $0.application(application, didFinishLaunchingWithOptions: launchOptions ?? [:]) }
 	}
 
 	public func applicationWillTerminate(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationWillTerminate?(application)
+		for plugin in allPlugins.filter(as: ApplicationLifecycleObserver.self) {
+			plugin.applicationWillTerminate(application)
 		}
 	}
 
-	public func applicationSignificantTimeChange(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationSignificantTimeChange?(application)
+	// MARK: - Scene Delegate Support
+
+	public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+		// If any delegate provides a config, use that. Otherwise fallback to the config from `Info.plist`, using our scene delegate type if needed
+		allPlugins
+			.filter(as: ApplicationSceneObserver.self)
+			.firstNonNil {
+				$0.application(application, configurationForConnecting: connectingSceneSession, options: options)
+			} ?? defaultSceneConfig(sceneSession: connectingSceneSession)
+	}
+
+	public func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+		for plugin in allPlugins.filter(as: ApplicationSceneObserver.self) {
+			plugin.application(application, didDiscardSceneSessions: sceneSessions)
 		}
 	}
 
-	public func application(_ application: UIApplication, willChangeStatusBarOrientation newStatusBarOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-		for service in allServices {
-			service.application?(application, willChangeStatusBarOrientation: newStatusBarOrientation, duration: duration)
-		}
-	}
-
-	public func application(_ application: UIApplication, didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation) {
-		for service in allServices {
-			service.application?(application, didChangeStatusBarOrientation: oldStatusBarOrientation)
-		}
-	}
-
-	public func application(_ application: UIApplication, willChangeStatusBarFrame newStatusBarFrame: CGRect) {
-		for service in allServices {
-			service.application?(application, willChangeStatusBarFrame: newStatusBarFrame)
-		}
-	}
-
-	public func application(_ application: UIApplication, didChangeStatusBarFrame oldStatusBarFrame: CGRect) {
-		for service in allServices {
-			service.application?(application, didChangeStatusBarFrame: oldStatusBarFrame)
-		}
-	}
-
-	public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		for service in allServices {
-			service.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
-		}
-	}
-
-	public func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		for service in allServices {
-			service.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
-		}
-	}
-
-	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
-		allServices.apply({ service, completionHandler -> Void? in
-			service.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
-		}, then: { results in
-			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
-			completionHandler(result)
-		})
-	}
-
-	public func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
-		allServices.apply({ service, completionHandler -> Void? in
-			service.application?(application, performFetchWithCompletionHandler: completionHandler)
-		}, then: { results in
-			let result = results.min { $0.rawValue < $1.rawValue } ?? .noData
-			completionHandler(result)
-		})
-	}
-
-	public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Swift.Void) {
-		allServices.apply({ service, completionHandler -> Void? in
-			service.application?(application, performActionFor: shortcutItem, completionHandler: completionHandler)
-		}, then: { results in
-			// if any service handled the shortcut, return true
-			let result = results.contains(where: \.self)
-			completionHandler(result)
-		})
-	}
-
-	public func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Swift.Void) {
-		allServices.apply({ service, completion -> Void? in
-			service.application?(application, handleEventsForBackgroundURLSession: identifier) { completion(completionHandler) }
-		}, then: { _ in
-			completionHandler()
-		})
-	}
-
-	public func application(_ application: UIApplication, handleWatchKitExtensionRequest userInfo: [AnyHashable: Any]?, reply: @escaping ([AnyHashable: Any]?) -> Swift.Void) {
-		for service in allServices {
-			service.application?(application, handleWatchKitExtensionRequest: userInfo, reply: reply)
-		}
-		allServices.apply({ service, reply -> Void? in
-			service.application?(application, handleWatchKitExtensionRequest: userInfo, reply: reply)
-		}, then: { results in
-			let result = results.reduce(into: [:]) { initial, next in
-				for (key, value) in next ?? [:] {
-					initial[key] = value
-				}
-			}
-			reply(result)
-		})
-	}
-
-	public func applicationShouldRequestHealthAuthorization(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationShouldRequestHealthAuthorization?(application)
-		}
-	}
-
-	public func applicationDidEnterBackground(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationDidEnterBackground?(application)
-		}
-	}
-
-	public func applicationWillEnterForeground(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationWillEnterForeground?(application)
-		}
-	}
+	// MARK: - Environment Changes
 
 	public func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationProtectedDataWillBecomeUnavailable?(application)
+		for plugin in allPlugins.filter(as: ApplicationEnvironmentObserver.self) {
+			plugin.applicationProtectedDataWillBecomeUnavailable(application)
 		}
 	}
 
 	public func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
-		for service in allServices {
-			service.applicationProtectedDataDidBecomeAvailable?(application)
+		for plugin in allPlugins.filter(as: ApplicationEnvironmentObserver.self) {
+			plugin.applicationProtectedDataDidBecomeAvailable(application)
 		}
 	}
 
-	public func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, shouldAllowExtensionPointIdentifier: extensionPointIdentifier) ?? true {
-			result = true
+	public func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+		for plugin in allPlugins.filter(as: ApplicationEnvironmentObserver.self) {
+			plugin.applicationDidReceiveMemoryWarning(application)
 		}
-		return result
+	}
+
+	public func applicationSignificantTimeChange(_ application: UIApplication) {
+		for plugin in allPlugins.filter(as: ApplicationEnvironmentObserver.self) {
+			plugin.applicationSignificantTimeChange(application)
+		}
+	}
+
+	// MARK: - State Restoration
+
+	public func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+		allPlugins.filter(as: ApplicationStateRestorationObserver.self).contains {
+			$0.application(application, shouldSaveSecureApplicationState: coder)
+		}
+	}
+
+	public func application(_ application: UIApplication, shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
+		allPlugins.filter(as: ApplicationStateRestorationObserver.self).contains {
+			$0.application(application, shouldRestoreSecureApplicationState: coder)
+		}
 	}
 
 	public func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
-		for service in allServices {
-			if let viewController = service.application?(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder) {
-				return viewController
-			}
+		allPlugins.filter(as: ApplicationStateRestorationObserver.self).firstNonNil {
+			$0.application(application, viewControllerWithRestorationIdentifierPath: identifierComponents, coder: coder)
 		}
-
-		return nil
-	}
-
-	public func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, shouldSaveApplicationState: coder) ?? false {
-			result = true
-		}
-		return result
-	}
-
-	public func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, shouldRestoreApplicationState: coder) ?? false {
-			result = true
-		}
-		return result
 	}
 
 	public func application(_ application: UIApplication, willEncodeRestorableStateWith coder: NSCoder) {
-		for service in allServices {
-			service.application?(application, willEncodeRestorableStateWith: coder)
+		for plugin in allPlugins.filter(as: ApplicationStateRestorationObserver.self) {
+			plugin.application(application, willEncodeRestorableStateWith: coder)
 		}
 	}
 
 	public func application(_ application: UIApplication, didDecodeRestorableStateWith coder: NSCoder) {
-		for service in allServices {
-			service.application?(application, didDecodeRestorableStateWith: coder)
+		for plugin in allPlugins.filter(as: ApplicationStateRestorationObserver.self) {
+			plugin.application(application, didDecodeRestorableStateWith: coder)
 		}
 	}
 
-	public func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
-		var result = false
-		for service in allServices where service.application?(application, willContinueUserActivityWithType: userActivityType) ?? false {
-			result = true
+	// MARK: - Remote Notifications
+
+	public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		for plugin in allPlugins.filter(as: ApplicationRemoteNotificationObserver.self) {
+			plugin.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
 		}
-		return result
 	}
 
-	public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Swift.Void) -> Bool {
-		let returns = allServices.apply({ service, restorationHandler -> Bool? in
-			service.application?(application, continue: userActivity, restorationHandler: restorationHandler)
+	public func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		for plugin in allPlugins.filter(as: ApplicationRemoteNotificationObserver.self) {
+			plugin.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+		}
+	}
+
+	public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+		await allPlugins.filter(as: ApplicationRemoteNotificationObserver.self).apply({
+			await $0.application(application, didReceiveRemoteNotification: userInfo)
 		}, then: { results in
-			let result = results.reduce(into: []) { $0.append(contentsOf: $1 ?? []) }
-			restorationHandler(result)
+			await results.min { lhs, rhs in
+				lhs.rawValue < rhs.rawValue
+			} ?? .noData
 		})
-
-		return returns.contains(where: \.self)
 	}
 
-	public func application(_ application: UIApplication, didFailToContinueUserActivityWithType userActivityType: String, error: Error) {
-		for service in allServices {
-			service.application?(application, didFailToContinueUserActivityWithType: userActivityType, error: error)
+	// MARK: - Extensions
+
+	public func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String) async {
+		await allPlugins.filter(as: ApplicationExtensionObserver.self).apply({
+			await $0.application(application, handleEventsForBackgroundURLSession: identifier)
+		}, then: { _ in
+		})
+	}
+
+	// swiftlint:disable:next discouraged_optional_collection
+	public func application(_ application: UIApplication, handleWatchKitExtensionRequest userInfo: [AnyHashable: Any]?) async -> [AnyHashable: Any]? {
+		await allPlugins.filter(as: ApplicationExtensionObserver.self).apply({
+			await $0.application(application, handleWatchKitExtensionRequest: userInfo ?? [:])
+		}, then: { results in
+			await results.reduce(into: [:]) { initial, next in
+				for (key, value) in next ?? [:] {
+					initial[key] = value
+				}
+			}
+		})
+	}
+
+	public func applicationShouldRequestHealthAuthorization(_ application: UIApplication) {
+		for plugin in allPlugins.filter(as: ApplicationExtensionObserver.self) {
+			plugin.applicationShouldRequestHealthAuthorization(application)
 		}
 	}
 
-	public func application(_ application: UIApplication, didUpdate userActivity: NSUserActivity) {
-		for service in allServices {
-			service.application?(application, didUpdate: userActivity)
+	public func application(_ application: UIApplication, handlerFor intent: INIntent) -> Any? {
+		allPlugins.filter(as: ApplicationExtensionObserver.self).firstNonNil {
+			$0.application(application, handlerFor: intent)
 		}
 	}
 
-	@available(iOS 10.0, *)
-	public func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
-		for service in allServices {
-			service.application?(application, userDidAcceptCloudKitShareWith: cloudKitShareMetadata)
+	public func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
+		allPlugins.filter(as: ApplicationExtensionObserver.self).allSatisfy {
+			$0.application(application, shouldAllowExtensionPointIdentifier: extensionPointIdentifier)
 		}
 	}
 
-	// swiftlint:enable discouraged_optional_boolean discouraged_optional_collection
+	public func applicationShouldAutomaticallyLocalizeKeyCommands(_ application: UIApplication) -> Bool {
+		allPlugins.filter(as: ApplicationExtensionObserver.self).allSatisfy {
+			$0.applicationShouldAutomaticallyLocalizeKeyCommands(application)
+		}
+	}
+
+	// MARK: - Window Info
+
+	@available(iOS, deprecated: 27.0, message: "Use SceneWindowInfoObserver.supportedInterfaceOrientations(for:) instead")
+	public func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+		allPlugins.filter(as: ApplicationWindowInfoObserver.self).firstNonNil {
+			$0.application(application, supportedInterfaceOrientationsFor: window)
+		} ?? .orientationsFromInfoPlist
+	}
 }
 
-// swiftlint:enable type_body_length
+private extension AppDelegate {
+	func defaultSceneConfig(sceneSession: UISceneSession) -> UISceneConfiguration {
+		let config = sceneSession.configuration ?? .init(name: nil, sessionRole: sceneSession.role)
+		config.delegateClass = config.delegateClass ?? SceneDelegateType.self
+		return config
+	}
+}
