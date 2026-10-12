@@ -3,9 +3,9 @@
 // Copyright © 2026 Wisemen
 //
 
-import IBAnimatable
+import UIKit
 
-open class HairLineView: AnimatableView {
+open class HairLineView: UIView {
 	override open var intrinsicContentSize: CGSize {
 		let pixel: CGFloat = 1 / UIScreen.main.scale
 		return CGSize(width: pixel, height: pixel)
