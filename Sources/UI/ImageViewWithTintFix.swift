@@ -3,9 +3,9 @@
 // Copyright © 2026 Wisemen
 //
 
-import IBAnimatable
+import UIKit
 
-open class TintedImageView: AnimatableImageView {
+open class ImageViewWithTintFix: UIImageView {
 	override open func awakeFromNib() {
 		super.awakeFromNib()
 
