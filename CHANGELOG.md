@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 * Removed old deprecated properties, functions and types.
 * UIApplication: reworked the "application service" system into observers for both `UIApplicationDelegate` and `UISceneDelegate`. The protocols have been split up into smaller parts, with default implementations.
 * UI: removed dependency on [IBAnimatable](https://github.com/IBAnimatable/IBAnimatable).
-* UI: renamed `TintedImageView` to `ImageViewWithTintFix`, it is no longer a subclass of `AnimatableImageview`
+* UI: renamed `TintedImageView` to `ImageViewWithTintFix`, it is no longer a subclass of `AnimatableImageview`. It still has the corner radius & circle mask features.
 
 ### Bug Fixes
 
