@@ -37,6 +37,17 @@ open class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		for plugin in allPlugins.filter(as: SceneLifecycleObserver.self) {
 			plugin.scene(scene, willConnectTo: session, options: connectionOptions)
 		}
+
+		// Universal links / Handoff / Spotlight launched from cold start.
+		for activity in connectionOptions.userActivities {
+			_ = self.scene(scene, willContinueUserActivityWithType: activity.activityType)
+			self.scene(scene, continue: activity)
+		}
+
+		// Custom-scheme URLs launched from cold start.
+		if !connectionOptions.urlContexts.isEmpty {
+			self.scene(scene, openURLContexts: connectionOptions.urlContexts)
+		}
 	}
 
 	public func sceneDidDisconnect(_ scene: UIScene) {
